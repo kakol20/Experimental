@@ -36,6 +36,11 @@
 	<!-- https://github.com/peterolson/BigInteger.js -->
 	<script type="text/javascript" src="BigInteger.js"></script>
 
+	<!-- Math Markup -->
+	<!-- Doesn't work, left here for future reference -->
+	<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML"></script>
+	<script type="text/javascript" src="ASCIIMathML.js"></script>
+
 	<!-- Main Script -->
 	<script type="text/javascript" src="main.js"></script>
 </head>
@@ -131,8 +136,8 @@
 		</button>
 		<div id="morseOutput"></div> <br>
 
-		<!-- Numerical Methods: Iterations -->
-		<div class="bold">ax³ + bx² + cx + d</div>
+		<div class="bold">ax<sup>3</sup> + bx<sup>2</sup> + cx + d</div>
+		<!--`ax^3+bx^2+cx+d` -->
 		<form>
 			Starting Number: <input type="number" id="iterationStart"> <br>
 			Decimal Places: <input type="number" id="iterationDecimalPlaces" min="1"> <br>

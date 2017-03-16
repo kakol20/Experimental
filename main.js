@@ -333,7 +333,7 @@ var key = (function() {
 
 // Runs script when page is loaded or reloaded
 $(function() {
-    console.log("Sᴄʀɪᴘᴛ ʙʏ Kᴀᴋᴏʟ20");
+    console.log("Script by kakol20");
 });
 
 var getPrimes = function() {
