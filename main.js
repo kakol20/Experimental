@@ -815,23 +815,23 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
     }
 
     if (a === 1) {
-        output = "Equation: x³ ";
+        output = "Equation: x<sup>3</sup> ";
     } else if (a === -1) {
-        output = "Equation: -x³";
+        output = "Equation: -x<sup>3</sup> ";
     } else {
-        output = "Equation: " + a + "x³ ";
+        output = "Equation: " + a + "x<sup>3</sup> ";
     }
     if (b > 0) {
         if (b === 1) {
-            output = output + "+ x² ";
+            output = output + "+ x<sup>2</sup> ";
         } else {
-            output = output + "+ " + b + "x² ";
+            output = output + "+ " + b + "x<sup>2</sup> ";
         }
     } else {
         if (b === -1) {
-            output = output + "- x² ";
+            output = output + "- x<sup>2</sup> ";
         } else {
-            output = output + "- " + Math.abs(b) + "x² ";
+            output = output + "- " + Math.abs(b) + "x<sup>2</sup> ";
         }
     }
     if (c > 0) {
@@ -976,9 +976,9 @@ var happyNumbers = function() {
         var a = "";
         for (var i = 0; i < units.length; i++) {
             if (i === 0) {
-                a = units[i] + "² ";
+                a = units[i] + "<sup>2</sup> ";
             } else {
-                a = a + "+ " + units[i] + "² ";
+                a = a + "+ " + units[i] + "<sup>2</sup> ";
             }
         }
         return a + "= " + result;
