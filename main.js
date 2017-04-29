@@ -1092,51 +1092,47 @@ var carmichael = function() {
 };
 
 var lcmAtoB = function() {
-    alert("Bigger numbers will take longer time to execute. Biggest number you can input is 39 466");
-    // http://pastebin.com/RBa0HpWj
+    alert("Bigger numbers will take longer time to execute. A recommended max number is 214 600");
+    // http://pastebin.com/RBa0HpWj - 39 466
+    // https://pastebin.com/PfMQkpsM - 214 600
 
     var gcd = function(a, b) {
         a = a.abs();
         b = b.abs();
-        if (b.greaterOrEquals(a)) {
-            var temp = a;
-            a = b;
-            b = temp;
-        }
         while (true) {
-            if (b.equals("0")) {
-                return a;
-            }
-            a = a.mod(b);
-            if (a.equals("0")) {
+            if (a.equals(0)) {
                 return b;
+            } else if (b.equals(0)) {
+                return a;
+            } else {
+                var temp = bigInt.max(a, b);
+                a = bigInt.min(a, b);
+                b = temp.mod(a);
             }
-            b = b.mod(a);
         }
     };
     var lcm = function(a, b) {
         return (a.multiply(b)).divide(gcd(a, b));
     };
 
-    var a = document.getElementById('lcmA').value || key.round(key.random(39466, 1));
+    var a = document.getElementById('lcmA').value || key.round(key.random(214600, 1));
     a = bigInt(a);
-    var b = document.getElementById('lcmB').value || key.round(key.random(39456, 1));
+    var b = document.getElementById('lcmB').value || key.round(key.random(214600, 1));
     b = bigInt(b);
 
     var t0 = performance.now();
 
     var result = bigInt(1);
-    if (b.greater(a)) {
-        var temp = a;
-        a = b;
-        b = temp;
-    }
+    var temp = bigInt.max(a, b);
+    b = bigInt.min(a, b);
+    a = temp;
+
     for (var i = b; i.lesserOrEquals(a); i = i.next()) {
         result = lcm(result, i);
     }
     result = result.toString();
 
-    var output = "Smallest Number Divisible By All Numbers Between " + key.numberOutput(b.toString()) + " & " + key.numberOutput(a.toString()) + " is: " + key.numberOutput(result) + "<br>Length: " + result.length;
+    var output = "Smallest Number Divisible By All Numbers Between " + key.numberOutput(b.toString()) + " & " + key.numberOutput(a.toString()) + " is: " + key.numberOutput(result) + "<br>Length: " + key.numberOutput((result.length).toString());
     document.getElementById('lcmOutput').innerHTML = output;
 
     var t1 = performance.now();
