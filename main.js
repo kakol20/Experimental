@@ -1100,10 +1100,8 @@ var lcmAtoB = function() {
         a = a.abs();
         b = b.abs();
         while (true) {
-            if (a.equals(0)) {
-                return b;
-            } else if (b.equals(0)) {
-                return a;
+            if ((bigInt.min(a, b)).equals(0)) {
+                return bigInt.max(a, b);
             } else {
                 var temp = bigInt.max(a, b);
                 a = bigInt.min(a, b);
