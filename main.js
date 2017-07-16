@@ -592,7 +592,7 @@ var normalDistribution = function() {
     val = key.round(val, "nearest", 2);
     mean = key.round(mean, "up", 2);
 
-    document.getElementById('ndfOutput').innerHTML = "X ~ N(" + mean + ", " + key.round(sd, "nearest", 2) + "²) --> P(X < " + val + ") = " + result;
+    document.getElementById('ndfOutput').innerHTML = "X ~ N(" + mean + ", " + key.round(sd, "nearest", 2) + "<sup>2</sup>) --> P(X < " + val + ") = " + result;
     console.log("P(Z < " + key.round((val - mean) / sd, "nearest", 2) + ")");
 
     var t1 = performance.now();
