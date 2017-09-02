@@ -369,11 +369,14 @@ var getPrimes = function() {
 
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
+    /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
     } else {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
+    */
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");
     console.log(" ");
 };
 
@@ -447,11 +450,14 @@ var timeUntil = function() {
 
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
+    /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
     } else {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
+    */
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");
     console.log(" ");
 };
 
@@ -514,11 +520,14 @@ var medianIQR = function() {
 
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
+    /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
     } else {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
+    */
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");
     console.log(" ");
 };
 
@@ -540,11 +549,14 @@ var approximateSqrt = function() {
     
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
+    /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
     } else {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
+    */
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");
     console.log(" ");
 };
 
@@ -597,11 +609,14 @@ var normalDistribution = function() {
 
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
+    /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
     } else {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
+    */
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");
     console.log(" ");
 };
 
@@ -681,11 +696,14 @@ var averages = function() {
 
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
+    /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
     } else {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
+    */
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");
     console.log(" ");
 };
 
@@ -774,11 +792,14 @@ var morseConvert = function() {
 
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
+    /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
     } else {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
+    */
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");
     console.log(" ");
 };
 
@@ -923,11 +944,14 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
 
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
+    /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
     } else {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
+    */
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");
     console.log(" ");
 };
 
@@ -963,11 +987,14 @@ var monteCarlo = function() {
 
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
+    /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
     } else {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
+    */
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");
     console.log(" ");
 };
 
@@ -1023,11 +1050,14 @@ var happyNumbers = function() {
 
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
+    /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
     } else {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
+    */
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");
     console.log(" ");
 };
 
