@@ -326,6 +326,10 @@ var key = (function() {
             b = a - (c * c);
             return c + (b / (c * 2));
         },
+
+        isNegative: function(a) {
+            return Math.abs(a) == a ? false : true;
+        },
     };
 })();
 
@@ -604,7 +608,12 @@ var normalDistribution = function() {
     val = key.round(val, "nearest", 2);
     mean = key.round(mean, "up", 2);
 
-    document.getElementById('ndfOutput').innerHTML = "X ~ N(" + mean + ", " + key.round(sd, "nearest", 2) + "<sup>2</sup>) --> P(X < " + val + ") = " + result;
+    // document.getElementById('ndfOutput').innerHTML = "X ~ N(" + mean + ", " + key.round(sd, "nearest", 2) + "<sup>2</sup>) --> P(X < " + val + ") = " + result;
+    document.getElementById('ndfOutput_mean').innerHTML = mean;
+    document.getElementById('ndfOutput_sd').innerHTML = key.round(sd,"nearest", 2);
+    document.getElementById('ndfOutput_val').innerHTML = val;
+    document.getElementById('ndfOutput_result').innerHTML = result;
+
     console.log("P(Z < " + key.round((val - mean) / sd, "nearest", 2) + ")");
 
     var t1 = performance.now();
@@ -1112,13 +1121,15 @@ var carmichael = function() {
 
     document.getElementById('carmichaelOutput').innerHTML = output;
     var t1 = performance.now();
-    var t = Math.abs(t1 - t0);
+    var t = Math.abs(t1 -
+    /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
     } else {
-        console.log("Took: " + t.toPrecision(4) + "ms");
+        console.log("Took: " + t.toPrecision(5) + "ms");
     }
-    console.log(" ");
+    */
+    console.log(t >= 1000) ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");  console.log(" ");
 };
 
 var lcmAtoB = function() {
@@ -1164,13 +1175,15 @@ var lcmAtoB = function() {
     document.getElementById('lcmOutput').innerHTML = output;
 
     var t1 = performance.now();
-    var t = Math.abs(t1 - t0);
+    var t = Math.abs(t1 -
+    /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
     } else {
-        console.log("Took: " + t.toPrecision(4) + "ms");
+        console.log("Took: " + t.toPrecision(5) + "ms");
     }
-    console.log(" ");
+    */
+    console.log(t >= 1000) ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");  console.log(" ");
 };
 
 /*
