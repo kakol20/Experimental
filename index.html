@@ -148,9 +148,7 @@
 		<!-- Iterations -- >
 			<!-- <div class="bold">ax<sup>3</sup> + bx<sup>2</sup> + cx + d</div> -->
 			<!--`ax^3+bx^2+cx+d` -->
-		<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mstyle displaystyle="true"><mrow><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow><mo>=</mo><mi>a</mi><msup><mi>x</mi><mn>3</mn></msup><mo>+</mo><mi>b</mi><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mi>c</mi><mi>x</mi><mo>+</mo><mi>d</mi></mstyle><annotation encoding="text/x-asciimath">f(x)=ax^3+bx^2+cx+d</annotation></semantics></math> <br>
-		<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mstyle displaystyle="true"><mn>0</mn><mo>=</mo><mrow><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mrow></mstyle><annotation encoding="text/x-asciimath">0=f(x)</annotation></semantics></math> <br>
-		<math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mstyle displaystyle="true"><msub><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>x</mi><mi>n</mi></msub><mo>-</mo><mfrac><mrow><mi>f</mi><mrow><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></mrow></mrow><mrow><mi>f</mi><mo>&#x2032;</mo><mrow><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo></mrow></mrow></mfrac></mstyle><annotation encoding="text/x-asciimath">x_(n+1)=x_n-f(x_n)/(f'(x_n)</annotation></semantics></math>
+		<div>$$f(x) = ax^3 + bx^2 cx + d$$ $$0 = f(x)$$ $$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}\ $$</div>
 		<form>
 			Starting Number: <input type="number" id="iterationStart"> <br>
 			Decimal Places: <input type="number" id="iterationDecimalPlaces" min="1"> <br>
@@ -173,7 +171,7 @@
 		<div class="bold">
 			b = Total
 		</div>
-		<math xmlns="http://www.w3.org/1998/Math/MathML"> <semantics> <mstyle displaystyle="true"> <mi>&#x3C0;</mi> <mo>=</mo> <mfrac> <mrow> <mn>4</mn> <mi>a</mi> </mrow> <mi>b</mi> </mfrac> </mstyle> <annotation encoding="text/x-asciimath">pi=(4a)/b</annotation> </semantics></math>	
+		<div>$$ \pi= \frac{4a}{b}\ $$</div>
 		<form>
 			Max: <input type="number" id="monteCarloMax" min="1" max="39466"> <br>
 			Number of Repetitions: <input type="number" id="monteCarloRep" min="1" max="39466">
