@@ -1124,7 +1124,7 @@ var carmichael = function() {
 
     document.getElementById('carmichaelOutput').innerHTML = output;
     var t1 = performance.now();
-    var t = Math.abs(t1 -
+    var t = Math.abs(t1 - t0);
     /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
@@ -1132,7 +1132,8 @@ var carmichael = function() {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
     */
-    console.log(t >= 1000) ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");  console.log(" ");
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");  
+    console.log(" ");
 };
 
 var lcmAtoB = function() {
@@ -1178,7 +1179,7 @@ var lcmAtoB = function() {
     document.getElementById('lcmOutput').innerHTML = output;
 
     var t1 = performance.now();
-    var t = Math.abs(t1 -
+    var t = Math.abs(t1 - t0);
     /*
     if (t >= 1000) {
         console.log("Took: " + key.round(t / 1000, "nearest", 4) + "s");
@@ -1186,7 +1187,8 @@ var lcmAtoB = function() {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
     */
-    console.log(t >= 1000) ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");  console.log(" ");
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");
+    console.log(" ");
 };
 
 /*
