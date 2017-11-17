@@ -566,6 +566,7 @@ var approximateSqrt = function() {
 
 var normalDistribution = function() {
     var normalCDF = function(a) {
+        /* Old way of estimation normal cdf
         var b = 1 / (1 + 0.2316419 * Math.abs(a));
         var c = 0.3989423 * Math.exp(-a * a / 2);
         var d = c * b * (0.3193815 + b * (-0.3565638 + b * (1.781478 + b * (-1.821256 + b * 1.330274))));
@@ -573,6 +574,10 @@ var normalDistribution = function() {
             d = 1 - d;
         }
         return d;
+        */
+
+        var b = 1.66355041031415 * -1 * a;
+        return 1 / (1 + Math.exp(b));
     };
     var calculate = function(a, b, c) {
         var d = 0;
@@ -608,11 +613,9 @@ var normalDistribution = function() {
     val = key.round(val, "nearest", 2);
     mean = key.round(mean, "up", 2);
 
-    // document.getElementById('ndfOutput').innerHTML = "X ~ N(" + mean + ", " + key.round(sd, "nearest", 2) + "<sup>2</sup>) --> P(X < " + val + ") = " + result;
-    document.getElementById('ndfOutput_mean').innerHTML = mean;
-    document.getElementById('ndfOutput_sd').innerHTML = key.round(sd,"nearest", 2);
-    document.getElementById('ndfOutput_val').innerHTML = val;
-    document.getElementById('ndfOutput_result').innerHTML = result;
+    document.getElementById('ndfOutput').innerHTML = "$$X \\sim N(" + mean + ", " + key.round(sd, "nearest", 2) + "^2) \\rightarrow P(X < " + val + ") = " + result + "$$";
+    var math = document.getElementById("ndfOutput");
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub,math]);
 
     console.log("P(Z < " + key.round((val - mean) / sd, "nearest", 2) + ")");
 

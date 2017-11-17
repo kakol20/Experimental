@@ -41,7 +41,13 @@
 		<!-- Doesn't work 100%, left here for future reference -->
 		<!-- http://asciimath.org/ -->
 		<!-- https://www.mathjax.org/cdn-shutting-down/ -->
-	<script type="text/javascript" async src="https://rawgit.com/mathjax/MathJax/master/MathJax.js?config=TeX-AMS-MML_HTMLorMML"> </script>
+		<!-- https://docs.moodle.org/27/en/Using_TeX_Notation -->
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
 	<!-- <script type="text/javascript" src="ASCIIMathML.js"></script> -->
 
 	<!-- Main Script -->
@@ -115,8 +121,7 @@
 				<p>Normal Distribution</p>
 			</div>
 		</button> <br>
-		<!-- <div id="ndfOutput"></div> <br> -->
-		<math xmlns="http://www.w3.org/1998/Math/MathML"> <semantics> <mstyle displaystyle="true"> <mi>X</mi> <mo>~</mo> <mi>N</mi> <mrow> <mo>(</mo> <mn id="ndfOutput_mean">0.00</mn> <mo>,</mo> <msup> <mn id="ndfOutput_sd">0.00</mn> <mn>2</mn> </msup> <mo>)</mo> </mrow> <mo>&#x2192;</mo> <mi>P</mi> <mrow> <mo>(</mo> <mi>X</mi> <mo>&lt;</mo> <mn id="ndfOutput_val">0.00</mn> <mo>)</mo> </mrow> <mo>=</mo> <mn id="ndfOutput_result">0.00</mn> </mstyle> <annotation encoding="text/x-asciimath">X ~ N (0.00, 0.00^2 ) -&gt; P ( X &lt;0.00)=0.00</annotation> </semantics></math> <br> <br>
+		<div id="ndfOutput"></div> <br>
 
 		<!-- Mode, Median, and Mean -->
 		<form>
