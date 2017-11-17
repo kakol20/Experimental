@@ -330,6 +330,11 @@ var key = (function() {
         isNegative: function(a) {
             return Math.abs(a) == a ? false : true;
         },
+
+        loadMathJax: function(idName) {
+            var math = document.getElementById(idName);
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub,math]);
+        },
     };
 })();
 
@@ -614,8 +619,7 @@ var normalDistribution = function() {
     mean = key.round(mean, "up", 2);
 
     document.getElementById('ndfOutput').innerHTML = "$$X \\sim N(" + mean + ", " + key.round(sd, "nearest", 2) + "^2) \\rightarrow P(X < " + val + ") = " + result + "$$";
-    var math = document.getElementById("ndfOutput");
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub,math]);
+    key.loadMathJax("ndfOutput");
 
     console.log("P(Z < " + key.round((val - mean) / sd, "nearest", 2) + ")");
 
@@ -848,23 +852,23 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
     }
 
     if (a === 1) {
-        output = "Equation: x<sup>3</sup> ";
+        output = "$$ \\mathrm{Equation} \\rightarrow x^3 ";
     } else if (a === -1) {
-        output = "Equation: -x<sup>3</sup> ";
+        output = "$$ \\mathrm{Equation} \\rightarrow -x^3 ";
     } else {
-        output = "Equation: " + a + "x<sup>3</sup> ";
+        output = "$$ \\mathrm{Equation} \\rightarrow " + a + "x^3 ";
     }
     if (b > 0) {
         if (b === 1) {
-            output = output + "+ x<sup>2</sup> ";
+            output = output + "+ x^2 ";
         } else {
-            output = output + "+ " + b + "x<sup>2</sup> ";
+            output = output + "+ " + b + "x^2 ";
         }
     } else {
         if (b === -1) {
-            output = output + "- x<sup>2</sup> ";
+            output = output + "- x^2 ";
         } else {
-            output = output + "- " + Math.abs(b) + "x<sup>2</sup> ";
+            output = output + "- " + Math.abs(b) + "x^2 ";
         }
     }
     if (c > 0) {
@@ -881,9 +885,9 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
         }
     }
     if (d > 0) {
-        output = output + "+ " + d + "<br>";
+        output = output + "+ " + d + " \\\\[5pt] ";
     } else {
-        output = output + "- " + Math.abs(d) + "<br>";
+        output = output + "- " + Math.abs(d) + " \\\\[5pt] ";
     }
 
     var t0 = performance.now();
@@ -891,7 +895,7 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
     var startNumber = parseFloat(document.getElementById('iterationStart').value) || key.round(key.random(100, -100));
     var decimalPlaces = key.round(parseFloat(document.getElementById('iterationDecimalPlaces').value)) || key.round(key.random(4, 2));
 
-    output = output + "Decimal Places: " + decimalPlaces + "<br>x0 = " + startNumber + "<br>";
+    output = output + " \\mbox{Decimal Places} \\rightarrow " + decimalPlaces + " \\\\[5pt] x_0 = " + startNumber + " \\\\[5pt] ";
 
     if (!key.isValidNumber(startNumber) || !key.isValidNumber(decimalPlaces)) {
         output = "One of the inputs is invalid";
@@ -919,16 +923,16 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
             });
 
             if ((temp2[0][1] > 1) && (temp2[1][1] > 1)) {
-                output = output + "It is impossible to do with the given start number<b>";
+                output = "It is impossible to do with the given start number <br>";
             } else {
-                output = output + "It will take too long";
+                output = "It will take too long <br>";
             }
         } else {
-            output = output + "Root: " + key.round(x[x.length - 1], "nearest", decimalPlaces) + "<br>";
+            output = output + " \\mathrm{Root} \\rightarrow " + key.round(x[x.length - 1], "nearest", decimalPlaces) + " \\\\[5pt] ";
             if (iterations > 1) {
-                output = output + "Took " + iterations + " iterations<br>";
+                output = output + " \\mbox{Took } " + iterations + " \\mbox{ iterations} \\\\[5pt] ";
             } else {
-                output = output + "Took one iteration<br>";
+                output = output + " \\mbox{Took one iteration} \\\\[5pt] ";
             }
 
             var noOfIterations = x.length - 1;
@@ -948,11 +952,12 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
             var highValue = formula(high, a, b, c, d);
             // console.log("highValue = " + highValue);
 
-            output = output + "f(" + low + ") = " + lowValue + "<br>f(" + root_ + ") = " + root_Value + "<br>f(" + high + ") = " + highValue;
+            output = output + "f(" + low + ") = " + lowValue + " \\\\[5pt] f(" + root_ + ") = " + root_Value + " \\\\[5pt] f(" + high + ") = " + highValue + " $$";
         }
     }
 
     document.getElementById('iterationOutput').innerHTML = output;
+    key.loadMathJax("iterationOutput");
 
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
@@ -1014,13 +1019,20 @@ var happyNumbers = function() {
     var out = function(units, result) {
         var a = "";
         for (var i = 0; i < units.length; i++) {
+            /*
             if (i === 0) {
                 a = units[i] + "<sup>2</sup> ";
             } else {
                 a = a + "+ " + units[i] + "<sup>2</sup> ";
             }
+            */
+            if(i === 0) {
+                a = a + units[i] + "^2 ";
+            } else {
+                a = a + "+ " + units[i] + "^2 ";
+            }
         }
-        return a + "= " + result;
+        return a + "=" + result;
     };
     var isHappyNumber = function(num) {
         var output = '';
@@ -1038,14 +1050,14 @@ var happyNumbers = function() {
                 }
                 if (e === 1) {
                     output = output + out(d, e);
-                    return [true, output];
+                    return [true, "$$" + output + "$$"];
                 } else if (b.indexOf(e) > -1) {
-                    output = output + out(d, e);
-                    return [false, output];
+                    output = output +  out(d, e);
+                    return [false, "$$ " + output + " $$"];
                 }
                 b.push(e);
                 c = e;
-                output = output + out(d, e) + "<br>";
+                output = output + out(d, e) + "\\\\[5pt]";;
             }
         }
     };
@@ -1055,10 +1067,11 @@ var happyNumbers = function() {
     var t0 = performance.now();
 
     if (isHappyNumber(number)[0]) {
-        document.getElementById('happyNumbersOutput').innerHTML = isHappyNumber(number)[1] + "<br>" + number + " is a happy number";
+        document.getElementById('happyNumbersOutput').innerHTML = isHappyNumber(number)[1] + number + " is a happy number";
     } else {
-        document.getElementById('happyNumbersOutput').innerHTML = isHappyNumber(number)[1] + "<br>" + number + " is not a happy number";
+        document.getElementById('happyNumbersOutput').innerHTML = isHappyNumber(number)[1] + number + " is not a happy number";
     }
+    key.loadMathJax("happyNumbersOutput");
 
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
