@@ -520,6 +520,8 @@ var medianIQR = function() {
         median = key.round(array[nthValueInArray], "nearest", 1);
     }
 
+    array.sort(key.sortAscending);
+
     var maxArray = key.round(array[array.length - 1], "nearest", 1);
     var minArray = key.round(array[0], "nearest", 1);
 
