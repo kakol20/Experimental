@@ -589,6 +589,8 @@ var normalDistribution = function() {
     var calculate = function(a, b, c) {
         var d = 0;
         c = Math.abs(c);
+        
+        /*
         if (c === 0) {
             if (a < b) {
                 d = 0;
@@ -598,6 +600,10 @@ var normalDistribution = function() {
         } else {
             d = normalCDF((a - b) / c);
         }
+        */
+
+        d = c === 0 ? (a < b ? 0 : 1) : normalCDF((a - b) / c);
+
         return d;
     };
 
@@ -887,9 +893,9 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
         }
     }
     if (d > 0) {
-        output = output + "+ " + d + " \\\\[5pt] ";
+        output = output + "+ " + d + " \\\\ ";
     } else {
-        output = output + "- " + Math.abs(d) + " \\\\[5pt] ";
+        output = output + "- " + Math.abs(d) + " \\\\ ";
     }
 
     var t0 = performance.now();
@@ -897,7 +903,7 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
     var startNumber = parseFloat(document.getElementById('iterationStart').value) || key.round(key.random(100, -100));
     var decimalPlaces = key.round(parseFloat(document.getElementById('iterationDecimalPlaces').value)) || key.round(key.random(4, 2));
 
-    output = output + " \\mbox{Decimal Places} \\rightarrow " + decimalPlaces + " \\\\[5pt] x_0 = " + startNumber + " \\\\[5pt] ";
+    output = output + " \\mbox{Decimal Places} \\rightarrow " + decimalPlaces + " \\\\ x_0 = " + startNumber + " \\\\ ";
 
     if (!key.isValidNumber(startNumber) || !key.isValidNumber(decimalPlaces)) {
         output = "One of the inputs is invalid";
@@ -930,11 +936,11 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
                 output = "It will take too long <br>";
             }
         } else {
-            output = output + " \\mathrm{Root} \\rightarrow " + key.round(x[x.length - 1], "nearest", decimalPlaces) + " \\\\[5pt] ";
+            output = output + " \\text{Root} \\rightarrow " + key.round(x[x.length - 1], "nearest", decimalPlaces) + " \\\\ ";
             if (iterations > 1) {
-                output = output + " \\mbox{Took } " + iterations + " \\mbox{ iterations} \\\\[5pt] ";
+                output = output + " \\mbox{Took } " + iterations + " \\mbox{ iterations} \\\\ ";
             } else {
-                output = output + " \\mbox{Took one iteration} \\\\[5pt] ";
+                output = output + " \\mbox{Took one iteration} \\\\ ";
             }
 
             var noOfIterations = x.length - 1;
@@ -954,7 +960,7 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
             var highValue = formula(high, a, b, c, d);
             // console.log("highValue = " + highValue);
 
-            output = output + "f(" + low + ") = " + lowValue + " \\\\[5pt] f(" + root_ + ") = " + root_Value + " \\\\[5pt] f(" + high + ") = " + highValue + " $$";
+            output = output + "f(" + low + ") = " + lowValue + " \\\\ f(" + root_ + ") = " + root_Value + " \\\\ f(" + high + ") = " + highValue + " $$";
         }
     }
 
@@ -1059,7 +1065,7 @@ var happyNumbers = function() {
                 }
                 b.push(e);
                 c = e;
-                output = output + out(d, e) + "\\\\[5pt]";;
+                output = output + out(d, e) + "\\\\";;
             }
         }
     };
