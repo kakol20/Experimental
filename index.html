@@ -43,12 +43,12 @@
 		<!-- https://www.mathjax.org/cdn-shutting-down/ -->
 		<!-- https://docs.moodle.org/27/en/Using_TeX_Notation -->
 		<!-- https://math.meta.stackexchange.com/questions/20503/is-there-a-way-such-that-i-can-put-text-in-without-changing-the-font -->
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
         tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
         });
     </script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
 	<!-- <script type="text/javascript" src="ASCIIMathML.js"></script> -->
 
 	<!-- Main Script -->
@@ -78,7 +78,7 @@
 		</button>
 		<div id="primes"></div> <br>
 
-		<!-- Time Until Future Date -->
+		<!-- Time -->
 		<div align="center">
 			<textarea rows="6" placeholder="Type date like this: March 15 2018, 3:00 PM" id="timeUntilInput"></textarea>
 		</div>
@@ -88,6 +88,16 @@
 			</div>
 		</button>
 		<div id="timeUntilOutput"></div> <br>
+
+		<div align="center">
+			<textarea rows="6" placeholder="Type date like this: March 15 2018, 3:00 PM" id="timePastInput"></textarea>
+		</div>
+		<button onclick="timePast()">
+			<div>
+				<p>Time Since Date</p>
+			</div>
+		</button>
+		<div id="timePastOutput"></div> <br>
 
 		<!-- Median, Other Quartiles And The Interquartile Range -->
 		<form>
@@ -149,7 +159,7 @@
 		<!-- Iterations -- >
 			<!-- <div class="bold">ax<sup>3</sup> + bx<sup>2</sup> + cx + d</div> -->
 			<!--`ax^3+bx^2+cx+d` -->
-		<div>$$f(x) = ax^3 + bx^2 + cx + d \\[5pt] 0 = f(x) \\[5pt] x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}\ $$</div>
+		<div>$$f(x) = ax^3 + bx^2 + cx + d \\ 0 = f(x) \\ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}\ $$</div>
 		<form>
 			Starting Number: <input type="number" id="iterationStart"> <br>
 			Decimal Places: <input type="number" id="iterationDecimalPlaces" min="1"> <br>
