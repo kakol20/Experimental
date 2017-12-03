@@ -1286,10 +1286,5 @@ var lcmAtoB = function() {
 
 /*
 TODO List - 
-1. Implement new count duplicate method
-    a. Now pushes [x, y] (where x = the value & y = the count in each index) to the array output
-    b. This makes it more easier to use
-    c. Functions that use countDupes()
-        i. Averages
-        ii. Iterations
+1. None
 */
