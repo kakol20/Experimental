@@ -73,11 +73,10 @@ Notes: {
         result of b: [1, 3];
 }
 */
-
 var key = (function() {
     return {
         isString: function(a) {
-            return isNaN(a);  
+            return isNaN(a);
         },
 
         random: function(a, b) {
@@ -122,37 +121,29 @@ var key = (function() {
             }
         },
 
-        //jQuery Needed
+        // jQuery Needed       
+        removeDupes: function(a) {
+            var b = key.countDupes(a);
+            var c = [];
+            for (var i = 0; i < b.length; i++) {
+                c.push(b[i][0]);
+            }
+            return c;
+        },
         // https://stackoverflow.com/questions/19395257/how-to-count-duplicate-value-in-an-array-in-javascript
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in
-        removeDupes: function(a) {
-            var b = [];
-            $.each(a, function(i, c) {
-                if ($.inArray(c, b) == -1) b.push(c);
-            });
-            return b;
-        },
         countDupes: function(a) {
-            //http://jsfiddle.net/simevidas/bnACW/
             var b = [];
-            for (var i = 0; i < a.length; i++) {
-                b.push(a[i]);
+            a.forEach(function(i) {
+                b[i] = (b[i] || 0) + 1;
+            });
+
+            var c = [];
+            for (const d in b) {
+                c.push([`${d}`, parseInt(`${b[d]}`)]);
             }
-            var c = [],
-                d = [],
-                prev;
-            b.sort(key.sortAscending);
-            for (var i = 0; i < b.length; i++) {
-                if (b[i] !== prev) {
-                    c.push(b[i]);
-                    d.push(1);
-                } else {
-                    d[d.length - 1]++;
-                }
-                prev = b[i];
-            }
-            return [c, d];
-            //c = actual values, d = dupe count
+
+            return c;
         },
 
         numberOutput: function(a) {
@@ -335,7 +326,7 @@ var key = (function() {
 
         loadMathJax: function(idName) {
             var math = document.getElementById(idName);
-            MathJax.Hub.Queue(["Typeset",MathJax.Hub,math]);
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, math]);
         },
     };
 })();
@@ -602,7 +593,7 @@ var medianIQR = function() {
 
     var output = "The median is " + median + "<br>Q1 is " + q1 + "<br>Q3 is " + q3 + "<br>The interquartile range is " + iqr + "<br>The max is " + maxArray + "<br>The min is " + minArray;
 
-    document.getElementById('IQROutput').innerHTML = output;   
+    document.getElementById('IQROutput').innerHTML = output;
 
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
@@ -632,7 +623,7 @@ var approximateSqrt = function() {
     var percentOff = key.round((Math.abs(actual - approximate) / actual) * 100, "nearest", 4);
 
     document.getElementById('approxSqrtOutput').innerHTML = "The approximate square root of " + num + " is " + key.round(approximate, "nearest", 4) + " and it was " + percentOff + "% off the real value";
-    
+
     var t1 = performance.now();
     var t = Math.abs(t1 - t0);
     /*
@@ -664,7 +655,7 @@ var normalDistribution = function() {
     var calculate = function(a, b, c) {
         var d = 0;
         c = Math.abs(c);
-        
+
         /*
         if (c === 0) {
             if (a < b) {
@@ -732,6 +723,7 @@ var averages = function() {
         for (var i = 0; i < a.length; i++) {
             b.push(a[i]);
         }
+        /*
         b = key.countDupes(b);
         var c = [];
         for (var i = 0; i < b[1].length; i++) {
@@ -739,6 +731,14 @@ var averages = function() {
         }
         c.sort(key.sortDescending);
         return b[0][b[1].indexOf(c[0])];
+        */
+
+        var c = (key.countDupes(b)).sort(function(a, b) {
+            return b[1] - a[1]
+        });
+        console.log(c);
+        return parseInt(c[0][0]);
+
     };
     var median = function(a) {
         var b = a.sort(key.sortAscending);
@@ -997,15 +997,12 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
 
         if (x.length >= 1000) {
             var temp = key.countDupes(x);
-            var temp2 = [];
-            for (var i = 0; i < temp[0].length; i++) {
-                temp2.push([temp[0][i], temp[1][i]]);
-            }
-            temp2.sort(function(a, b) {
+            temp.sort(function(a, b) {
                 return b[1] - a[1];
             });
+            console.log(temp);
 
-            if ((temp2[0][1] > 1) && (temp2[1][1] > 1)) {
+            if ((temp[0][1] > 1) && (temp[1][1] > 1)) {
                 output = "It is impossible to do with the given start number <br>";
             } else {
                 output = "It will take too long <br>";
@@ -1109,7 +1106,7 @@ var happyNumbers = function() {
                 a = a + "+ " + units[i] + "<sup>2</sup> ";
             }
             */
-            if(i === 0) {
+            if (i === 0) {
                 a = a + units[i] + "^2 ";
             } else {
                 a = a + "+ " + units[i] + "^2 ";
@@ -1135,7 +1132,7 @@ var happyNumbers = function() {
                     output = output + out(d, e);
                     return [true, "$$" + output + "$$"];
                 } else if (b.indexOf(e) > -1) {
-                    output = output +  out(d, e);
+                    output = output + out(d, e);
                     return [false, "$$ " + output + " $$"];
                 }
                 b.push(e);
@@ -1228,7 +1225,7 @@ var carmichael = function() {
         console.log("Took: " + t.toPrecision(5) + "ms");
     }
     */
-    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");  
+    console.log(t >= 1000 ? "Took: " + key.round(t / 1000, "nearest", 4) + "s" : "Took: " + t.toPrecision(5) + "ms");
     console.log(" ");
 };
 
