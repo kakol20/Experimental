@@ -106,18 +106,33 @@ var key = (function() {
         },
 
         isPrime: function(a) {
-            a = bigInt(a);
-            if (a.equals(2)) {
+            /*
+            if (a < 2) {
+                return false;
+            } else if (a == 2) {
                 return true;
-            } else if (a.greater(2)) {
-                for (var i = bigInt(2); i.lesserOrEquals(6); i = i.next()) {
-                    if ((a.mod(i)).equals(0)) {
-                        return "false";
+            } else {
+                for (var i = 0; i <= Math.sqrt(a); i++) {
+                    if (a % i === 0) {
+                        return false;
                     }
                 }
-                return "true";
+                return true;
+            }
+            */
+
+            var a = bigInt(a);
+            if (a.lesser(2)) {
+                return false;
+            } else if (a.equals(2)) {
+                return true;
             } else {
-                return "false";
+                for (var i = bigInt(2); i.lesserOrEquals(key.bigIntApproxSqrt(a)); i = i.next()) {
+                    if ((a.mod(i)).equals(0)) {
+                        return false;
+                    }
+                }
+                return true;
             }
         },
 
@@ -300,6 +315,10 @@ var key = (function() {
         },
 
         approxSqrt: function(a) {
+            if (a < 0) {
+                return NaN;
+            }
+
             var b = a;
             var c = 1;
 
@@ -318,6 +337,31 @@ var key = (function() {
 
             b = a - (c * c);
             return c + (b / (c * 2));
+        },
+
+        bigIntApproxSqrt: function(a) {
+            if (a.lesserOrEquals(0)) {
+                return NaN;
+            }
+
+            var b = a;
+            var c = bigInt(1);
+
+            while (true) {
+                b = a.subtract(c.square());
+
+                if (b.equals(0)) {
+                    break;
+                } else if (b.lesser(0)) {
+                    c = c.prev();
+                    break;
+                } else {
+                    c = c.next();
+                }
+            }
+
+            b = a.subtract(c.square());
+            return c.add(b.divide(c.multiply(2)));
         },
 
         isNegative: function(a) {
@@ -349,7 +393,7 @@ var getPrimes = function() {
     var primes = [];
     for (var i = key.round(minNmax[0], "up"); i <= key.round(minNmax[1], "down"); i++) {
         if (i >= 2) {
-            if (key.isPrime(i) == "true") {
+            if (key.isPrime(i)) {
                 primes.push(i);
             }
         }
