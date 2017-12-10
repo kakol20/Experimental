@@ -6,4 +6,5 @@ A script where I experiment with different algorithms
 
 ## Plug
 Follow me @The_Banana_Guy_
+
 [![Twitter Follow](https://img.shields.io/twitter/follow/espadrine.svg?style=social&label=Follow)](https://twitter.com/the_banana_guy_)
