@@ -73,39 +73,51 @@ Notes: {
         result of b: [1, 3];
 }
 */
-var key = (function() {
+var key = (function()
+{
     return {
-        isString: function(a) {
+        isString: function(a)
+        {
             return isNaN(a);
         },
 
-        random: function(a, b) {
+        random: function(a, b)
+        {
             b = b || 0;
             var c = a - b;
             return (Math.random() * c) + b;
         },
 
-        round: function(a, b, c) {
+        round: function(a, b, c)
+        {
             b = b || "nearest";
             c = c || 0;
-            if (b == "down") {
+            if (b == "down")
+            {
                 return Math.floor(a * Math.pow(10, c)) / Math.pow(10, c);
-            } else if (b == "up") {
+            }
+            else if (b == "up")
+            {
                 return Math.ceil(a * Math.pow(10, c)) / Math.pow(10, c);
-            } else {
+            }
+            else
+            {
                 return Math.round(a * Math.pow(10, c)) / Math.pow(10, c);
             }
         },
 
-        sortAscending: function(a, b) {
+        sortAscending: function(a, b)
+        {
             return a - b;
             //array.sort(key.sortAscending);
         },
-        sortDescending: function(a, b) {
+        sortDescending: function(a, b)
+        {
             return b - a;
         },
 
-        isPrime: function(a) {
+        isPrime: function(a)
+        {
             /*
             if (a < 2) {
                 return false;
@@ -122,13 +134,20 @@ var key = (function() {
             */
 
             var a = bigInt(a);
-            if (a.lesser(2)) {
+            if (a.lesser(2))
+            {
                 return false;
-            } else if (a.equals(2)) {
+            }
+            else if (a.equals(2))
+            {
                 return true;
-            } else {
-                for (var i = bigInt(2); i.lesserOrEquals(key.bigIntApproxSqrt(a)); i = i.next()) {
-                    if ((a.mod(i)).equals(0)) {
+            }
+            else
+            {
+                for (var i = bigInt(2); i.lesserOrEquals(key.bigIntApproxSqrt(a)); i = i.next())
+                {
+                    if ((a.mod(i)).equals(0))
+                    {
                         return false;
                     }
                 }
@@ -137,41 +156,53 @@ var key = (function() {
         },
 
         // jQuery Needed       
-        removeDupes: function(a) {
+        removeDupes: function(a)
+        {
             var b = key.countDupes(a);
             var c = [];
-            for (var i = 0; i < b.length; i++) {
+            for (var i = 0; i < b.length; i++)
+            {
                 c.push(b[i][0]);
             }
             return c;
         },
         // https://stackoverflow.com/questions/19395257/how-to-count-duplicate-value-in-an-array-in-javascript
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in
-        countDupes: function(a) {
+        countDupes: function(a)
+        {
             var b = [];
-            a.forEach(function(i) {
+            a.forEach(function(i)
+            {
                 b[i] = (b[i] || 0) + 1;
             });
 
             var c = [];
-            for (const d in b) {
+            for (const d in b)
+            {
                 c.push([`${d}`, parseInt(`${b[d]}`)]);
             }
 
             return c;
         },
 
-        numberOutput: function(a) {
+        numberOutput: function(a)
+        {
             var b = a.toString();
             var c = b.split("");
             c.reverse();
             var d = "";
-            for (var i = 0; i < c.length; i++) {
-                if ((i + 1) === c.length) {
+            for (var i = 0; i < c.length; i++)
+            {
+                if ((i + 1) === c.length)
+                {
                     d = c[i] + d;
-                } else if (((i + 1) % 3) === 0) {
+                }
+                else if (((i + 1) % 3) === 0)
+                {
                     d = " " + c[i] + d;
-                } else {
+                }
+                else
+                {
                     d = c[i] + d;
                 }
             }
@@ -179,80 +210,104 @@ var key = (function() {
         },
 
         //http://stackoverflow.com/questions/6213227/fastest-way-to-convert-a-number-to-radix-64-in-javascript
-        base64: (function() {
+        base64: (function()
+        {
             return {
                 base: "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+/",
 
-                fromNumber: function(a, clean) {
+                fromNumber: function(a, clean)
+                {
                     clean = clean || "no";
                     a = key.round(a, "down");
-                    if (!key.isValidNumber(a)) {
+                    if (!key.isValidNumber(a))
+                    {
                         console.log("The input is not valid");
                         return;
                     }
-                    if (a < 0) {
+                    if (a < 0)
+                    {
                         console.log("Can't represent negative numbers now");
                         return;
                     }
                     var b;
                     var c = a;
                     var d = "";
-                    while (true) {
+                    while (true)
+                    {
                         b = c % 64;
                         d = key.base64.base.charAt(b) + d;
                         c = key.round(c / 64, "down");
-                        if (c === 0) {
+                        if (c === 0)
+                        {
                             break;
                         }
                     }
-                    if (clean == "yes") {
+                    if (clean == "yes")
+                    {
                         var e = d.split("");
                         e.reverse();
                         var f = "";
-                        for (var i = 0; i < e.length; i++) {
-                            if ((i + 1) == e.length) {
+                        for (var i = 0; i < e.length; i++)
+                        {
+                            if ((i + 1) == e.length)
+                            {
                                 f = e[i] + f;
-                            } else if (((i + 1) % 2) === 0) {
+                            }
+                            else if (((i + 1) % 2) === 0)
+                            {
                                 f = " " + e[i] + f;
-                            } else {
+                            }
+                            else
+                            {
                                 f = e[i] + f;
                             }
                         }
                         return f;
-                    } else {
+                    }
+                    else
+                    {
                         return d;
                     }
                 },
 
-                toNumber: function(a) {
+                toNumber: function(a)
+                {
                     var b = [];
-                    if (!isNaN(a)) {
+                    if (!isNaN(a))
+                    {
                         var c = a.toString();
                         b = c.split("");
-                    } else {
+                    }
+                    else
+                    {
                         b = a.split("");
                     }
                     var d = [];
-                    for (var i = 0; i < b.length; i++) {
-                        if (b[i] !== " ") {
+                    for (var i = 0; i < b.length; i++)
+                    {
+                        if (b[i] !== " ")
+                        {
                             d.push(b[i]);
                         }
                     }
                     var e = 0;
-                    for (var i = 0; i < d.length; i++) {
+                    for (var i = 0; i < d.length; i++)
+                    {
                         e = (e * 64) + key.base64.base.indexOf(d[i]);
                     }
                     return e;
                 },
 
-                test: function(a) {
+                test: function(a)
+                {
                     a = key.round(Math.abs(a), "down") || key.round(key.random(key.base64.toNumber("// //"), key.base64.toNumber(1000)));
                     console.log("Number           : " + key.numberOutput(a));
                     var b = key.base64.fromNumber(a, "yes");
                     console.log("Number to Base-64: " + b);
                     var c = key.base64.toNumber(b);
                     console.log("Base-64 to Number: " + key.numberOutput(c));
-                    if (c !== a) {
+                    if (c !== a)
+                    {
                         console.log("Test Failed");
                     }
                     console.log(" ");
@@ -260,11 +315,13 @@ var key = (function() {
             };
         })(),
 
-        isValidNumber: function(n) {
+        isValidNumber: function(n)
+        {
             return !(isNaN(Number(n)) || (n === null) || (Number(n) == Number.POSITIVE_INFINITY));
         },
 
-        convertWeek: function(w) {
+        convertWeek: function(w)
+        {
             var weekToConvert = w;
             var week = key.round(weekToConvert, "down");
 
@@ -279,58 +336,82 @@ var key = (function() {
 
             var second = key.round((minuteToConvert - minute) * 60, "nearest", 2);
 
-            if (week == 1) {
+            if (week == 1)
+            {
                 week = week + " week, ";
-            } else {
+            }
+            else
+            {
                 week = week + " weeks, ";
             }
-            if (day == 1) {
+            if (day == 1)
+            {
                 day = day + " day, ";
-            } else {
+            }
+            else
+            {
                 day = day + " days, ";
             }
-            if (hour == 1) {
+            if (hour == 1)
+            {
                 hour = hour + " hour, ";
-            } else {
+            }
+            else
+            {
                 hour = hour + " hours, ";
             }
-            if (minute == 1) {
+            if (minute == 1)
+            {
                 minute = minute + " minute and ";
-            } else {
+            }
+            else
+            {
                 minute = minute + " minutes and ";
             }
-            if (second == 1) {
+            if (second == 1)
+            {
                 second = second + " second";
-            } else {
+            }
+            else
+            {
                 second = second + " seconds";
             }
 
             var converted = [week, day, hour, minute, second];
             var output = "";
-            for (var i = 0; i < converted.length; i++) {
+            for (var i = 0; i < converted.length; i++)
+            {
                 output = output + converted[i];
             }
 
             return output;
         },
 
-        approxSqrt: function(a) {
-            if (a < 0) {
+        approxSqrt: function(a)
+        {
+            if (a < 0)
+            {
                 return NaN;
             }
 
             var b = a;
             var c = 1;
 
-            while (true) {
+            while (true)
+            {
                 b = a - (c * c);
 
-                if (b === 0) {
+                if (b === 0)
+                {
                     break;
-                } else if (b < 0) {
+                }
+                else if (b < 0)
+                {
                     c--;
                     break;
-                } else {
+                }
+                else
+                {
                     c++;
                 }
             }
@@ -339,23 +420,31 @@ var key = (function() {
             return c + (b / (c * 2));
         },
 
-        bigIntApproxSqrt: function(a) {
-            if (a.lesserOrEquals(0)) {
+        bigIntApproxSqrt: function(a)
+        {
+            if (a.lesserOrEquals(0))
+            {
                 return NaN;
             }
 
             var b = a;
             var c = bigInt(1);
 
-            while (true) {
+            while (true)
+            {
                 b = a.subtract(c.square());
 
-                if (b.equals(0)) {
+                if (b.equals(0))
+                {
                     break;
-                } else if (b.lesser(0)) {
+                }
+                else if (b.lesser(0))
+                {
                     c = c.prev();
                     break;
-                } else {
+                }
+                else
+                {
                     c = c.next();
                 }
             }
@@ -364,11 +453,13 @@ var key = (function() {
             return c.add(b.divide(c.multiply(2)));
         },
 
-        isNegative: function(a) {
+        isNegative: function(a)
+        {
             return Math.abs(a) == a ? false : true;
         },
 
-        loadMathJax: function(idName) {
+        loadMathJax: function(idName)
+        {
             var math = document.getElementById(idName);
             MathJax.Hub.Queue(["Typeset", MathJax.Hub, math]);
         },
@@ -378,11 +469,13 @@ var key = (function() {
 // http://www.accessify.com/tools-and-wizards/developer-tools/html-javascript-convertor - For future reference
 
 // Runs script when page is loaded or reloaded
-$(function() {
+$(function()
+{
     console.log("Script by kakol20");
 });
 
-var getPrimes = function() {
+var getPrimes = function()
+{
     var min = Math.abs(document.getElementById('primesMin').value) || key.random(Math.PI * 10);
     var max = Math.abs(document.getElementById('primesMax').value) || key.random(Math.PI * 100, min);
     var minNmax = [min, max];
@@ -391,19 +484,26 @@ var getPrimes = function() {
     var t0 = performance.now();
 
     var primes = [];
-    for (var i = key.round(minNmax[0], "up"); i <= key.round(minNmax[1], "down"); i++) {
-        if (i >= 2) {
-            if (key.isPrime(i)) {
+    for (var i = key.round(minNmax[0], "up"); i <= key.round(minNmax[1], "down"); i++)
+    {
+        if (i >= 2)
+        {
+            if (key.isPrime(i))
+            {
                 primes.push(i);
             }
         }
     }
 
     var output = "";
-    for (var i = 0; i < primes.length; i++) {
-        if (i > 0) {
+    for (var i = 0; i < primes.length; i++)
+    {
+        if (i > 0)
+        {
             output = output + ", " + primes[i].toString();
-        } else {
+        }
+        else
+        {
             output = output + primes[i].toString();
         }
     }
@@ -426,25 +526,35 @@ var getPrimes = function() {
     console.log(" ");
 };
 
-var timeUntil = function() {
+var timeUntil = function()
+{
     // http://ditio.net/2010/05/02/javascript-date-difference-calculation/
 
-    var inWeeks = function(a, b) {
+    var inWeeks = function(a, b)
+    {
         var c = a.getTime();
         var d = b.getTime();
         return (c - d) / (7 * 24 * 60 * 60 * 1000);
     };
-    var convertRound = function(a) {
-        if (a > 0) {
+    var convertRound = function(a)
+    {
+        if (a > 0)
+        {
             return key.round(a, "down");
-        } else if (a < 0) {
+        }
+        else if (a < 0)
+        {
             return key.round(a, "up");
-        } else {
+        }
+        else
+        {
             return a;
         }
     };
-    var isValidDate = function(a) {
-        if (Object.prototype.toString.call(a) !== "[object Date]") {
+    var isValidDate = function(a)
+    {
+        if (Object.prototype.toString.call(a) !== "[object Date]")
+        {
             return false;
         }
         return !isNaN(a.getTime());
@@ -455,28 +565,33 @@ var timeUntil = function() {
     var futureDate = new Date(date);
     var currentDate = new Date();
 
-    if (!isValidDate(futureDate) || (futureDate.getTime() <= currentDate.getTime())) {
+    if (!isValidDate(futureDate) || (futureDate.getTime() <= currentDate.getTime()))
+    {
         var tempDate = new Date();
 
         var month = tempDate.getMonth() + 1;
-        if (month <= 9) {
+        if (month <= 9)
+        {
             month = "0" + month;
         }
 
         var days = tempDate.getDate();
-        if (days <= 9) {
+        if (days <= 9)
+        {
             days = "0" + days;
         }
 
         var year = tempDate.getFullYear() + 1;
 
         var hours = tempDate.getHours();
-        if (hours <= 9) {
+        if (hours <= 9)
+        {
             hours = "0" + hours;
         }
 
         var minutes = tempDate.getMinutes();
-        if (minutes <= 9) {
+        if (minutes <= 9)
+        {
             minutes = "0" + minutes;
         }
 
@@ -507,24 +622,34 @@ var timeUntil = function() {
     console.log(" ");
 };
 
-var timePast = function() {
-    var inWeeks = function(a, b) {
+var timePast = function()
+{
+    var inWeeks = function(a, b)
+    {
         var c = a.getTime();
         var d = b.getTime();
         return (c - d) / (7 * 24 * 60 * 60 * 1000);
     };
-    var convertRound = function(a) {
-        if (a > 0) {
+    var convertRound = function(a)
+    {
+        if (a > 0)
+        {
             return key.round(a, "down");
-        } else if (a < 0) {
+        }
+        else if (a < 0)
+        {
             return key.round(a, "up");
-        } else {
+        }
+        else
+        {
             return a;
         }
     };
 
-    var isValideDate = function(a) {
-        if (Object.prototype.toString.call(a) !== "[object Date]") {
+    var isValideDate = function(a)
+    {
+        if (Object.prototype.toString.call(a) !== "[object Date]")
+        {
             return false;
         }
         return !isNaN(a.getTime());
@@ -535,28 +660,33 @@ var timePast = function() {
     var pastDate = new Date(date);
     var currentDate = new Date();
 
-    if (!isValideDate(pastDate) || pastDate.getTime() >= currentDate.getTime()) {
+    if (!isValideDate(pastDate) || pastDate.getTime() >= currentDate.getTime())
+    {
         var tempDate = new Date();
 
         var month = tempDate.getMonth() + 1;
-        if (month <= 9) {
+        if (month <= 9)
+        {
             month = "0" + month;
         }
 
         var days = tempDate.getDate();
-        if (days <= 9) {
+        if (days <= 9)
+        {
             days = "0" + days;
         }
 
         var year = tempDate.getFullYear() - 1;
 
         var hours = tempDate.getHours();
-        if (hours <= 9) {
+        if (hours <= 9)
+        {
             hours = "0" + hours;
         }
 
         var minutes = tempDate.getMinutes();
-        if (minutes <= 9) {
+        if (minutes <= 9)
+        {
             minutes = "0" + minutes;
         }
 
@@ -580,31 +710,43 @@ var timePast = function() {
     console.log(" ");
 };
 
-var medianIQR = function() {
-    var isDecimal = function(a) {
-        if ((a % 1) === 0) {
+var medianIQR = function()
+{
+    var isDecimal = function(a)
+    {
+        if ((a % 1) === 0)
+        {
             return false;
-        } else {
+        }
+        else
+        {
             return true;
         }
     };
 
-    var createList = function() {
+    var createList = function()
+    {
         var a = "";
 
-        for (var i = 0; i < 50; i++) {
-            if (i === 0) {
+        for (var i = 0; i < 50; i++)
+        {
+            if (i === 0)
+            {
                 a = a + key.round(key.random(50, 1));
-            } else {
+            }
+            else
+            {
                 a = a + ", " + key.round(key.random(50, 1));
             }
         }
         return a;
     };
-    var toArray = function(a) {
+    var toArray = function(a)
+    {
         var b = a.split(', ');
         var c = [];
-        for (var i = 0; i < b.length; i++) {
+        for (var i = 0; i < b.length; i++)
+        {
             c.push(parseInt(b[i]));
         }
         return c;
@@ -624,9 +766,12 @@ var medianIQR = function() {
 
     var median = 0;
 
-    if (isDecimal(nthValueInArray)) {
+    if (isDecimal(nthValueInArray))
+    {
         median = key.round((array[key.round(nthValueInArray, "down")] + array[key.round(nthValueInArray, "up")]) / 2, "nearest", 1);
-    } else {
+    }
+    else
+    {
         median = key.round(array[nthValueInArray], "nearest", 1);
     }
 
@@ -652,7 +797,8 @@ var medianIQR = function() {
     console.log(" ");
 };
 
-var approximateSqrt = function() {
+var approximateSqrt = function()
+{
     //https://www.youtube.com/watch?v=PJHtqMjrStk
 
     var num = document.getElementById('sqrtOf').value || key.round(key.random(Math.PI * 100));
@@ -681,8 +827,10 @@ var approximateSqrt = function() {
     console.log(" ");
 };
 
-var normalDistribution = function() {
-    var normalCDF = function(a) {
+var normalDistribution = function()
+{
+    var normalCDF = function(a)
+    {
         /* Old way of estimation normal cdf
         var b = 1 / (1 + 0.2316419 * Math.abs(a));
         var c = 0.3989423 * Math.exp(-a * a / 2);
@@ -696,7 +844,8 @@ var normalDistribution = function() {
         var b = 1.66355041031415 * -1 * a;
         return 1 / (1 + Math.exp(b));
     };
-    var calculate = function(a, b, c) {
+    var calculate = function(a, b, c)
+    {
         var d = 0;
         c = Math.abs(c);
 
@@ -720,10 +869,13 @@ var normalDistribution = function() {
     var mean = document.getElementById('ndfMean').value || key.random(Math.PI * 10, Math.PI * (-10));
 
     var sd;
-    if ((mean > 0) || (mean < 0)) {
+    if ((mean > 0) || (mean < 0))
+    {
         //Standard Deviation cannot be a negative number
         sd = Math.abs(document.getElementById('ndfSD').value) || key.random(Math.abs(mean) / 10);
-    } else {
+    }
+    else
+    {
         sd = Math.abs(document.getElementById('ndfSD').value) || 1;
     }
 
@@ -754,17 +906,24 @@ var normalDistribution = function() {
     console.log(" ");
 };
 
-var averages = function() {
-    var isInt = function(a) {
-        if ((a % 1) === 0) {
+var averages = function()
+{
+    var isInt = function(a)
+    {
+        if ((a % 1) === 0)
+        {
             return true;
-        } else {
+        }
+        else
+        {
             return false;
         }
     };
-    var mode = function(a) {
+    var mode = function(a)
+    {
         var b = [];
-        for (var i = 0; i < a.length; i++) {
+        for (var i = 0; i < a.length; i++)
+        {
             b.push(a[i]);
         }
         /*
@@ -777,53 +936,70 @@ var averages = function() {
         return b[0][b[1].indexOf(c[0])];
         */
 
-        var c = (key.countDupes(b)).sort(function(a, b) {
+        var c = (key.countDupes(b)).sort(function(a, b)
+        {
             return b[1] - a[1]
         });
         console.log(c);
         return parseInt(c[0][0]);
 
     };
-    var median = function(a) {
+    var median = function(a)
+    {
         var b = a.sort(key.sortAscending);
         var c = [];
-        for (var i = 0; i < b.length; i++) {
+        for (var i = 0; i < b.length; i++)
+        {
             c.push(b[i]);
         }
-        if (c.length == 1) {
+        if (c.length == 1)
+        {
             return c[0];
-        } else if (c.length == 2) {
+        }
+        else if (c.length == 2)
+        {
             return (c[0] + c[1]) / 2;
-        } else {
+        }
+        else
+        {
             c.splice(c.length - 1, 1);
             c.splice(0, 1);
             return median(c);
         }
     };
-    var mean = function(a) {
+    var mean = function(a)
+    {
         var b = 0;
-        for (var i = 0; i < a.length; i++) {
+        for (var i = 0; i < a.length; i++)
+        {
             b += a[i];
         }
         return key.round(b / a.length, "nearest", 2);
     };
 
-    var createList = function() {
+    var createList = function()
+    {
         var a = "";
 
-        for (var i = 0; i < 50; i++) {
-            if (i === 0) {
+        for (var i = 0; i < 50; i++)
+        {
+            if (i === 0)
+            {
                 a = a + key.round(key.random(50, 1));
-            } else {
+            }
+            else
+            {
                 a = a + ", " + key.round(key.random(50, 1));
             }
         }
         return a;
     };
-    var toArray = function(a) {
+    var toArray = function(a)
+    {
         var b = a.split(", ");
         var c = [];
-        for (var i = 0; i < b.length; i++) {
+        for (var i = 0; i < b.length; i++)
+        {
             c.push(parseInt(b[i]));
         }
         return c;
@@ -850,59 +1026,76 @@ var averages = function() {
     console.log(" ");
 };
 
-var morseConvert = function() {
-    var morseCode = (function() {
+var morseConvert = function()
+{
+    var morseCode = (function()
+    {
         return {
             code: ["/", ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..", ".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.", "...", "-", "..-", "...-", ".--", "-..-", "-.--", "--..", ".----", "..---", "...--", "....-", ".....", "-....", "--...", "---..", "----.", "-----", "-.--.-", "-.--.-", "-....-", "--..--", ".-.-.-", "-..-.", "..--..", ".----."],
             letters: " ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890()-,./?'",
 
-            fromSentence: function(a) {
+            fromSentence: function(a)
+            {
                 a = a.toUpperCase();
                 var b = a.split("");
                 var c = [];
-                for (var i = 0; i < b.length; i++) {
-                    if ((morseCode.letters.indexOf(b[i]) <= -1) && (morseCode.letters.indexOf(b[i - 1]) > 0) && (morseCode.letters.indexOf(b[i + 1]) > 0)) {
+                for (var i = 0; i < b.length; i++)
+                {
+                    if ((morseCode.letters.indexOf(b[i]) <= -1) && (morseCode.letters.indexOf(b[i - 1]) > 0) && (morseCode.letters.indexOf(b[i + 1]) > 0))
+                    {
                         c.push(" ");
-                    } else if (morseCode.letters.indexOf(b[i]) > -1) {
+                    }
+                    else if (morseCode.letters.indexOf(b[i]) > -1)
+                    {
                         c.push(b[i]);
                     }
                 }
                 var d = "";
-                for (var i = 0; i < c.length; i++) {
+                for (var i = 0; i < c.length; i++)
+                {
                     var e = morseCode.code[morseCode.letters.indexOf(c[i])];
-                    if ((i + 1) == c.length) {
+                    if ((i + 1) == c.length)
+                    {
                         d = d + e;
-                    } else {
+                    }
+                    else
+                    {
                         d = d + e + " ";
                     }
                 }
                 return d;
             },
 
-            toSentence: function(a) {
+            toSentence: function(a)
+            {
                 var b = a.split(" ");
                 var c = [];
-                for (var i = 0; i < b.length; i++) {
-                    if (morseCode.code.indexOf(b[i]) > -1) {
+                for (var i = 0; i < b.length; i++)
+                {
+                    if (morseCode.code.indexOf(b[i]) > -1)
+                    {
                         c.push(b[i]);
                     }
                 }
                 var d = "";
-                for (var i = 0; i < c.length; i++) {
+                for (var i = 0; i < c.length; i++)
+                {
                     var e = morseCode.letters.charAt(morseCode.code.indexOf(c[i]));
                     d = d + e;
                 }
                 return d;
             },
 
-            test: function(a) {
+            test: function(a)
+            {
                 a = a || "Hello World";
                 console.log("Sentence: " + a);
                 var b = morseCode.fromSentence(a);
                 console.log("Sentence to Morse Code: " + b);
                 var c = morseCode.toSentence(b);
                 console.log("Morse Code to Sentence: " + c);
-                if (c !== a.toUpperCase()) {
+                if (c !== a.toUpperCase())
+                {
                     console.log("Test Failed");
                 }
                 console.log(" ");
@@ -914,21 +1107,30 @@ var morseConvert = function() {
 
     var t0 = performance.now();
 
-    if ((input === " ") || (input === "")) {
+    if ((input === " ") || (input === ""))
+    {
         document.getElementById('morseOutput').innerHTML = "You must input something";
-    } else {
-        var isSentence = function(a) {
+    }
+    else
+    {
+        var isSentence = function(a)
+        {
             var b = a.split(" ");
-            for (var i = 0; i < b.length; i++) {
-                if (morseCode.code.indexOf(b[i]) <= -1) {
+            for (var i = 0; i < b.length; i++)
+            {
+                if (morseCode.code.indexOf(b[i]) <= -1)
+                {
                     return true;
                 }
                 return false;
             }
         };
-        if (isSentence(input)) {
+        if (isSentence(input))
+        {
             document.getElementById('morseOutput').innerHTML = morseCode.fromSentence(input);
-        } else {
+        }
+        else
+        {
             document.getElementById('morseOutput').innerHTML = morseCode.toSentence(input);
         }
     }
@@ -946,74 +1148,108 @@ var morseConvert = function() {
     console.log(" ");
 };
 
-var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
+var iteration = function()
+{ // https://en.wikipedia.org/wiki/Newton's_method
     // ax³ + bx² + cx + d
     var output = "";
 
-    var formula = function(x, a, b, c, d) {
+    var formula = function(x, a, b, c, d)
+    {
         return (a * Math.pow(x, 3)) + (b * Math.pow(x, 2)) + (c * x) + d;
     };
-    var derivative = function(x, a, b, c, d) {
+    var derivative = function(x, a, b, c, d)
+    {
         d = d || 0;
         return (3 * a * Math.pow(x, 2)) + (2 * b * x) + c;
     };
-    var newtonMethod = function(x, a, b, c, d) {
+    var newtonMethod = function(x, a, b, c, d)
+    {
         return x - (formula(x, a, b, c, d) / derivative(x, a, b, c));
     };
 
     var a = key.round(parseFloat(document.getElementById('iterationA').value)) || key.round(key.random(10, -10));
-    while (a === 0) {
+    while (a === 0)
+    {
         a = key.round(key.random(10, -10));
     }
     var b = key.round(parseFloat(document.getElementById('iterationB').value)) || key.round(key.random(10, -10));
-    while (b === 0) {
+    while (b === 0)
+    {
         b = key.round(key.random(10, -10));
     }
     var c = key.round(parseFloat(document.getElementById('iterationC').value)) || key.round(key.random(10, -10));
-    while (c === 0) {
+    while (c === 0)
+    {
         c = key.round(key.random(10, -10));
     }
     var d = key.round(parseFloat(document.getElementById('iterationD').value)) || key.round(key.random(10, -10));
-    while (d === 0) {
+    while (d === 0)
+    {
         d = key.round(key.random(10, -10));
     }
 
-    if (a === 1) {
+    if (a === 1)
+    {
         output = "$$ \\mathrm{Equation} \\rightarrow x^3 ";
-    } else if (a === -1) {
+    }
+    else if (a === -1)
+    {
         output = "$$ \\mathrm{Equation} \\rightarrow -x^3 ";
-    } else {
+    }
+    else
+    {
         output = "$$ \\mathrm{Equation} \\rightarrow " + a + "x^3 ";
     }
-    if (b > 0) {
-        if (b === 1) {
+    if (b > 0)
+    {
+        if (b === 1)
+        {
             output = output + "+ x^2 ";
-        } else {
+        }
+        else
+        {
             output = output + "+ " + b + "x^2 ";
         }
-    } else {
-        if (b === -1) {
+    }
+    else
+    {
+        if (b === -1)
+        {
             output = output + "- x^2 ";
-        } else {
+        }
+        else
+        {
             output = output + "- " + Math.abs(b) + "x^2 ";
         }
     }
-    if (c > 0) {
-        if (c === 1) {
+    if (c > 0)
+    {
+        if (c === 1)
+        {
             output = output + "+ x ";
-        } else {
+        }
+        else
+        {
             output = output + "+ " + c + "x ";
         }
-    } else {
-        if (c === -1) {
+    }
+    else
+    {
+        if (c === -1)
+        {
             output = output + "- x ";
-        } else {
+        }
+        else
+        {
             output = output + "- " + Math.abs(c) + "x ";
         }
     }
-    if (d > 0) {
+    if (d > 0)
+    {
         output = output + "+ " + d + " \\\\ ";
-    } else {
+    }
+    else
+    {
         output = output + "- " + Math.abs(d) + " \\\\ ";
     }
 
@@ -1024,14 +1260,19 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
 
     output = output + " \\mbox{Decimal Places} \\rightarrow " + decimalPlaces + " \\\\ x_0 = " + startNumber + " \\\\ ";
 
-    if (!key.isValidNumber(startNumber) || !key.isValidNumber(decimalPlaces)) {
+    if (!key.isValidNumber(startNumber) || !key.isValidNumber(decimalPlaces))
+    {
         output = "One of the inputs is invalid";
-    } else {
+    }
+    else
+    {
         var x = [startNumber, key.round(newtonMethod(startNumber, a, b, c, d), "nearest", decimalPlaces + 1)];
-        while (key.round(x[x.length - 1], "nearest", decimalPlaces) !== key.round(x[x.length - 2], "nearest", decimalPlaces)) {
+        while (key.round(x[x.length - 1], "nearest", decimalPlaces) !== key.round(x[x.length - 2], "nearest", decimalPlaces))
+        {
             x.push(key.round(newtonMethod(x[x.length - 1], a, b, c, d), "nearest", decimalPlaces + 1));
 
-            if (x.length >= 1000) {
+            if (x.length >= 1000)
+            {
                 break;
             }
         }
@@ -1039,23 +1280,33 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
 
         var iterations = x.length - 1;
 
-        if (x.length >= 1000) {
+        if (x.length >= 1000)
+        {
             var temp = key.countDupes(x);
-            temp.sort(function(a, b) {
+            temp.sort(function(a, b)
+            {
                 return b[1] - a[1];
             });
             console.log(temp);
 
-            if ((temp[0][1] > 1) && (temp[1][1] > 1)) {
+            if ((temp[0][1] > 1) && (temp[1][1] > 1))
+            {
                 output = "It is impossible to do with the given start number <br>";
-            } else {
+            }
+            else
+            {
                 output = "It will take too long <br>";
             }
-        } else {
+        }
+        else
+        {
             output = output + " \\text{Root} \\rightarrow " + key.round(x[x.length - 1], "nearest", decimalPlaces) + " \\\\ ";
-            if (iterations > 1) {
+            if (iterations > 1)
+            {
                 output = output + " \\mbox{Took } " + iterations + " \\mbox{ iterations} \\\\ ";
-            } else {
+            }
+            else
+            {
                 output = output + " \\mbox{Took one iteration} \\\\ ";
             }
 
@@ -1096,7 +1347,8 @@ var iteration = function() { // https://en.wikipedia.org/wiki/Newton's_method
     console.log(" ");
 };
 
-var monteCarlo = function() {
+var monteCarlo = function()
+{
     var max = Math.abs(document.getElementById('monteCarloMax').value) || 1;
     var rep = Math.abs(document.getElementById('monteCarloRep').value) || Number(key.random(5000000, 500000).toPrecision(3));
 
@@ -1104,19 +1356,26 @@ var monteCarlo = function() {
 
     var t0 = performance.now();
 
-    if (!key.isValidNumber(max) || !key.isValidNumber(rep)) {
+    if (!key.isValidNumber(max) || !key.isValidNumber(rep))
+    {
         output = "An input is invalid";
-    } else {
+    }
+    else
+    {
         var total = 0;
         var inCircle = 0;
 
-        for (var i = 0; i < rep; i++) {
+        for (var i = 0; i < rep; i++)
+        {
             var xValue = key.random(max, max * -1);
             var yValue = key.random(max, max * -1);
-            if ((Math.pow(xValue, 2) + Math.pow(yValue, 2)) <= Math.pow(max, 2)) {
+            if ((Math.pow(xValue, 2) + Math.pow(yValue, 2)) <= Math.pow(max, 2))
+            {
                 inCircle++;
                 total++;
-            } else {
+            }
+            else
+            {
                 total++;
             }
         }
@@ -1139,10 +1398,13 @@ var monteCarlo = function() {
     console.log(" ");
 };
 
-var happyNumbers = function() {
-    var out = function(units, result) {
+var happyNumbers = function()
+{
+    var out = function(units, result)
+    {
         var a = "";
-        for (var i = 0; i < units.length; i++) {
+        for (var i = 0; i < units.length; i++)
+        {
             /*
             if (i === 0) {
                 a = units[i] + "<sup>2</sup> ";
@@ -1150,32 +1412,44 @@ var happyNumbers = function() {
                 a = a + "+ " + units[i] + "<sup>2</sup> ";
             }
             */
-            if (i === 0) {
+            if (i === 0)
+            {
                 a = a + units[i] + "^2 ";
-            } else {
+            }
+            else
+            {
                 a = a + "+ " + units[i] + "^2 ";
             }
         }
         return a + "=" + result;
     };
-    var isHappyNumber = function(num) {
+    var isHappyNumber = function(num)
+    {
         var output = '';
 
-        if (!key.isValidNumber(num)) {
+        if (!key.isValidNumber(num))
+        {
             return [false, "NaN"];
-        } else {
+        }
+        else
+        {
             var b = [];
             var c = Number(num);
-            while (true) {
+            while (true)
+            {
                 var d = (c.toString()).split('');
                 var e = 0;
-                for (var i = 0; i < d.length; i++) {
+                for (var i = 0; i < d.length; i++)
+                {
                     e += Math.pow(Number(d[i]), 2);
                 }
-                if (e === 1) {
+                if (e === 1)
+                {
                     output = output + out(d, e);
                     return [true, "$$" + output + "$$"];
-                } else if (b.indexOf(e) > -1) {
+                }
+                else if (b.indexOf(e) > -1)
+                {
                     output = output + out(d, e);
                     return [false, "$$ " + output + " $$"];
                 }
@@ -1190,9 +1464,12 @@ var happyNumbers = function() {
 
     var t0 = performance.now();
 
-    if (isHappyNumber(number)[0]) {
+    if (isHappyNumber(number)[0])
+    {
         document.getElementById('happyNumbersOutput').innerHTML = isHappyNumber(number)[1] + number + " is a happy number";
-    } else {
+    }
+    else
+    {
         document.getElementById('happyNumbersOutput').innerHTML = isHappyNumber(number)[1] + number + " is not a happy number";
     }
     key.loadMathJax("happyNumbersOutput");
@@ -1210,22 +1487,29 @@ var happyNumbers = function() {
     console.log(" ");
 };
 
-var carmichael = function() {
+var carmichael = function()
+{
     alert("Bigger numbers and bigger gap between minimum and maximum means it will take longer to find the Carmichael numbers");
     var t0 = performance.now();
 
-    var fermatLittleThereom = function(p) {
-        for (var i = 2; i <= 5; i++) {
-            if (!bigInt(i).pow(p).subtract(i).isDivisibleBy(p)) {
+    var fermatLittleThereom = function(p)
+    {
+        for (var i = 2; i <= 5; i++)
+        {
+            if (!bigInt(i).pow(p).subtract(i).isDivisibleBy(p))
+            {
                 return false;
             }
         }
         return true;
     };
 
-    var isCarmichael = function(p) {
-        if (fermatLittleThereom(p)) {
-            if (!bigInt(p).isPrime()) {
+    var isCarmichael = function(p)
+    {
+        if (fermatLittleThereom(p))
+        {
+            if (!bigInt(p).isPrime())
+            {
                 return true;
             }
         }
@@ -1240,20 +1524,29 @@ var carmichael = function() {
     var t0 = performance.now();
 
     var numbers = [];
-    for (var i = min.toString(); bigInt(max.toString()).greaterOrEquals(i); i = bigInt(i).next().toString()) {
-        if (isCarmichael(i)) {
+    for (var i = min.toString(); bigInt(max.toString()).greaterOrEquals(i); i = bigInt(i).next().toString())
+    {
+        if (isCarmichael(i))
+        {
             numbers.push(i);
         }
     }
 
     var output = "";
-    if (numbers.length === 0) {
+    if (numbers.length === 0)
+    {
         output = "No Carmichael Numbers where found";
-    } else {
-        for (var i = 0; i < numbers.length; i++) {
-            if (i === 0) {
+    }
+    else
+    {
+        for (var i = 0; i < numbers.length; i++)
+        {
+            if (i === 0)
+            {
                 output = numbers[i].toString();
-            } else {
+            }
+            else
+            {
                 output = output + ", " + numbers[i];
             }
         }
@@ -1273,25 +1566,32 @@ var carmichael = function() {
     console.log(" ");
 };
 
-var lcmAtoB = function() {
+var lcmAtoB = function()
+{
     alert("Bigger numbers will take longer time to execute. A recommended max number is 214 600");
     // http://pastebin.com/RBa0HpWj - 39 466
     // https://pastebin.com/PfMQkpsM - 214 600
 
-    var gcd = function(a, b) {
+    var gcd = function(a, b)
+    {
         a = a.abs();
         b = b.abs();
-        while (true) {
-            if ((bigInt.min(a, b)).equals(0)) {
+        while (true)
+        {
+            if ((bigInt.min(a, b)).equals(0))
+            {
                 return bigInt.max(a, b);
-            } else {
+            }
+            else
+            {
                 var temp = bigInt.max(a, b);
                 a = bigInt.min(a, b);
                 b = temp.mod(a);
             }
         }
     };
-    var lcm = function(a, b) {
+    var lcm = function(a, b)
+    {
         return (a.multiply(b)).divide(gcd(a, b));
     };
 
@@ -1307,7 +1607,8 @@ var lcmAtoB = function() {
     b = bigInt.min(a, b);
     a = temp;
 
-    for (var i = b; i.lesserOrEquals(a); i = i.next()) {
+    for (var i = b; i.lesserOrEquals(a); i = i.next())
+    {
         result = lcm(result, i);
     }
     result = result.toString();
