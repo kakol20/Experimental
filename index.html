@@ -44,19 +44,19 @@
 			<!-- https://math.meta.stackexchange.com/questions/20503/is-there-a-way-such-that-i-can-put-text-in-without-changing-the-font -->
 
 		<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script> -->
-		<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
-		<!-- <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->
+		
 		
 		<!-- Version 2 -->
-		<!-- <script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+		<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 		<script type="text/x-mathjax-config">
 			MathJax.Hub.Config({
 			tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
 			});
-		</script> -->
+		</script>
 
 		<!-- Version 3  -->
-		<script>
+		<!-- http://docs.mathjax.org/en/latest/output/linebreaks.html -->
+		<!-- <script>
 			MathJax = {
 			  tex: {
 			    inlineMath: [['$', '$'], ['\\(', '\\)']]
@@ -65,9 +65,11 @@
 			    fontCache: 'global'
 			  }
 			};
-		</script>
-		<script type="text/javascript" id="MathJax-script" async
-			src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+		</script> -->
+		<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->
+		<!-- <script type="text/javascript" id="MathJax-script" async
+			src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script> -->	
 
 		<!-- <script type="text/javascript" src="ASCIIMathML.js"></script> -->
 		
@@ -122,6 +124,55 @@
 			<div id="timePastOutput"></div>
 			<br>
 
+			<!-- Normal Distribution -->
+			<form>
+				Value: <input type="number" id="ndfValue" max="39466"> <br>
+				Mean: <input type="number" id="ndfMean" max="39466"> <br>
+				Standard Deviation: <input type="number" id="ndfSD" min="1" max="39466"> 
+			</form>
+			<button onclick="normalDistribution()">
+				<div>
+					<p>Normal Distribution</p>
+				</div>
+			</button>
+			<br>
+			<div id="ndfOutput"></div>
+			<br>
+
+			<!-- Morse Code -->
+			<div align="center">
+				<textarea rows="6" placeholder="Type your message here, either normal letters, numbers, and punctuation or Morse code using '.' for a dot, '-' for a dash, separating letters by spaces and words by '/'. Also, separate Morse code letters with space" id="morseInput"></textarea>
+			</div>
+			<button onclick="morseConvert()">
+				<div>
+					<p>Convert Sentence or Morse Code</p>
+				</div>
+			</button>
+			<div id="morseOutput"></div>
+			<br>
+
+			<!-- Iterations -- >
+				<!-- <div class="bold">ax<sup>3</sup> + bx<sup>2</sup> + cx + d</div> -->
+			<!--`ax^3+bx^2+cx+d` -->
+			<div>$$ f(x) = ax^3 + bx^2 + cx + d \\ 0 = f(x) \\ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}\ $$</div>
+			<form>
+				Starting Number: <input type="number" id="iterationStart"> <br>
+				Decimal Places: <input type="number" id="iterationDecimalPlaces" min="1"> <br>
+				a: <input type="number" id="iterationA" min="-39466" max="39466"> <br>
+				b: <input type="number" id="iterationB" min="-39466" max="39466"> <br>
+				c: <input type="number" id="iterationC" min="-39466" max="39466"> <br>
+				d: <input type="number" id="iterationD" min="-39466" max="39466">
+			</form>
+			<button onclick="iteration()">
+				<div>
+					<p>Iterations</p>
+				</div>
+			</button>
+			<div id="iterationOutput"></div>
+			<br>
+
+			
+
 			<!-- Median, Other Quartiles And The Interquartile Range -->
 			<!-- <form>
 				<textarea rows="6" placeholder="Split numbers like this: 2, 1, 3, 4, 7, 11, 18, 29" id="IQRInput"></textarea>
@@ -146,21 +197,6 @@
 			<div id="approxSqrtOutput"></div>
 			<br> -->
 
-			<!-- Normal Distribution -->
-			<form>
-				Value: <input type="number" id="ndfValue" max="39466"> <br>
-				Mean: <input type="number" id="ndfMean" max="39466"> <br>
-				Standard Deviation: <input type="number" id="ndfSD" min="1" max="39466"> 
-			</form>
-			<button onclick="normalDistribution()">
-				<div>
-					<p>Normal Distribution</p>
-				</div>
-			</button>
-			<br>
-			<div id="ndfOutput"></div>
-			<br>
-
 			<!-- Mode, Median, and Mean -->
 			<!-- <form>
 				<textarea rows="6" placeholder="Split numbers like this: 2, 1, 3, 4, 7, 11, 18, 29" id="averagesInput"></textarea>
@@ -172,38 +208,6 @@
 			</button>
 			<div id="avgOutput"></div>
 			<br> -->
-
-			<!-- Morse Code -->
-			<div align="center">
-				<textarea rows="6" placeholder="Type your message here, either normal letters, numbers, and punctuation or Morse code using '.' for a dot, '-' for a dash, separating letters by spaces and words by '/'. Also, separate Morse code letters with space" id="morseInput"></textarea>
-			</div>
-			<button onclick="morseConvert()">
-				<div>
-					<p>Convert Sentence or Morse Code</p>
-				</div>
-			</button>
-			<div id="morseOutput"></div>
-			<br>
-
-			<!-- Iterations -- >
-				<!-- <div class="bold">ax<sup>3</sup> + bx<sup>2</sup> + cx + d</div> -->
-			<!--`ax^3+bx^2+cx+d` -->
-			<div>$$f(x) = ax^3 + bx^2 + cx + d \\ 0 = f(x) \\ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}\ $$</div>
-			<form>
-				Starting Number: <input type="number" id="iterationStart"> <br>
-				Decimal Places: <input type="number" id="iterationDecimalPlaces" min="1"> <br>
-				a: <input type="number" id="iterationA" min="-39466" max="39466"> <br>
-				b: <input type="number" id="iterationB" min="-39466" max="39466"> <br>
-				c: <input type="number" id="iterationC" min="-39466" max="39466"> <br>
-				d: <input type="number" id="iterationD" min="-39466" max="39466">
-			</form>
-			<button onclick="iteration()">
-				<div>
-					<p>Iterations</p>
-				</div>
-			</button>
-			<div id="iterationOutput"></div>
-			<br>
 
 			<!-- Estimating PI using the Monte Carlo Method -->
 			<!-- <div class="bold">
