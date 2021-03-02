@@ -171,7 +171,35 @@
 			<div id="iterationOutput"></div>
 			<br>
 
-			
+			<!-- Standard Gravitational Parameter Calculator -->
+			<div>
+				$$ m^3/s^2 \ \mathit{to} \ km^3/s^2 \\ a \times 10^b \ m^3/s^2 $$
+			</div>
+			<form>
+				a: <input type="number" id="gravNum"> <br>
+				b: <input type="power" id="gravPow">
+			</form>
+			<button onclick="gravConverter()">
+				<div>
+					<p>m&sup3/s&sup2 to km&sup3/s&sup2</p>
+				</div>
+			</button>
+			<div id="gravOutput"></div>
+			<br> <br>
+
+			<!-- Orbit Altitude Calculator -->
+			<form>
+				Time in Seconds: <input type="number" id="orbitTime"> <br>
+				Standard Gravitational Parameter in km&sup3/s&sup2: <input type="number" id="orbitPara"><br>
+				Equitorial Radius in km: <input type="number" id="orbitRadius">
+			</form>
+			<button onclick="calculateAltitude()">
+				<div>
+					<p>Calculate Orbit Altitude</p>
+				</div>
+			</button>
+			<div id="orbitOutput"></div>
+			<br>
 
 			<!-- Median, Other Quartiles And The Interquartile Range -->
 			<!-- <form>
