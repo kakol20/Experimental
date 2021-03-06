@@ -1199,7 +1199,7 @@ var gravConverter = function()
 
 var calculateAltitude = function()
 {
-	var time = document.getElementById("orbitTime").value || 5400;
+	var time = document.getElementById("orbitTime").value * 60 || 5400;
 	var mu = document.getElementById("orbitPara").value || 3531.6;
 	var radius = document.getElementById("orbitRadius").value || 600;
 
