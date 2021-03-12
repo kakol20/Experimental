@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Experimental</title>
+		<title>Useful Tools</title>
 		
 		<!-- Resizable on mobile devices -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -29,56 +29,11 @@
 		<link rel="stylesheet" type="text/css" href="css/normalize.css">
 		<link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 		
-		<!-- JQuery -->
-		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-		
-		<!-- BigInteger.js -->
-		<!-- https://github.com/peterolson/BigInteger.js -->
-		<script type="text/javascript" src="BigInteger.js"></script>
-		
-		<!-- Math Markup -->
-			<!-- Doesn't work 100%, left here for future reference -->
-			<!-- http://asciimath.org/ -->
-			<!-- https://www.mathjax.org/cdn-shutting-down/ -->
-			<!-- https://docs.moodle.org/27/en/Using_TeX_Notation -->
-			<!-- https://math.meta.stackexchange.com/questions/20503/is-there-a-way-such-that-i-can-put-text-in-without-changing-the-font -->
-
-		<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script> -->
-		
-		
-		<!-- Version 2 -->
-		<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-		<script type="text/x-mathjax-config">
-			MathJax.Hub.Config({
-			tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-			});
-		</script>
-
-		<!-- Version 3  -->
-		<!-- http://docs.mathjax.org/en/latest/output/linebreaks.html -->
-		<!-- <script>
-			MathJax = {
-			  tex: {
-			    inlineMath: [['$', '$'], ['\\(', '\\)']]
-			  },
-			  svg: {
-			    fontCache: 'global'
-			  }
-			};
-		</script> -->
-		<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->
-		<!-- <script type="text/javascript" id="MathJax-script" async
-			src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script> -->	
-
-		<!-- <script type="text/javascript" src="ASCIIMathML.js"></script> -->
-		
-		<!-- <script type="text/javascript" src="old.js"></script> -->
 	</head>
 	<body>
 		<div class="header">
 			<div>
-				<p>Experimental Scripts V4</p>
+				<p>Useful Tools</p>
 			</div>
 		</div>
 		<br>
@@ -87,127 +42,45 @@
 				Your browser doesn't support JavaScript or does not have JavaScript enabled <br> <br>
 			</noscript>
 
-			<!-- All Primes Between Two Numbers -->
-			<form>
-				Max: <input type="number" id="primesMax" min="2"> <br>
-				Min: <input type="number" id="primesMin">
-			</form>
-			<button onclick="getPrimes()">
-				<div>
-					<p>Get Primes</p>
-				</div>
-			</button>
-			<div id="primes"></div>
-			<br>
+			<a href="/kspTools">
+				<button>
+					<div>
+						<p>KSP Tools</p>
+					</div>
+				</button>
+			</a>
+			<a href="/mathTools">
+				<button>
+					<div>
+						<p>Math Tools</p>
+					</div>
+				</button>
+			</a>
+			<a href="/timeTools">
+				<button>
+					<div>
+						<p>Time Tools</p>
+					</div>
+				</button>
+			</a>
+			<a href="/miscTools">
+				<button>
+					<div>
+						<p>Misc Tools</p>
+					</div>
+				</button>
+			</a>
 
-			<!-- Time -->
-			<div align="center">
-				<textarea rows="6" placeholder="Type date like this: March 15 2018, 3:00 PM" id="timeUntilInput"></textarea>
-			</div>
-			<button onclick="timeUntil()">
-				<div>
-					<p>Time Until Date</p>
-				</div>
-			</button>
-			<div id="timeUntilOutput"></div>
-			<br>
-			<div align="center">
-				<textarea rows="6" placeholder="Type date like this: March 15 2018, 3:00 PM" id="timePastInput"></textarea>
-			</div>
-			<button onclick="timePast()">
-				<div>
-					<p>Time Since Date</p>
-				</div>
-			</button>
-			<div id="timePastOutput"></div>
-			<br>
-
-			<!-- Normal Distribution -->
-			<form>
-				Value: <input type="number" id="ndfValue" max="39466"> <br>
-				Mean: <input type="number" id="ndfMean" max="39466"> <br>
-				Standard Deviation: <input type="number" id="ndfSD" min="1" max="39466"> 
-			</form>
-			<button onclick="normalDistribution()">
-				<div>
-					<p>Normal Distribution</p>
-				</div>
-			</button>
-			<br>
-			<div id="ndfOutput"></div>
-			<br>
-
-			<!-- Morse Code -->
-			<div align="center">
-				<textarea rows="6" placeholder="Type your message here, either normal letters, numbers, and punctuation or Morse code using '.' for a dot, '-' for a dash, separating letters by spaces and words by '/'. Also, separate Morse code letters with space" id="morseInput"></textarea>
-			</div>
-			<button onclick="morseConvert()">
-				<div>
-					<p>Convert Sentence or Morse Code</p>
-				</div>
-			</button>
-			<div id="morseOutput"></div>
-			<br>
-
-			<!-- Iterations -- >
-				<!-- <div class="bold">ax<sup>3</sup> + bx<sup>2</sup> + cx + d</div> -->
-			<!--`ax^3+bx^2+cx+d` -->
-			<div>$$ f(x) = ax^3 + bx^2 + cx + d \\ 0 = f(x) \\ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}\ $$</div>
-			<form>
-				Starting Number: <input type="number" id="iterationStart"> <br>
-				Decimal Places: <input type="number" id="iterationDecimalPlaces" min="1"> <br>
-				a: <input type="number" id="iterationA" min="-39466" max="39466"> <br>
-				b: <input type="number" id="iterationB" min="-39466" max="39466"> <br>
-				c: <input type="number" id="iterationC" min="-39466" max="39466"> <br>
-				d: <input type="number" id="iterationD" min="-39466" max="39466">
-			</form>
-			<button onclick="iteration()">
-				<div>
-					<p>Iterations</p>
-				</div>
-			</button>
-			<div id="iterationOutput"></div>
-			<br>
-
-			<!-- Standard Gravitational Parameter Calculator -->
-			<div>
-				m&sup3/s&sup2 to km&sup3/s&sup2 <br> a × 10^b
-			</div>
-			<form>
-				a: <input type="number" id="gravNum"> <br>
-				b: <input type="number" id="gravPow">
-			</form>
-			<button onclick="gravConverter()">
-				<div>
-					<p>m&sup3/s&sup2 to km&sup3/s&sup2</p>
-				</div>
-			</button>
-			<div id="gravOutput"></div>
-			<br> <br>
-
-			<!-- Orbit Altitude Calculator -->
-			<form>
-				Time in Minutes: <input type="number" id="orbitTime"> <br>
-				Standard Gravitational Parameter in km&sup3/s&sup2: <input type="number" id="orbitPara"><br>
-				Equatorial Radius in km: <input type="number" id="orbitRadius">
-			</form>
-			<button onclick="calculateAltitude()">
-				<div>
-					<p>Calculate Orbit Altitude</p>
-				</div>
-			</button>
-			<div id="orbitOutput"></div>
-			<br>
-
+			<br><br>
 			<!-- Scripts -->
 
 			<!-- Main Script -->
 			<script type="text/javascript" src="main.js"></script>
 
-			<script type="text/javascript" src="scripts/miscTools.js"></script>
-			<script type="text/javascript" src="scripts/timeTools.js"></script>
-			<script type="text/javascript" src="scripts/mathTools.js"></script>
-			<script type="text/javascript" src="scripts/kspTools.js"></script>
+			<!-- <script type="text/javascript" src="scripts/miscTools.js"></script> -->
+			<!-- <script type="text/javascript" src="scripts/timeTools.js"></script> -->
+			<!-- <script type="text/javascript" src="scripts/mathTools.js"></script> -->
+			<!-- <script type="text/javascript" src="scripts/kspTools.js"></script> -->
 
 			<!-- Median, Other Quartiles And The Interquartile Range -->
 			<!-- <form>

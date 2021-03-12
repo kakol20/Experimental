@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Kerbal Space Program Tools</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+	<!-- Favicon -->
+	<meta name="msapplication-TileColor" content="#002366">
+	<meta name="msapplication-TileImage" content="../icon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#002366">
+	<link rel="manifest" href="../icon/manifest.json">
+	<link rel="apple-touch-icon" sizes="57x57" href="../icon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="../icon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="../icon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="../icon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="../icon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="../icon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="../icon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="../icon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="../icon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="../icon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="../icon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="../icon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="../icon/favicon-16x16.png">
+
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="../css/stylesheet.css">
+</head>
+<body>
+	<div class="header">
+		<div>
+			<p>Kerbal Space Program Tools</p>
+		</div>
+	</div>
+	<div class="body">
+		<noscript>
+			Your browser doesn't support JavaScript or does not have JavaScript enabled <br> <br>
+		</noscript>
+		
+		<!-- Standard Gravitational Parameter Calculator -->
+		<div>
+			m&sup3/s&sup2 to km&sup3/s&sup2 <br> a × 10^b
+		</div>
+		<form>
+			a: <input type="number" id="gravNum"> <br>
+			b: <input type="number" id="gravPow">
+		</form>
+		<button onclick="gravConverter()">
+			<div>
+				<p>m&sup3/s&sup2 to km&sup3/s&sup2</p>
+			</div>
+		</button>
+		<div id="gravOutput"></div>
+		<br>
+		<!-- Orbit Altitude Calculator -->
+		<form>
+			Time in Minutes: <input type="number" id="orbitTime"> <br>
+			Standard Gravitational Parameter in km&sup3/s&sup2: <input type="number" id="orbitPara"><br>
+			Equatorial Radius in km: <input type="number" id="orbitRadius">
+		</form>
+		<button onclick="calculateAltitude()">
+			<div>
+				<p>Calculate Orbit Altitude</p>
+			</div>
+		</button>
+		<div id="orbitOutput"></div>
+		<br> 
+
+		<!-- <br> -->
+
+		<a href="../">
+			<button>
+				<div>
+					<p>Back</p>
+				</div>
+			</button>
+		</a>
+
+		<!-- SCRIPTS -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+		<script type="text/javascript" src="../main.js"></script>
+		<script type="text/javascript" src="kspTools.js"></script>
+	</div>
+</body>
+</html>

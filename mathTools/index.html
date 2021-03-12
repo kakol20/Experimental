@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Math Tools</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+	<!-- Favicon -->
+	<meta name="msapplication-TileColor" content="#002366">
+	<meta name="msapplication-TileImage" content="../icon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#002366">
+	<link rel="manifest" href="../icon/manifest.json">
+	<link rel="apple-touch-icon" sizes="57x57" href="../icon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="../icon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="../icon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="../icon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="../icon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="../icon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="../icon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="../icon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="../icon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="../icon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="../icon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="../icon/favicon-96x96.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="../icon/favicon-16x16.png">
+
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="../css/stylesheet.css">
+</head>
+<body>
+	<div class="header">
+		<div>
+			<p>Math Tools</p>
+		</div>
+	</div>
+	<div class="body">
+		<noscript>
+			Your browser doesn't support JavaScript or does not have JavaScript enabled <br> <br>
+		</noscript>
+
+		<!-- All Primes Between Two Numbers -->
+		<form>
+			Max: <input type="number" id="primesMax" min="2"> <br>
+			Min: <input type="number" id="primesMin">
+		</form>
+		<button onclick="getPrimes()">
+			<div>
+				<p>Get Primes</p>
+			</div>
+		</button>
+		<div id="primes"></div>
+		<br>
+
+		<!-- Normal Distribution -->
+		<form>
+			Value: <input type="number" id="ndfValue" max="39466"> <br>
+			Mean: <input type="number" id="ndfMean" max="39466"> <br>
+			Standard Deviation: <input type="number" id="ndfSD" min="1" max="39466"> 
+		</form>
+		<button onclick="normalDistribution()">
+			<div>
+				<p>Normal Distribution</p>
+			</div>
+		</button>
+		<br>
+		<div id="ndfOutput"></div>
+		<br>
+
+		<!-- Iterations -- >
+			<!-- <div class="bold">ax<sup>3</sup> + bx<sup>2</sup> + cx + d</div> -->
+		<!--`ax^3+bx^2+cx+d` -->
+		<div>$$ f(x) = ax^3 + bx^2 + cx + d \\ 0 = f(x) \\ x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}\ $$</div>
+		<form>
+			Starting Number: <input type="number" id="iterationStart"> <br>
+			Decimal Places: <input type="number" id="iterationDecimalPlaces" min="1"> <br>
+			a: <input type="number" id="iterationA" min="-39466" max="39466"> <br>
+			b: <input type="number" id="iterationB" min="-39466" max="39466"> <br>
+			c: <input type="number" id="iterationC" min="-39466" max="39466"> <br>
+			d: <input type="number" id="iterationD" min="-39466" max="39466">
+		</form>
+		<button onclick="iteration()">
+			<div>
+				<p>Iterations</p>
+			</div>
+		</button>
+		<div id="iterationOutput"></div>
+		<br> 
+
+		<!-- <br> -->
+
+		<a href="../">
+			<button>
+				<div>
+					<p>Back</p>
+				</div>
+			</button>
+		</a>
+
+		<!-- SCRIPTS -->
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+		<!-- BigInteger.js -->
+		<!-- https://github.com/peterolson/BigInteger.js -->
+		<script type="text/javascript" src="../scripts/BigInteger.js"></script>
+		
+		<!-- Math Markup -->
+			<!-- Doesn't work 100%, left here for future reference -->
+			<!-- http://asciimath.org/ -->
+			<!-- https://www.mathjax.org/cdn-shutting-down/ -->
+			<!-- https://docs.moodle.org/27/en/Using_TeX_Notation -->
+			<!-- https://math.meta.stackexchange.com/questions/20503/is-there-a-way-such-that-i-can-put-text-in-without-changing-the-font -->
+
+		<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script> -->
+		
+		<!-- Version 2 -->
+		<script async src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+		<script type="text/x-mathjax-config">
+			MathJax.Hub.Config({
+			tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+			});
+		</script>
+
+		<!-- Version 3  -->
+		<!-- http://docs.mathjax.org/en/latest/output/linebreaks.html -->
+		<!-- <script>
+			MathJax = {
+			  tex: {
+			    inlineMath: [['$', '$'], ['\\(', '\\)']]
+			  },
+			  svg: {
+			    fontCache: 'global'
+			  }
+			};
+		</script> -->
+		<!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->
+		<!-- <script type="text/javascript" id="MathJax-script" async
+			src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script> -->	
+
+		<!-- <script type="text/javascript" src="ASCIIMathML.js"></script> -->
+
+		<script type="text/javascript" src="../main.js"></script>
+		<script type="text/javascript" src="mathTools.js"></script>
+	</div>
+</body>
+</html>
