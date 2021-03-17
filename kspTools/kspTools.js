@@ -1,7 +1,7 @@
 var gravConverter = function()
 {
-	var a = document.getElementById('gravNum').value || 1;
-	var b = document.getElementById('gravPow').value || 1;
+	var a = parseFloat(document.getElementById('gravNum').value) || 1;
+	var b = parseFloat(document.getElementById('gravPow').value) || 1;
 
 	b -= 9;
 
@@ -31,9 +31,9 @@ var gravConverter = function()
 var calculateAltitude = function()
 {
 	// var time = document.getElementById('orbitTime').value * 60 || 5400;
-	var time = (document.getElementById('orbitHours').value || 0) * 60 * 60;
-	time += (document.getElementById('orbitMinutes').value || 0) * 60;
-	time += document.getElementById('orbitSeconds').value || 1;
+	var time = (parseFloat(document.getElementById('orbitHours').value) || 0) * 60 * 60;
+	time += (parseFloat(document.getElementById('orbitMinutes').value) || 0) * 60;
+	time += parseFloat(document.getElementById('orbitSeconds').value) || 0;
 	var mu = document.getElementById('orbitPara').value || 3531.6;
 	var radius = document.getElementById('orbitRadius').value || 600;
 
@@ -41,7 +41,7 @@ var calculateAltitude = function()
 	var tau = new Decimal(Math.PI);
 	tau = tau.mul(2);
 
-	var result = new Decimal(time);
+	var result = new Decimal(time === 0 ? 1 : time);
 	result = result.div(tau);
 	result = result.mul(result);
 	result = result.mul(mu);
