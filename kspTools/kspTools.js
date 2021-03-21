@@ -25,7 +25,7 @@
 	// console.log()
 
 	// document.getElementById('gravOutput').innerHTML = a * Math.pow(10, b - 9);
-	document.getElementById('gravOutput').innerHTML = bigDecimal.getPrettyValue(aD.toString()) + ' km&sup3/s&sup2';
+	document.getElementById('gravOutput').innerHTML = bigDecimal.getPrettyValue(aD.toString()) + ' km<sup>3</sup>/s<sup>-2</sup>';
 }
 
 var calculateAltitude = function()
