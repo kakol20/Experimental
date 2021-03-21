@@ -159,7 +159,7 @@ var resonantOrbit = (function ()
 			console.log('Resonant Orbital Period: ' + resonantOrbitPeriod.toString());
 			console.log('Resonant Orbit Semi Major Axis: ' + resonantSMA.toString());
 			console.log('Other Altitude: ' + otherAltitude.toString());
-			console.log('Resonant Orbit Velocity' + resonantOrbitVelocity.toString());
+			console.log('Resonant Orbit Velocity: ' + resonantOrbitVelocity.toString());
 			console.log(' ');
 			console.log('Δv: ' + deltaV.toString());
 
