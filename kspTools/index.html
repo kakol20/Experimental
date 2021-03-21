@@ -41,7 +41,7 @@
 		
 		<!-- Standard Gravitational Parameter Calculator -->
 		<div>
-			m&sup3/s&sup2 to km&sup3/s&sup2 <br> a × 10^b
+			m&sup3/s&sup2 to km&sup3/s&sup2 <br> a&times;10^b
 		</div>
 		<form>
 			a: <input type="number" id="gravNum"> <br>
@@ -54,6 +54,7 @@
 		</button>
 		<div id="gravOutput"></div>
 		<br>
+
 		<!-- Orbit Altitude Calculator -->
 		<form>
 			<!-- Time in Minutes: <input type="number" id="orbitTime"> <br> -->
@@ -69,7 +70,25 @@
 		<div id="orbitOutput"></div>
 		<br>
 
-		<!-- <br> -->
+		<!--Resonat Orbit Calculator-->
+		<form>
+			Dive Orbit: <input type="checkbox" id="resonantDive"> <br>
+
+			Minimum <span title="Line Of Sight">LOS</span>: <input type="checkbox" id="resonantLOS" onclick="resonantOrbit.showAlt()"> <br>
+
+			No. of Satellites: <input type="number" id="resonantSatNo" min="3" value="3"> <br>
+			<div id="resonantAltHTML" style="display:block">Orbit Altitude in km: <input type="number" id="resonantAlt"> <br></div>
+			Equatorial Radius in km: <input type="number" id="resonantRadius"> <br>
+			<span title="Standard Gravitational Paramater">SGP</span> in km&sup3/s&sup2: <input type="number" id="resonantSGP"> <br>
+		</form>
+        <button onclick="resonantOrbit.run()">
+            <div>
+                <p>Resonant Orbit</p>
+			</div>
+		</button>
+        <div id="resonantOutput"></div>
+		<br>
+
 		<button onclick="window.location.href = '../';">
 			<div>
 				<p>Back</p>

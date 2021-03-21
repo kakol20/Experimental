@@ -1,4 +1,4 @@
-var gravConverter = function()
+﻿var gravConverter = function ()
 {
 	var a = parseFloat(document.getElementById('gravNum').value) || 1;
 	var b = parseFloat(document.getElementById('gravPow').value) || 1;
@@ -64,3 +64,185 @@ var calculateAltitude = function()
 
 	document.getElementById('orbitOutput').innerHTML = bigDecimal.getPrettyValue(result.toDecimalPlaces(4)) + ' km';
 }
+
+var resonantOrbit = (function ()
+{
+	return {
+		PI: Decimal.acos(-1),
+
+		run: function ()
+		{
+			console.log('-----');
+
+			var diveOrbit = document.getElementById('resonantDive').checked;
+			var minimumLOS = document.getElementById('resonantLOS').checked;
+
+			var eqRadius = document.getElementById('resonantRadius').value || 600;
+			var sgp = document.getElementById('resonantSGP').value || 3531.6;
+
+			var satNum = new Decimal(document.getElementById('resonantSatNo').value || 3);
+
+			var altitude;
+			var semiMajorAxis;
+
+			// ----- CALCULATE MINIMUM LINE OF SIGHT -----
+			if (minimumLOS)
+			{
+				var insideAngle = satNum.sub(2); // in radians
+				insideAngle = insideAngle.mul(this.PI);
+				insideAngle = insideAngle.div(satNum);
+
+				semiMajorAxis = new Decimal(eqRadius);
+				semiMajorAxis = semiMajorAxis.div(Decimal.sin(insideAngle.div(2)));
+
+				altitude = semiMajorAxis.sub(eqRadius);
+			}
+			else
+			{
+				semiMajorAxis = new Decimal(document.getElementById('resonantAlt').value || 600);
+				semiMajorAxis = semiMajorAxis.add(eqRadius);
+
+				altitude = semiMajorAxis.sub(eqRadius);
+			}		
+
+			// ----- CALCULATE RESONANT ORBIT -----
+			var orbitRatio;
+			var orbitalPeriod = this.orbitalPeriod(semiMajorAxis, sgp);
+
+			if (diveOrbit) // calculate orbital ratio
+			{
+				orbitRatio = new Decimal(satNum);
+				orbitRatio = orbitRatio.sub(1);
+				orbitRatio = orbitRatio.div(satNum);
+			}
+			else
+			{
+				orbitRatio = new Decimal(satNum.add(1));
+				orbitRatio = orbitRatio.div(satNum);
+			}
+
+			// calculate resonant orbital period
+			var resonantOrbitPeriod = orbitalPeriod.mul(orbitRatio);
+
+			// calculate resonant orbit semi major axis
+			var resonantSMA = Decimal.pow(resonantOrbitPeriod, 2);
+			resonantSMA = resonantSMA.mul(sgp);
+
+			var fourPiSquared = this.PI.pow(2);
+			fourPiSquared = fourPiSquared.mul(4);
+
+			resonantSMA = resonantSMA.div(fourPiSquared);
+			resonantSMA = resonantSMA.cbrt();
+
+			// calculate other altitude
+			var otherAltitude = resonantSMA.mul(2);
+			otherAltitude = otherAltitude.sub(semiMajorAxis);
+			otherAltitude = otherAltitude.sub(eqRadius);
+
+			// ----- CALCULATE Δv (delta V) -----
+			var orbitVelocity = this.velocity(semiMajorAxis, semiMajorAxis, sgp);
+			var resonantOrbitVelocity = this.velocity(resonantSMA, semiMajorAxis, sgp);
+
+			var deltaV = orbitVelocity.sub(resonantOrbitVelocity);
+			deltaV = deltaV.abs();
+			deltaV = deltaV.mul(1000);
+
+			// ----- CONSOLE LOGGING -----
+
+			console.log('Orbital Period: ' + orbitalPeriod.toString());
+			console.log('Semi Major Axis: ' + semiMajorAxis.toString());
+			console.log('Orbit Altitude: ' + altitude.toString());
+			console.log('Orbit Velocity: ' + orbitVelocity.toString());
+			console.log(' ');
+			console.log('Orbit Ratio: ' + orbitRatio.toString());
+			console.log(' ');
+			console.log('Resonant Orbital Period: ' + resonantOrbitPeriod.toString());
+			console.log('Resonant Orbit Semi Major Axis: ' + resonantSMA.toString());
+			console.log('Other Altitude: ' + otherAltitude.toString());
+			console.log('Resonant Orbit Velocity' + resonantOrbitVelocity.toString());
+			console.log(' ');
+			console.log('Δv: ' + deltaV.toString());
+
+			// ----- OUTPUT -----
+			var output = 'Final Altitude: ' + bigDecimal.getPrettyValue(altitude.toDecimalPlaces(4)) + ' km<br>';
+
+			// format time
+			output += "Final Orbital Period: " + this.cleanPeriod(orbitalPeriod) + '<br><br>';	
+
+			// check apoapsis and periapsis
+			if (altitude.greaterThan(otherAltitude))
+			{
+				output += 'Apoapsis: ' + bigDecimal.getPrettyValue(altitude.toDecimalPlaces(4)) + ' km<br>';
+				output += 'Periapsis: ' + bigDecimal.getPrettyValue(otherAltitude.toDecimalPlaces(4)) + ' km<br><br>';
+			}
+			else
+			{
+				output += 'Apoapsis: ' + bigDecimal.getPrettyValue(otherAltitude.toDecimalPlaces(4)) + ' km<br>';
+				output += 'Periapsis: ' + bigDecimal.getPrettyValue(altitude.toDecimalPlaces(4)) + ' km<br><br>';
+			}
+
+			output += 'Δv needed: ' + bigDecimal.getPrettyValue(deltaV.toDecimalPlaces(4)) + ' m/s<br>';
+
+			document.getElementById('resonantOutput').innerHTML = output;
+		},
+
+		showAlt: function ()
+		{
+			var showAlt = document.getElementById('resonantLOS').checked;
+			var altHTML = document.getElementById('resonantAltHTML');
+
+			if (!showAlt)
+			{
+				altHTML.style.display = 'block';
+			}
+			else
+			{
+				altHTML.style.display = 'none';
+			}
+		},
+
+		orbitalPeriod: function (semiMajorAxis, sgp)
+		{
+			var result = semiMajorAxis.pow(3);
+			result = result.div(sgp);
+			result = Decimal.sqrt(result);
+			return result.mul(this.PI.mul(2));
+		},
+
+		velocity: function (a, r, mu)
+		{
+			var part1 = new Decimal(mu);
+			part1 = part1.div(a);
+			part1 = part1.mul(-1);
+
+			var part2 = new Decimal(mu);
+			part2 = part2.mul(2);
+			part2 = part2.div(r);
+
+			var result = part1.add(part2);
+			return result.sqrt();
+		},
+
+		cleanPeriod: function (period)
+		{
+			var accumulated = period;
+			var output = '';
+
+			var seconds = accumulated.mod(60);
+
+			accumulated = accumulated.sub(seconds);
+			accumulated = accumulated.div(60);
+
+			var minutes = accumulated.mod(60);
+
+			accumulated = accumulated.sub(minutes);
+			accumulated = accumulated.div(60);
+
+			output += accumulated.toString() + 'h:';
+			output += minutes.toString() + 'm:';
+			output += seconds.toDecimalPlaces(4) + 's';
+
+			return output;
+        }
+	};
+})();
