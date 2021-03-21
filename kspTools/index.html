@@ -40,10 +40,8 @@
 		</noscript>
 		
 		<!-- Standard Gravitational Parameter Calculator -->
-		<div>
-			m<sup>3</sup>/s<sup>-2</sup> to km<sup>3</sup>/s<sup>-2</sup> <br> a&times;10<sup>b</sup>
-		</div>
 		<form>
+			m<sup>3</sup>/s<sup>-2</sup> to km<sup>3</sup>/s<sup>-2</sup> <br> a&times;10<sup>b</sup> <br>
 			a: <input type="number" id="gravNum"> <br>
 			b: <input type="number" id="gravPow">
 		</form>
@@ -59,7 +57,7 @@
 		<form>
 			<!-- Time in Minutes: <input type="number" id="orbitTime"> <br> -->
 			Time: h-<input type="number" id="orbitHours"> m-<input type="number" id="orbitMinutes"> s-<input type="number" id="orbitSeconds"> <br>
-			Standard Gravitational Parameter in <sup>3</sup>/s<sup>-2</sup>: <input type="number" id="orbitPara"><br>
+			Standard Gravitational Parameter in km<sup>3</sup>/s<sup>-2</sup>: <input type="number" id="orbitPara"><br>
 			Equatorial Radius in km: <input type="number" id="orbitRadius">
 		</form>
 		<button onclick="calculateAltitude()">
