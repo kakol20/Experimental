@@ -76,6 +76,8 @@ Notes: {
 var key = (function()
 {
 	return {
+		PI: Decimal.acos(-1),
+
 		isString: function(a)
 		{
 			return isNaN(a);
@@ -463,6 +465,13 @@ var key = (function()
 			var math = document.getElementById(idName);
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, math]);
 		},
+
+		degToRads: function (deg)
+		{
+			var output = Decimal.div(this.PI, 180);
+
+			return output.mul(deg);
+        },
 	};
 })();
 

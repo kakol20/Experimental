@@ -1,8 +1,6 @@
 ﻿var ksp = (function ()
 {
     return {
-        PI: Decimal.acos(-1),
-
         velocity: function (semiMajorAxis, distanceToSatellite, mu)
         {
             var part1 = new Decimal(mu);
@@ -22,7 +20,7 @@
             var result = semiMajorAxis.pow(3);
             result = result.div(sgp);
             result = Decimal.sqrt(result);
-            return result.mul(ksp.PI.mul(2));
+            return result.mul(key.PI.mul(2));
         },
 
         cleanPeriod: function (period)
@@ -45,7 +43,33 @@
             output += seconds.toDecimalPlaces(4) + "s";
 
             return output;
-        }
+        },
+
+        semiMajorAxis: function (apoapsis, periapsis, radius)
+        {
+            var perigee = Decimal.add(periapsis, radius);
+            var apogee = Decimal.add(apoapsis, radius);
+
+            var majorAxis = perigee.add(apogee);
+
+            return majorAxis.div(2);
+        },
+
+        cleanNumberString: function (n, decimalPlaces)
+        {
+            decimalPlaces = decimalPlaces || -1;
+
+            if (decimalPlaces >= 0)
+            {
+                return bigDecimal.getPrettyValue(n.toDecimalPlaces(decimalPlaces));
+            }
+            else
+            {
+                return bigDecimal.getPrettyValue(n.toString());
+            }
+
+            //bigDecimal.getPrettyValue(result.toDecimalPlaces(4))
+        },
     };
 })();
 
@@ -76,7 +100,7 @@ var gravConverter = function ()
     // console.log()
 
     // document.getElementById("gravOutput").innerHTML = a * Math.pow(10, b - 9);
-    document.getElementById("gravOutput").innerHTML = bigDecimal.getPrettyValue(aD.toString()) + " km<sup>3</sup>/s<sup>-2</sup>";
+    document.getElementById("gravOutput").innerHTML = ksp.cleanNumberString(aD) + " km<sup>3</sup>/s<sup>-2</sup>";
 }
 
 var calculateAltitude = function()
@@ -111,7 +135,7 @@ var calculateAltitude = function()
     // That"s how I have it in my quick orbit calculator.
 
     // Note, however, that a is the semi-major axis, not the orbital height. For that you have to substract the radius of the body you are orbiting.
-    console.log(bigDecimal.getPrettyValue(result.toString()));
+    console.log(ksp.cleanNumberString(result));
 
     document.getElementById("orbitOutput").innerHTML = bigDecimal.getPrettyValue(result.toDecimalPlaces(4)) + " km";
 }
@@ -137,7 +161,7 @@ var resonantOrbit = (function ()
             if (minimumLOS)
             {
                 var insideAngle = satNum.sub(2); // in radians
-                insideAngle = insideAngle.mul(ksp.PI);
+                insideAngle = insideAngle.mul(key.PI);
                 insideAngle = insideAngle.div(satNum);
 
                 semiMajorAxis = new Decimal(eqRadius);
@@ -176,7 +200,7 @@ var resonantOrbit = (function ()
             var resonantSMA = Decimal.pow(resonantOrbitPeriod, 2);
             resonantSMA = resonantSMA.mul(sgp);
 
-            var fourPiSquared = ksp.PI.pow(2);
+            var fourPiSquared = key.PI.pow(2);
             fourPiSquared = fourPiSquared.mul(4);
 
             resonantSMA = resonantSMA.div(fourPiSquared);
@@ -212,24 +236,24 @@ var resonantOrbit = (function ()
             console.log("Δv: " + deltaV.toString());
 
             // ----- OUTPUT -----
-            var output = "Final Altitude: " + bigDecimal.getPrettyValue(altitude.toDecimalPlaces(4)) + " km<br>";
+            var output = "Final Altitude: " + ksp.cleanNumberString(altitude, 4) + " km<br>";
 
             // format time
-            output += "Final Orbital Period: " + this.cleanPeriod(orbitalPeriod) + "<br><br>";	
+            output += "Final Orbital Period: " + ksp.cleanPeriod(orbitalPeriod) + "<br><br>";	
 
             // check apoapsis and periapsis
             if (altitude.greaterThan(otherAltitude))
             {
-                output += "Apoapsis: " + bigDecimal.getPrettyValue(altitude.toDecimalPlaces(4)) + " km<br>";
-                output += "Periapsis: " + bigDecimal.getPrettyValue(otherAltitude.toDecimalPlaces(4)) + " km<br><br>";
+                output += "Apoapsis: " + ksp.cleanNumberString(altitude, 4) + " km<br>";
+                output += "Periapsis: " + ksp.cleanNumberString(otherAltitude, 4) + " km<br><br>";
             }
             else
             {
-                output += "Apoapsis: " + bigDecimal.getPrettyValue(otherAltitude.toDecimalPlaces(4)) + " km<br>";
-                output += "Periapsis: " + bigDecimal.getPrettyValue(altitude.toDecimalPlaces(4)) + " km<br><br>";
+                output += "Apoapsis: " + ksp.cleanNumberString(otherAltitude, 4) + " km<br>";
+                output += "Periapsis: " + ksp.cleanNumberString(altitude, 4) + " km<br><br>";
             }
 
-            output += "Δv needed: " + bigDecimal.getPrettyValue(deltaV.toDecimalPlaces(4)) + " m/s<br>";
+            output += "Δv needed: " + ksp.cleanNumberString(deltaV, 4) + " m/s<br>";
 
             document.getElementById("resonantOutput").innerHTML = output;
 
@@ -249,6 +273,129 @@ var resonantOrbit = (function ()
             {
                 altHTML.style.display = "none";
             }
+        },
+    };
+})();
+
+var parkToOrbit = (function ()
+{
+    return {
+        run: function ()
+        {
+            var deltaV = []; // in km/s
+
+            var eqRadius = 6371;
+            var sgp = 3531.6;
+
+            var parkAp = 250;
+            var parkPe = 250;
+            var parkIncl = key.degToRads(28);
+
+            var deorbitAlt = 35;
+
+            // 398600.4418 km3/s-2 --- for testing (Earth parameters for geostationary orbit)
+            // Apoapsis: 53621.3426 km
+            // Periapsis: 35793.1727 km
+
+            // 3531.6 km3/s-2 --- for testing (Kerbin parameters for geostationary orbit)
+            // Apoapsis: 4327.7267 km
+            // Periapsis: 2863.334 km
+
+            var targetAp = 53621.3426;
+            var targetPe = 35793.1727;
+            var targetIncl = key.degToRads(0);
+
+            // for keeping track ----
+            var apoapsis = parkAp;
+            var periapsis = parkPe;
+
+            // ----- BURN TO TARGET PERIAPSIS @ PERIAPSIS -----
+            var distanceToPlanet = Decimal.add(periapsis, eqRadius);
+            var semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+            var velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+
+            var targetSMA = ksp.semiMajorAxis(targetPe, periapsis, eqRadius);
+            var targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);            
+
+            var temp = Decimal.sub(velocity, targetVelocity);
+            deltaV.push(temp.abs());
+
+            apoapsis = new Decimal(targetPe);
+
+
+            // ----- CIRCULARISE @ NEW APOAPSIS -----
+            semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+            distanceToPlanet = Decimal.add(apoapsis, eqRadius); 
+            velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+
+            targetSMA = ksp.semiMajorAxis(apoapsis, targetPe, eqRadius);
+            targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+
+            temp = Decimal.sub(velocity, targetVelocity);
+            deltaV.push(temp.abs());
+
+            periapsis = new Decimal(targetPe);
+
+            // ----- DIRECT INCLINATION CHANGE -----
+            semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+            distanceToPlanet = Decimal.add(periapsis, eqRadius);
+            velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+
+            deltaV.push(this.changeInclination(velocity, parkIncl, targetIncl));
+
+
+            // ----- BURN TO TARGET APOAPSIS @ PERIAPSIS -----
+            targetSMA = ksp.semiMajorAxis(targetAp, periapsis, eqRadius);
+            targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+
+            temp = Decimal.sub(velocity, targetVelocity);
+            deltaV.push(temp.abs());
+
+            apoapsis = new Decimal(targetAp);
+
+            // ----- BURN TO AEROBRAKE ALTITUDE @ APOAPSIS -----
+            semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+            distanceToPlanet = Decimal.add(apoapsis, eqRadius);
+            velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+
+            targetSMA = ksp.semiMajorAxis(apoapsis, deorbitAlt, eqRadius);
+            targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+
+            temp = Decimal.sub(velocity, targetVelocity);
+            deltaV.push(temp.abs());
+
+            // ----- CONVERT Δv TO m/s -----
+            for (let i = 0; i < deltaV.length; i++)
+            {
+                deltaV[i] = deltaV[i].mul(1000);
+            }
+
+            // ----- CONSOLE LOGGING -----
+            var total = new Decimal(0);
+            for (let i = 0; i < deltaV.length; i++)
+            {
+                total = total.add(deltaV[i]);
+            }
+
+            console.log("Δv to target periapsis   : " + deltaV[0].toString());
+            console.log("Δv to circularise        : " + deltaV[1].toString());
+            console.log("Δv to change inclination : " + deltaV[2].toString());
+            console.log("Δv to target apoapsis    : " + deltaV[3].toString());
+            console.log("Δv to aerobrake altitude : " + deltaV[4].toString());
+            console.log("Total Δv                 : " + total.toString());
+        },
+
+        changeInclination: function (velocity, startIncl, endIncl)
+        {
+            var deltaIncl = Decimal.sub(startIncl, endIncl);
+            deltaIncl = deltaIncl.abs();
+
+            var result = deltaIncl.div(2);
+            result = result.sin();
+            result = result.mul(velocity);
+            result = result.abs();
+
+            return result.mul(2);
         },
     };
 })();
