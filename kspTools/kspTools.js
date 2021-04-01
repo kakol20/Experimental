@@ -209,15 +209,15 @@ var resonantOrbit = (function ()
             return result.mul(this.PI.mul(2));
         },
 
-        velocity: function (perigeeSMA, apogeeSMA, mu)
+        velocity: function (semiMajorAxis, distanceToSatellite, mu)
         {
             var part1 = new Decimal(mu);
-            part1 = part1.div(perigeeSMA);
+            part1 = part1.div(semiMajorAxis);
             part1 = part1.mul(-1);
 
             var part2 = new Decimal(mu);
             part2 = part2.mul(2);
-            part2 = part2.div(apogeeSMA);
+            part2 = part2.div(distanceToSatellite);
 
             var result = part1.add(part2);
             return result.sqrt();
