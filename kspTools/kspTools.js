@@ -1,4 +1,55 @@
-﻿var gravConverter = function ()
+﻿var ksp = (function ()
+{
+    return {
+        PI: Decimal.acos(-1),
+
+        velocity: function (semiMajorAxis, distanceToSatellite, mu)
+        {
+            var part1 = new Decimal(mu);
+            part1 = part1.div(semiMajorAxis);
+            part1 = part1.mul(-1);
+
+            var part2 = new Decimal(mu);
+            part2 = part2.mul(2);
+            part2 = part2.div(distanceToSatellite);
+
+            var result = part1.add(part2);
+            return result.sqrt();
+        },
+
+        orbitalPeriod: function (semiMajorAxis, sgp)
+        {
+            var result = semiMajorAxis.pow(3);
+            result = result.div(sgp);
+            result = Decimal.sqrt(result);
+            return result.mul(ksp.PI.mul(2));
+        },
+
+        cleanPeriod: function (period)
+        {
+            var accumulated = period;
+            var output = "";
+
+            var seconds = accumulated.mod(60);
+
+            accumulated = accumulated.sub(seconds);
+            accumulated = accumulated.div(60);
+
+            var minutes = accumulated.mod(60);
+
+            accumulated = accumulated.sub(minutes);
+            accumulated = accumulated.div(60);
+
+            output += accumulated.toString() + "h:";
+            output += minutes.toString() + "m:";
+            output += seconds.toDecimalPlaces(4) + "s";
+
+            return output;
+        }
+    };
+})();
+
+var gravConverter = function ()
 {
     var a = parseFloat(document.getElementById("gravNum").value) || 1;
     var b = parseFloat(document.getElementById("gravPow").value) || 1;
@@ -68,7 +119,6 @@ var calculateAltitude = function()
 var resonantOrbit = (function ()
 {
     return {
-        PI: Decimal.acos(-1),
 
         run: function ()
         {
@@ -87,7 +137,7 @@ var resonantOrbit = (function ()
             if (minimumLOS)
             {
                 var insideAngle = satNum.sub(2); // in radians
-                insideAngle = insideAngle.mul(this.PI);
+                insideAngle = insideAngle.mul(ksp.PI);
                 insideAngle = insideAngle.div(satNum);
 
                 semiMajorAxis = new Decimal(eqRadius);
@@ -105,7 +155,7 @@ var resonantOrbit = (function ()
 
             // ----- CALCULATE RESONANT ORBIT -----
             var orbitRatio;
-            var orbitalPeriod = this.orbitalPeriod(semiMajorAxis, sgp);
+            var orbitalPeriod = ksp.orbitalPeriod(semiMajorAxis, sgp);
 
             if (diveOrbit) // calculate orbital ratio
             {
@@ -126,7 +176,7 @@ var resonantOrbit = (function ()
             var resonantSMA = Decimal.pow(resonantOrbitPeriod, 2);
             resonantSMA = resonantSMA.mul(sgp);
 
-            var fourPiSquared = this.PI.pow(2);
+            var fourPiSquared = ksp.PI.pow(2);
             fourPiSquared = fourPiSquared.mul(4);
 
             resonantSMA = resonantSMA.div(fourPiSquared);
@@ -138,8 +188,8 @@ var resonantOrbit = (function ()
             otherAltitude = otherAltitude.sub(eqRadius);
 
             // ----- CALCULATE Δv (delta V) -----
-            var orbitVelocity = this.velocity(semiMajorAxis, semiMajorAxis, sgp);
-            var resonantOrbitVelocity = this.velocity(resonantSMA, semiMajorAxis, sgp);
+            var orbitVelocity = ksp.velocity(semiMajorAxis, semiMajorAxis, sgp);
+            var resonantOrbitVelocity = ksp.velocity(resonantSMA, semiMajorAxis, sgp);
 
             var deltaV = orbitVelocity.sub(resonantOrbitVelocity);
             deltaV = deltaV.abs();
@@ -200,49 +250,5 @@ var resonantOrbit = (function ()
                 altHTML.style.display = "none";
             }
         },
-
-        orbitalPeriod: function (semiMajorAxis, sgp)
-        {
-            var result = semiMajorAxis.pow(3);
-            result = result.div(sgp);
-            result = Decimal.sqrt(result);
-            return result.mul(this.PI.mul(2));
-        },
-
-        velocity: function (semiMajorAxis, distanceToSatellite, mu)
-        {
-            var part1 = new Decimal(mu);
-            part1 = part1.div(semiMajorAxis);
-            part1 = part1.mul(-1);
-
-            var part2 = new Decimal(mu);
-            part2 = part2.mul(2);
-            part2 = part2.div(distanceToSatellite);
-
-            var result = part1.add(part2);
-            return result.sqrt();
-        },
-
-        cleanPeriod: function (period)
-        {
-            var accumulated = period;
-            var output = "";
-
-            var seconds = accumulated.mod(60);
-
-            accumulated = accumulated.sub(seconds);
-            accumulated = accumulated.div(60);
-
-            var minutes = accumulated.mod(60);
-
-            accumulated = accumulated.sub(minutes);
-            accumulated = accumulated.div(60);
-
-            output += accumulated.toString() + "h:";
-            output += minutes.toString() + "m:";
-            output += seconds.toDecimalPlaces(4) + "s";
-
-            return output;
-        }
     };
 })();
