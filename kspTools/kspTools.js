@@ -103,7 +103,7 @@ var gravConverter = function ()
     document.getElementById("gravOutput").innerHTML = ksp.cleanNumberString(aD) + " km<sup>3</sup>/s<sup>-2</sup>";
 }
 
-var calculateAltitude = function()
+var calculateAltitude = function ()
 {
     // var time = document.getElementById("orbitTime").value * 60 || 5400;
     var time = (parseFloat(document.getElementById("orbitHours").value) || 0) * 60 * 60;
@@ -143,7 +143,6 @@ var calculateAltitude = function()
 var resonantOrbit = (function ()
 {
     return {
-
         run: function ()
         {
             var diveOrbit = document.getElementById("resonantDive").checked;
@@ -175,7 +174,7 @@ var resonantOrbit = (function ()
                 semiMajorAxis = semiMajorAxis.add(eqRadius);
 
                 altitude = semiMajorAxis.sub(eqRadius);
-            }		
+            }
 
             // ----- CALCULATE RESONANT ORBIT -----
             var orbitRatio;
@@ -239,7 +238,7 @@ var resonantOrbit = (function ()
             var output = "Final Altitude: " + ksp.cleanNumberString(altitude, 4) + " km<br>";
 
             // format time
-            output += "Final Orbital Period: " + ksp.cleanPeriod(orbitalPeriod) + "<br><br>";	
+            output += "Final Orbital Period: " + ksp.cleanPeriod(orbitalPeriod) + "<br><br>";
 
             // check apoapsis and periapsis
             if (altitude.greaterThan(otherAltitude))
@@ -258,6 +257,7 @@ var resonantOrbit = (function ()
             document.getElementById("resonantOutput").innerHTML = output;
 
             console.log("-----");
+            //console.log("");
         },
 
         showAlt: function ()
@@ -280,30 +280,93 @@ var resonantOrbit = (function ()
 var parkToOrbit = (function ()
 {
     return {
+        deorbit: true,
+        deorbitHTML: function ()
+        {
+            this.deorbit = document.getElementById("orbitDeorbit").checked;
+            var deorbitDIV = document.getElementById("orbitDeorbitHTML");
+
+            if (this.deorbit)
+            {
+                deorbitDIV.style.display = "block";
+            }
+            else
+            {
+                deorbitDIV.style.display = "none";
+            }
+        },
+
+        deltaV: {
+            aeroBrakeAlt: new Decimal(0),
+            circularise: new Decimal(0),
+            inclChange: new Decimal(0),
+            toLowOrbit: new Decimal(0),
+            toLowOrbitCircularise: new Decimal(0),
+            toTargetAp: new Decimal(0),
+            toTargetPe: new Decimal(0),
+
+            total: function ()
+            {
+                var temp = new Decimal(0);
+                temp = temp.add(this.circularise);
+                temp = temp.add(this.inclChange);
+                temp = temp.add(this.toTargetAp);
+                temp = temp.add(this.toTargetPe);
+
+                if (parkToOrbit.deorbit)
+                {
+                    temp = temp.add(this.aeroBrakeAlt);
+                    temp = temp.add(this.toLowOrbit);
+                    temp = temp.add(this.toLowOrbitCircularise);
+                }
+                
+                return temp;
+            },
+
+            convert: function ()
+            {
+                this.aeroBrakeAlt = this.aeroBrakeAlt.mul(1000);
+                this.circularise = this.circularise.mul(1000);
+                this.inclChange = this.inclChange.mul(1000);
+                this.toLowOrbit = this.toLowOrbit.mul(1000);
+                this.toLowOrbitCircularise = this.toLowOrbitCircularise.mul(1000);
+                this.toTargetAp = this.toTargetAp.mul(1000);
+                this.toTargetPe = this.toTargetPe.mul(1000);
+            }
+        },
+
         run: function ()
         {
-            var deltaV = []; // in km/s
+            this.deorbit = document.getElementById("orbitDeorbit").checked;
 
-            var eqRadius = 6371;
-            var sgp = 3531.6;
+            var deorbitAlt = 70;
+            var lowOrbitAlt = 160;
+            if (this.deorbit)
+            {
+                lowOrbitAlt = document.getElementById("orbitLowOrbitAlt").value || 100;
+                deorbitAlt = document.getElementById("orbitFinalAlt").value || 35;
+            }
 
-            var parkAp = 250;
-            var parkPe = 250;
-            var parkIncl = key.degToRads(28);
+            var eqRadius = document.getElementById("orbitMeanRadius").value || 600;
+            var sgp = document.getElementById("orbitSGP").value || 3531.6;
 
-            var deorbitAlt = 35;
-
+            var parkAp = document.getElementById("orbitStartAp").value || 100;
+            var parkPe = document.getElementById("orbitStartPe").value || 100;
+            var parkIncl = key.degToRads(document.getElementById("orbitStartIncl").value || 0);
+            
             // 398600.4418 km3/s-2 --- for testing (Earth parameters for geostationary orbit)
             // Apoapsis: 53621.3426 km
             // Periapsis: 35793.1727 km
+            // 6371 km mean radius
 
             // 3531.6 km3/s-2 --- for testing (Kerbin parameters for geostationary orbit)
             // Apoapsis: 4327.7267 km
             // Periapsis: 2863.334 km
+            // 600 km equatorial radius
 
-            var targetAp = 53621.3426;
-            var targetPe = 35793.1727;
-            var targetIncl = key.degToRads(0);
+            var targetAp = document.getElementById("orbitTargetAp").value || 4327.7267;
+            var targetPe = document.getElementById("orbitTargetPe").value || 2863.334;
+            var targetIncl = key.degToRads(document.getElementById("orbitTargetIncl").value || 0);
 
             // for keeping track ----
             var apoapsis = parkAp;
@@ -315,24 +378,23 @@ var parkToOrbit = (function ()
             var velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
 
             var targetSMA = ksp.semiMajorAxis(targetPe, periapsis, eqRadius);
-            var targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);            
+            var targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
 
             var temp = Decimal.sub(velocity, targetVelocity);
-            deltaV.push(temp.abs());
+            this.deltaV.toTargetPe = temp.abs();
 
             apoapsis = new Decimal(targetPe);
 
-
             // ----- CIRCULARISE @ NEW APOAPSIS -----
             semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
-            distanceToPlanet = Decimal.add(apoapsis, eqRadius); 
+            distanceToPlanet = Decimal.add(apoapsis, eqRadius);
             velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
 
             targetSMA = ksp.semiMajorAxis(apoapsis, targetPe, eqRadius);
             targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
 
             temp = Decimal.sub(velocity, targetVelocity);
-            deltaV.push(temp.abs());
+            this.deltaV.circularise = temp.abs();
 
             periapsis = new Decimal(targetPe);
 
@@ -341,48 +403,84 @@ var parkToOrbit = (function ()
             distanceToPlanet = Decimal.add(periapsis, eqRadius);
             velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
 
-            deltaV.push(this.changeInclination(velocity, parkIncl, targetIncl));
-
+            this.deltaV.inclChange = this.changeInclination(velocity, parkIncl, targetIncl);
 
             // ----- BURN TO TARGET APOAPSIS @ PERIAPSIS -----
             targetSMA = ksp.semiMajorAxis(targetAp, periapsis, eqRadius);
             targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
 
             temp = Decimal.sub(velocity, targetVelocity);
-            deltaV.push(temp.abs());
+            this.deltaV.toTargetAp = temp.abs();
 
             apoapsis = new Decimal(targetAp);
 
-            // ----- BURN TO AEROBRAKE ALTITUDE @ APOAPSIS -----
-            semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
-            distanceToPlanet = Decimal.add(apoapsis, eqRadius);
-            velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+            if (this.deorbit)
+            {
+                // ----- TO LOW ORBIT PERIAPSIS @ APOAPSIS -----
+                semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+                distanceToPlanet = Decimal.add(apoapsis, eqRadius);
+                velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
 
-            targetSMA = ksp.semiMajorAxis(apoapsis, deorbitAlt, eqRadius);
-            targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+                targetSMA = ksp.semiMajorAxis(apoapsis, lowOrbitAlt, eqRadius);
+                targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
 
-            temp = Decimal.sub(velocity, targetVelocity);
-            deltaV.push(temp.abs());
+                temp = Decimal.sub(velocity, targetVelocity);
+                this.deltaV.toLowOrbit = temp.abs();
+
+                periapsis = new Decimal(lowOrbitAlt);
+
+                // ----- CIRCULARISE @ PERIAPSIS -----
+                semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+                distanceToPlanet = Decimal.add(periapsis, eqRadius);
+                velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+
+                targetSMA = ksp.semiMajorAxis(lowOrbitAlt, periapsis, eqRadius);
+                targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+
+                temp = Decimal.sub(velocity, targetVelocity);
+                this.deltaV.toLowOrbitCircularise = temp.abs();
+
+                apoapsis = periapsis;
+
+                // ----- BURN TO AEROBRAKE ALTITUDE @ APOAPSIS -----
+                semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+                distanceToPlanet = Decimal.add(apoapsis, eqRadius);
+                velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+
+                targetSMA = ksp.semiMajorAxis(apoapsis, deorbitAlt, eqRadius);
+                targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+
+                temp = Decimal.sub(velocity, targetVelocity);
+                this.deltaV.aeroBrakeAlt = temp.abs();
+            }
 
             // ----- CONVERT Δv TO m/s -----
-            for (let i = 0; i < deltaV.length; i++)
-            {
-                deltaV[i] = deltaV[i].mul(1000);
-            }
+            this.deltaV.convert();
 
             // ----- CONSOLE LOGGING -----
-            var total = new Decimal(0);
-            for (let i = 0; i < deltaV.length; i++)
+
+            console.log("Δv to target periapsis    : " + this.deltaV.toTargetPe.toString());
+            console.log("Δv to circularise         : " + this.deltaV.circularise.toString());
+            console.log("Δv to change inclination  : " + this.deltaV.inclChange.toString());
+            console.log("Δv to target apoapsis     : " + this.deltaV.toTargetAp.toString());
+
+            //console.log("Δv to aerobrake altitude : " + deltaV[4].toString());
+
+            if (this.deorbit)
             {
-                total = total.add(deltaV[i]);
+              //console.log("Δv to target apoapsis     : " + this.deltaV.toTargetAp.toString()); // temp
+                console.log("");
+                console.log("Δv to low orbit periapsis : " + this.deltaV.toLowOrbit.toString());
+                console.log("Δv to circularise         : " + this.deltaV.toLowOrbitCircularise.toString());
+                console.log("Δv to deorbit altitude    : " + this.deltaV.aeroBrakeAlt.toString());
             }
 
-            console.log("Δv to target periapsis   : " + deltaV[0].toString());
-            console.log("Δv to circularise        : " + deltaV[1].toString());
-            console.log("Δv to change inclination : " + deltaV[2].toString());
-            console.log("Δv to target apoapsis    : " + deltaV[3].toString());
-            console.log("Δv to aerobrake altitude : " + deltaV[4].toString());
-            console.log("Total Δv                 : " + total.toString());
+            console.log("");
+            console.log("Total Δv                  : " + this.deltaV.total().toString());
+            console.log("-----");
+            //console.log("");
+
+            document.getElementById("parkToOrbitOutput").innerHTML = this.output(2);
         },
 
         changeInclination: function (velocity, startIncl, endIncl)
@@ -396,6 +494,27 @@ var parkToOrbit = (function ()
             result = result.abs();
 
             return result.mul(2);
+        },
+
+        output: function (decimalPlaces)
+        {
+            var print = "<b><u>MANOUVERING TO TARGET ORBIT</u></b><br>";
+            print += "Burn to target periapsis at periapsis = " + ksp.cleanNumberString(this.deltaV.toTargetPe, decimalPlaces) + " m/s<br>";
+            print += "Circularise at target periapsis = " + ksp.cleanNumberString(this.deltaV.circularise, decimalPlaces) + " m/s<br>";
+            print += "Change inclination &asymp; " + ksp.cleanNumberString(this.deltaV.inclChange, decimalPlaces) + " m/s<br>";
+            print += "Burn to target apoapsis at periapsis =  " + ksp.cleanNumberString(this.deltaV.toTargetAp, decimalPlaces) + " m/s<br><br>"
+
+            if (this.deorbit)
+            {
+                print += "<b><u>MANOUVERING TO DEORBIT</u></b><br>";
+                print += "Burn to low orbit periapsis at apoapsis = " + ksp.cleanNumberString(this.deltaV.toLowOrbit, decimalPlaces) + " m/s<br>";
+                print += "Circularise at low orbit periapsis = " + ksp.cleanNumberString(this.deltaV.toLowOrbitCircularise, decimalPlaces) + " m/s<br>";
+                print += "Deorbit at apoapsis = " + ksp.cleanNumberString(this.deltaV.aeroBrakeAlt, decimalPlaces) + " m/s<br><br>";
+            }
+
+            print += "Total Δv required &asymp; " + ksp.cleanNumberString(this.deltaV.total(), decimalPlaces) + " m/s<br>";
+
+            return print;
         },
     };
 })();

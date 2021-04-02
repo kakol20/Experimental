@@ -481,6 +481,8 @@ var key = (function()
 $(function()
 {
 	console.log("Script by kakol20");
+	console.log("-----");
+	//console.log("");
 });
 
 /*
