@@ -4,7 +4,7 @@
     <title>Kerbal Space Program Tools</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
     <!-- Favicon -->
     <meta name="msapplication-TileColor" content="#002366">
     <meta name="msapplication-TileImage" content="../icon/ms-icon-144x144.png">
@@ -72,10 +72,18 @@
         <form>
             Dive Orbit: <input type="checkbox" id="resonantDive"> <br>
 
-            Minimum <span title="Line Of Sight">LOS</span>: <input type="checkbox" id="resonantLOS" onclick="resonantOrbit.showAlt()"> <br>
-
+            <!--Minimum <span title="Line Of Sight">LOS</span>: <input type="checkbox" id="resonantLOS" onclick="resonantOrbit.showAlt()"> <br>-->
             No. of Satellites: <input type="number" id="resonantSatNo" min="3" value="3"> <br>
-            <div id="resonantAltHTML" style="display:block">Orbit Altitude in km: <input type="number" id="resonantAlt"> <br></div>
+            <!--<div id="resonantAltHTML" style="display:block">Orbit Altitude in km: <input type="number" id="resonantAlt"> <br></div>-->
+
+            Altitude: <select id="resonantSelect" onchange="resonantOrbit.showAlt()">
+                <option value="custom">Custom</option>
+                <option value="minLOS">Minimum LOS</option>
+                <option value="maxRange">Maximum Range</option>
+            </select> <br>
+            <div id="resonantCustomHTML" style="display:block">Custom Altitude in km: <input type="number" id="resonantCustom"> <br></div>
+            <div id="resonantMaxRangeHTML" style="display:none">Max Range in km: <input type="number" id="resonantMaxRange"> <br></div>
+
             <span title="Standard Gravitational Paramater">SGP</span> in km<sup>3</sup>/s<sup>-2</sup>: <input type="number" id="resonantSGP"> <br>
             Equatorial Radius in km: <input type="number" id="resonantRadius"> <!--<br>-->
         </form>

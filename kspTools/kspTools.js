@@ -146,7 +146,7 @@ var resonantOrbit = (function ()
         run: function ()
         {
             var diveOrbit = document.getElementById("resonantDive").checked;
-            var minimumLOS = document.getElementById("resonantLOS").checked;
+            //var minimumLOS = document.getElementById("resonantLOS").checked;
 
             var eqRadius = document.getElementById("resonantRadius").value || 600;
             var sgp = document.getElementById("resonantSGP").value || 3531.6;
@@ -156,24 +156,46 @@ var resonantOrbit = (function ()
             var altitude;
             var semiMajorAxis;
 
-            // ----- CALCULATE MINIMUM LINE OF SIGHT -----
-            if (minimumLOS)
+            // ----- CALCULATE ALTITUDE -----
+            this.altOption = document.getElementById("resonantSelect").value;
+
+            switch (this.altOption)
             {
-                var insideAngle = satNum.sub(2); // in radians
-                insideAngle = insideAngle.mul(key.PI);
-                insideAngle = insideAngle.div(satNum);
+                case "custom":
+                    //semiMajorAxis = new Decimal(document.getElementById("resonantCustom").value || 600);
+                    //semiMajorAxis = semiMajorAxis.add(eqRadius);
 
-                semiMajorAxis = new Decimal(eqRadius);
-                semiMajorAxis = semiMajorAxis.div(Decimal.sin(insideAngle.div(2)));
+                    //altitude = semiMajorAxis.sub(eqRadius);
+                    altitude = new Decimal(document.getElementById("resonantCustom").value || 600);
 
-                altitude = semiMajorAxis.sub(eqRadius);
-            }
-            else
-            {
-                semiMajorAxis = new Decimal(document.getElementById("resonantAlt").value || 600);
-                semiMajorAxis = semiMajorAxis.add(eqRadius);
+                    semiMajorAxis = altitude.add(eqRadius);
 
-                altitude = semiMajorAxis.sub(eqRadius);
+                    break;
+                case "minLOS":
+                    var insideAngle = satNum.sub(2); // in radians
+                    insideAngle = insideAngle.mul(key.PI);
+                    insideAngle = insideAngle.div(satNum);
+
+                    semiMajorAxis = new Decimal(eqRadius);
+                    semiMajorAxis = semiMajorAxis.div(Decimal.sin(insideAngle.div(2)));
+
+                    altitude = semiMajorAxis.sub(eqRadius);
+
+                    break;
+                case "maxRange":
+                    var den = key.PI.mul(2);
+                    den = den.div(satNum);
+                    den = den.div(2);
+                    den = den.sin();
+                    den = den.mul(2);
+
+                    semiMajorAxis = new Decimal(document.getElementById("resonantMaxRange").value || 5000);
+                    semiMajorAxis = semiMajorAxis.div(den);
+
+                    altitude = semiMajorAxis.sub(eqRadius);
+
+                    break;
+                default:
             }
 
             // ----- CALCULATE RESONANT ORBIT -----
@@ -262,18 +284,27 @@ var resonantOrbit = (function ()
 
         showAlt: function ()
         {
-            var showAlt = document.getElementById("resonantLOS").checked;
-            var altHTML = document.getElementById("resonantAltHTML");
+            this.altOption = document.getElementById("resonantSelect").value;
 
-            if (!showAlt)
+            switch (this.altOption)
             {
-                altHTML.style.display = "block";
-            }
-            else
-            {
-                altHTML.style.display = "none";
+                case "custom":
+                    document.getElementById('resonantCustomHTML').style = "display:block";
+                    document.getElementById('resonantMaxRangeHTML').style = "display:none";
+                    break;
+                case "minLOS":
+                    document.getElementById('resonantCustomHTML').style = "display:none";
+                    document.getElementById('resonantMaxRangeHTML').style = "display:none";
+                    break;
+                case "maxRange":
+                    document.getElementById('resonantCustomHTML').style = "display:none";
+                    document.getElementById('resonantMaxRangeHTML').style = "display:block";
+                    break;
+                default:
             }
         },
+
+        altOption: "custom",
     };
 })();
 
