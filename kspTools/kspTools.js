@@ -183,9 +183,10 @@ var resonantOrbit = (function ()
 
                     break;
                 case "maxRange":
-                    var den = key.PI.mul(2);
-                    den = den.div(satNum);
-                    den = den.div(2);
+                    //var den = key.PI.mul(2);
+                    //den = den.div(satNum);
+                    //den = den.div(2);
+                    var den = key.PI.div(satNum);
                     den = den.sin();
                     den = den.mul(2);
 
