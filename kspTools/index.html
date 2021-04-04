@@ -95,6 +95,7 @@
         <div id="resonantOutput"></div>
         <br>
 
+        <!--Manouver Planner-->
         <form>
             Start Periapsis in km: <input type="number" id="orbitStartPe"> <br>
             Start Apoapsis in km: <input type="number" id="orbitStartAp"> <br>
@@ -119,6 +120,28 @@
             </div>
         </button>
         <div id="parkToOrbitOutput"></div>
+        <br>
+
+        <!--Optimised Inclination Change-->
+        <form>
+            Periapsis in km: <input type="number" id="changeInclPe"> <br>
+            Apoapsis in km: <input type="number" id="changeInclAp"> <br>
+            Inclination in degrees: <input type="number" id="changeInclCIncl"> <br><br>
+
+            Target Inclination in degrees: <input type="number" id="changeInclTIncl"> <br>
+            Max Altitude in km: <input type="number" id="changeInclMaxAlt"> <br>
+            Mininmum Fraction: <input type="number" id="changeInclMinFrac" min="0"> <br>
+            Increment in km: <input type="number" id="changeInclInc"> <br><br>
+
+            <span title="Standard Gravitational Paramater">SGP</span> in km<sup>3</sup>/s<sup>-2</sup>: <input type="number" id="changeInclSGP"> <br>
+            <span title="or Equatorial Radius">Mean Radius</span> in km: <input type="number" id="changeInclMeanRad"> <br>
+        </form>
+        <button onclick="changeIncl.run()">
+            <div>
+                <p>Change Inclination</p>
+            </div>
+        </button>
+        <div id="changeInclOutput"></div>
         <br>
 
         <button onclick="window.location.href = '../';">
