@@ -451,6 +451,10 @@ var parkToOrbit = (function ()
             //this.deltaV.inclChange = this.changeInclination(velocity, parkIncl, targetIncl);
 
             // ----- BURN TO TARGET APOAPSIS @ PERIAPSIS -----
+            semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+            distanceToPlanet = Decimal.add(periapsis, eqRadius);
+            velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+
             targetSMA = ksp.semiMajorAxis(targetAp, periapsis, eqRadius);
             targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
 
