@@ -1,4 +1,4 @@
-﻿var ksp = (function ()
+var ksp = (function ()
 {
     return {
         velocity: function (semiMajorAxis, distanceToSatellite, mu)
@@ -556,19 +556,19 @@ var changeIncl = (function ()
     return {
         run: function ()
         {
-            var orbitAp = document.getElementById("changeInclAp").value || 100;
-            var orbitPe = document.getElementById("changeInclPe").value || 100;
+            var orbitAp = parseFloat(document.getElementById("changeInclAp").value) || 100;
+            var orbitPe = parseFloat(document.getElementById("changeInclPe").value) || 100;
             var orbitIncl = parseFloat(document.getElementById("changeInclCIncl").value) || 0;
 
-            var targetIncl = parseFloat(document.getElementById("changeInclTIncl").value) || 28;
+            var targetIncl = parseFloat(document.getElementById("changeInclTIncl").value) || 0;
 
-            var sgp = document.getElementById("changeInclSGP").value || 3531.6;
-            var meanRadius = document.getElementById("changeInclSGP").value || 600;
+            var sgp = parseFloat(document.getElementById("changeInclSGP").value) || 3531.6;
+            var meanRadius = parseFloat(document.getElementById("changeInclSGP").value) || 600;
 
-            var increment = document.getElementById("changeInclInc").value || 10;
-            var maxAltitude = document.getElementById("changeInclMaxAlt").value || 9500;
+            var increment = parseFloat(document.getElementById("changeInclInc").value) || 10;
+            var maxAltitude = parseFloat(document.getElementById("changeInclMaxAlt").value) || 9500;
             //var minFractionChange = 0.0001;
-            var minFraction = document.getElementById("changeInclMinFrac").value || 0.6;
+            var minFraction = parseFloat(document.getElementById("changeInclMinFrac").value) || 0;
 
             var originalDV = this.calculateDeltaV(orbitAp, orbitPe, orbitAp, key.degToRads(orbitIncl), key.degToRads(targetIncl), sgp, meanRadius);
 
@@ -576,9 +576,6 @@ var changeIncl = (function ()
 
             var currentDV = this.calculateDeltaV(orbitAp, orbitPe, currentAp, key.degToRads(orbitIncl), key.degToRads(targetIncl), sgp, meanRadius);
             var currentFraction = currentDV.div(originalDV);
-
-            var debugCurrentDV = currentDV.toString();
-            var debugCurrentFrac = currentFraction.toString();
 
             while (true)
             {
@@ -598,7 +595,6 @@ var changeIncl = (function ()
                     //console.log()
 
                     var nextFraction = nextDV.div(originalDV);
-                    var debugNextFraction = nextFraction.toString();
 
                     //var fractionChange = currentFraction.sub(nextFraction);
 
@@ -633,6 +629,8 @@ var changeIncl = (function ()
             //console.log(ksp.cleanNumberString(currentFraction));
 
             var output = "";
+
+            //var debugDecimal = currentFraction.toString() + originalDV.toString();
 
             output = "Change Inclination at Apoapsis " + ksp.cleanNumberString(currentAp, 4) + " km<br>";
             output += "Total Δv required &asymp; " + ksp.cleanNumberString(currentDV.mul(1000), 2) + " m/s<br>";
