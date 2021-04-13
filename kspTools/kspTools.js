@@ -344,17 +344,28 @@ var parkToOrbit = (function ()
         deltaV: {
             aeroBrakeAlt: new Decimal(0),
             circularise: new Decimal(0),
-            //inclChange: new Decimal(0),
             toLowOrbit: new Decimal(0),
             toLowOrbitCircularise: new Decimal(0),
             toTargetAp: new Decimal(0),
             toTargetPe: new Decimal(0),
 
+            reset: function ()
+            {
+                this.aeroBrakeAlt = new Decimal(0);
+                this.circularise = new Decimal(0);
+                this.toLowOrbit = new Decimal(0);
+                this.toLowOrbitCircularise = new Decimal(0);
+                this.toTargetAp = new Decimal(0);
+                this.toTargetPe = new Decimal(0);
+            },
+
             total: function ()
             {
                 var temp = new Decimal(0);
-                temp = temp.add(this.circularise);
-                //temp = temp.add(this.inclChange);
+                if (parkToOrbit.changeIncl)
+                {
+                    temp = temp.add(this.circularise);
+                }
                 temp = temp.add(this.toTargetAp);
                 temp = temp.add(this.toTargetPe);
 
@@ -372,7 +383,6 @@ var parkToOrbit = (function ()
             {
                 this.aeroBrakeAlt = this.aeroBrakeAlt.mul(1000);
                 this.circularise = this.circularise.mul(1000);
-                //this.inclChange = this.inclChange.mul(1000);
                 this.toLowOrbit = this.toLowOrbit.mul(1000);
                 this.toLowOrbitCircularise = this.toLowOrbitCircularise.mul(1000);
                 this.toTargetAp = this.toTargetAp.mul(1000);
@@ -380,9 +390,15 @@ var parkToOrbit = (function ()
             }
         },
 
+        changeIncl: false,
+
         run: function ()
         {
+            this.deltaV.reset();
+
             this.deorbit = document.getElementById("orbitDeorbit").checked;
+
+            this.changeIncl = document.getElementById("orbitInclChange").checked;
 
             var deorbitAlt = 70;
             var lowOrbitAlt = 160;
@@ -417,51 +433,82 @@ var parkToOrbit = (function ()
             var apoapsis = parkAp;
             var periapsis = parkPe;
 
-            // ----- BURN TO TARGET PERIAPSIS @ PERIAPSIS -----
-            var distanceToPlanet = Decimal.add(periapsis, eqRadius);
-            var semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
-            var velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+            if (this.changeIncl)
+            {
+                // ----- BURN TO TARGET PERIAPSIS @ PERIAPSIS -----
+                var distanceToPlanet = Decimal.add(periapsis, eqRadius);
+                var semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+                var velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
 
-            var targetSMA = ksp.semiMajorAxis(targetPe, periapsis, eqRadius);
-            var targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+                var targetSMA = ksp.semiMajorAxis(targetPe, periapsis, eqRadius);
+                var targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
 
-            var temp = Decimal.sub(velocity, targetVelocity);
-            this.deltaV.toTargetPe = temp.abs();
+                var temp = Decimal.sub(velocity, targetVelocity);
+                this.deltaV.toTargetPe = temp.abs();
 
-            apoapsis = new Decimal(targetPe);
+                apoapsis = new Decimal(targetPe);
 
-            // ----- CIRCULARISE @ NEW APOAPSIS -----
-            semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
-            distanceToPlanet = Decimal.add(apoapsis, eqRadius);
-            velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+                // ----- CIRCULARISE @ NEW APOAPSIS -----
+                semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+                distanceToPlanet = Decimal.add(apoapsis, eqRadius);
+                velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
 
-            targetSMA = ksp.semiMajorAxis(apoapsis, targetPe, eqRadius);
-            targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+                targetSMA = ksp.semiMajorAxis(apoapsis, targetPe, eqRadius);
+                targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
 
-            temp = Decimal.sub(velocity, targetVelocity);
-            this.deltaV.circularise = temp.abs();
+                temp = Decimal.sub(velocity, targetVelocity);
+                this.deltaV.circularise = temp.abs();
 
-            periapsis = new Decimal(targetPe);
+                periapsis = new Decimal(targetPe);
 
-            // ----- DIRECT INCLINATION CHANGE -----
-            //semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
-            //distanceToPlanet = Decimal.add(periapsis, eqRadius);
-            //velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+                // ----- DIRECT INCLINATION CHANGE -----
+                //semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+                //distanceToPlanet = Decimal.add(periapsis, eqRadius);
+                //velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
 
-            //this.deltaV.inclChange = this.changeInclination(velocity, parkIncl, targetIncl);
+                //this.deltaV.inclChange = this.changeInclination(velocity, parkIncl, targetIncl);
 
-            // ----- BURN TO TARGET APOAPSIS @ PERIAPSIS -----
-            semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
-            distanceToPlanet = Decimal.add(periapsis, eqRadius);
-            velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+                // ----- BURN TO TARGET APOAPSIS @ PERIAPSIS -----
+                semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+                distanceToPlanet = Decimal.add(periapsis, eqRadius);
+                velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
 
-            targetSMA = ksp.semiMajorAxis(targetAp, periapsis, eqRadius);
-            targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+                targetSMA = ksp.semiMajorAxis(targetAp, periapsis, eqRadius);
+                targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
 
-            temp = Decimal.sub(velocity, targetVelocity);
-            this.deltaV.toTargetAp = temp.abs();
+                temp = Decimal.sub(velocity, targetVelocity);
+                this.deltaV.toTargetAp = temp.abs();
 
-            apoapsis = new Decimal(targetAp);
+                apoapsis = new Decimal(targetAp);
+            }
+            else
+            {
+                // ----- BURN TO TARGET APOAPSIS @ PERIAPSIS -----
+                semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+                distanceToPlanet = Decimal.add(periapsis, eqRadius);
+                velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+
+                targetSMA = ksp.semiMajorAxis(targetAp, periapsis, eqRadius);
+                targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+
+                temp = Decimal.sub(velocity, targetVelocity);
+                this.deltaV.toTargetAp = temp.abs();
+
+                apoapsis = new Decimal(targetAp);
+
+                // ----- BURN TO TARGET PERIAPSIS @ NEW APOAPSIS -----
+                semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+                distanceToPlanet = Decimal.add(apoapsis, eqRadius);
+                velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+
+                targetSMA = ksp.semiMajorAxis(apoapsis, targetPe, eqRadius);
+                targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+
+                temp = Decimal.sub(velocity, targetVelocity);
+                this.deltaV.toTargetPe = temp.abs();
+
+                periapsis = new Decimal(targetPe);
+            }
 
             if (this.deorbit)
             {
@@ -507,7 +554,7 @@ var parkToOrbit = (function ()
             this.deltaV.convert();
 
             // ----- CONSOLE LOGGING -----
-
+            
             console.log("Δv to target periapsis    : " + this.deltaV.toTargetPe.toString());
             console.log("Δv to circularise         : " + this.deltaV.circularise.toString());
             //console.log("Δv to change inclination  : " + this.deltaV.inclChange.toString());
@@ -535,10 +582,18 @@ var parkToOrbit = (function ()
         output: function (decimalPlaces)
         {
             var print = "<b><u>MANOUVERING TO TARGET ORBIT</u></b><br>";
-            print += "Burn to target periapsis at periapsis = " + ksp.cleanNumberString(this.deltaV.toTargetPe, decimalPlaces) + " m/s<br>";
-            print += "Circularise at target periapsis = " + ksp.cleanNumberString(this.deltaV.circularise, decimalPlaces) + " m/s<br>";
-            //print += "Change inclination &asymp; " + ksp.cleanNumberString(this.deltaV.inclChange, decimalPlaces) + " m/s<br>";
-            print += "Burn to target apoapsis at periapsis =  " + ksp.cleanNumberString(this.deltaV.toTargetAp, decimalPlaces) + " m/s<br><br>"
+            if (this.changeIncl)
+            {
+                print += "Burn to target periapsis at periapsis = " + ksp.cleanNumberString(this.deltaV.toTargetPe, decimalPlaces) + " m/s<br>";
+                print += "Circularise at target periapsis = " + ksp.cleanNumberString(this.deltaV.circularise, decimalPlaces) + " m/s<br>";
+                //print += "Change inclination &asymp; " + ksp.cleanNumberString(this.deltaV.inclChange, decimalPlaces) + " m/s<br>";
+                print += "Burn to target apoapsis at periapsis =  " + ksp.cleanNumberString(this.deltaV.toTargetAp, decimalPlaces) + " m/s<br><br>"
+            }
+            else
+            {
+                print += "Burn to target apoapsis at periapsis = " + ksp.cleanNumberString(this.deltaV.toTargetAp, decimalPlaces) + " m/s<br>";
+                print += "Burn to target periapsis at apoapsis = " + ksp.cleanNumberString(this.deltaV.toTargetPe, decimalPlaces) + " m/s<br><br>";
+            }
 
             if (this.deorbit)
             {

@@ -75,7 +75,6 @@
             <!--Minimum <span title="Line Of Sight">LOS</span>: <input type="checkbox" id="resonantLOS" onclick="resonantOrbit.showAlt()"> <br>-->
             No. of Satellites: <input type="number" id="resonantSatNo" min="3" value="3"> <br>
             <!--<div id="resonantAltHTML" style="display:block">Orbit Altitude in km: <input type="number" id="resonantAlt"> <br></div>-->
-
             Altitude: <select id="resonantSelect" onchange="resonantOrbit.showAlt()">
                 <option value="custom">Custom</option>
                 <option value="minLOS">Minimum LOS</option>
@@ -108,6 +107,7 @@
             <span title="Standard Gravitational Paramater">SGP</span> in km<sup>3</sup>/s<sup>-2</sup>: <input type="number" id="orbitSGP"> <br>
             <span title="or Equatorial Radius">Mean Radius</span> in km: <input type="number" id="orbitMeanRadius"> <br> <br>
 
+            Consider <span title="Inclination">Incl.</span> Change <input type="checkbox" id="orbitInclChange"><br>
             Deorbit <input type="checkbox" id="orbitDeorbit" onclick="parkToOrbit.deorbitHTML()">
             <div id="orbitDeorbitHTML" style="display:none">
                 Low Orbit Altitude in km: <input type="number" id="orbitLowOrbitAlt"> <br>
