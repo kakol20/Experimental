@@ -21,7 +21,7 @@ let ksp = (function ()
             {
                 // simpler - easier to read version http://www.braeunig.us/space/orbmech.htm#maneuver
                 let part1 = new Decimal(2);
-                part1 = part1.div(distanceToSatellite);
+                part1 = Decimal.div(part1, distanceToSatellite);
 
                 let part2 = new Decimal(1);
                 part2 = part2.div(semiMajorAxis);
@@ -99,11 +99,11 @@ let ksp = (function ()
 
         changeInclination: function (velocity, startIncl, endIncl)
         {
-            let deltaIncl = Decimal.sub(startIncl, endIncl);
+            let deltaIncl = Decimal.sub(key.degToRads(startIncl), key.degToRads(endIncl));
             deltaIncl = deltaIncl.abs();
 
             let result = deltaIncl.div(2);
-            result = result.sin(); // for some reason sine is calculating using degrees not radians
+            result = result.sin();
             result = result.mul(velocity);
             result = result.abs();
 
@@ -647,8 +647,8 @@ let changeIncl = (function ()
 
             let targetIncl = parseFloat(document.getElementById("changeInclTIncl").value) || 0;
 
-            let sgp = parseFloat(document.getElementById("changeInclSGP").value) || 3531.6;
-            let meanRadius = parseFloat(document.getElementById("changeInclSGP").value) || 600;
+            let sgp = parseFloat(document.getElementById("changeInclSGP").value) || 3531.6; // 398600.5
+            let meanRadius = parseFloat(document.getElementById("changeInclMeanRad").value) || 600;
 
             let increment = parseFloat(document.getElementById("changeInclInc").value) || 10;
             let maxAltitude = parseFloat(document.getElementById("changeInclMaxAlt").value) || 9500;
@@ -729,10 +729,11 @@ let changeIncl = (function ()
             // BURN TO APOAPSIS
             let sma = ksp.semiMajorAxis(orbitAP, orbitPe, meanRadius);
             let distanceToPlanet = Decimal.add(meanRadius, orbitPe);
-            let currentV = ksp.velocityCircular(sma, sgp);
+            let currentV = ksp.velocity(sma, distanceToPlanet, sgp);
             console.log(ksp.cleanNumberString(currentV, 4));
 
             sma = ksp.semiMajorAxis(burnAp, orbitPe, meanRadius);
+            distanceToPlanet = Decimal.add(meanRadius, burnAp);
             let targetV = ksp.velocity(sma, distanceToPlanet, sgp);
 
             let burnToApDV = currentV.sub(targetV);
