@@ -1,23 +1,49 @@
-var ksp = (function ()
+let ksp = (function ()
 {
     return {
         velocity: function (semiMajorAxis, distanceToSatellite, mu)
         {
-            var part1 = new Decimal(mu);
-            part1 = part1.div(semiMajorAxis);
-            part1 = part1.mul(-1);
+            let old = false;
+            if (old)
+            {
+                let part1 = new Decimal(mu);
+                part1 = part1.div(semiMajorAxis);
+                part1 = part1.mul(-1);
 
-            var part2 = new Decimal(mu);
-            part2 = part2.mul(2);
-            part2 = part2.div(distanceToSatellite);
+                let part2 = new Decimal(mu);
+                part2 = part2.mul(2);
+                part2 = part2.div(distanceToSatellite);
 
-            var result = part1.add(part2);
+                let result = part1.add(part2);
+                return result.sqrt();
+            }
+            else
+            {
+                // simpler - easier to read version http://www.braeunig.us/space/orbmech.htm#maneuver
+                let part1 = new Decimal(2);
+                part1 = part1.div(distanceToSatellite);
+
+                let part2 = new Decimal(1);
+                part2 = part2.div(semiMajorAxis);
+
+                let result = part1.sub(part2);
+                result = result.mul(mu);
+
+                return result.sqrt();
+            }
+        },
+
+        velocityCircular: function (semiMajorAxis, mu)
+        {
+            let result = new Decimal(mu);
+            result = result.div(semiMajorAxis);
+
             return result.sqrt();
         },
 
         orbitalPeriod: function (semiMajorAxis, sgp)
         {
-            var result = semiMajorAxis.pow(3);
+            let result = semiMajorAxis.pow(3);
             result = result.div(sgp);
             result = Decimal.sqrt(result);
             return result.mul(key.PI.mul(2));
@@ -25,15 +51,15 @@ var ksp = (function ()
 
         cleanPeriod: function (period)
         {
-            var accumulated = period;
-            var output = "";
+            let accumulated = period;
+            let output = "";
 
-            var seconds = accumulated.mod(60);
+            let seconds = accumulated.mod(60);
 
             accumulated = accumulated.sub(seconds);
             accumulated = accumulated.div(60);
 
-            var minutes = accumulated.mod(60);
+            let minutes = accumulated.mod(60);
 
             accumulated = accumulated.sub(minutes);
             accumulated = accumulated.div(60);
@@ -47,10 +73,10 @@ var ksp = (function ()
 
         semiMajorAxis: function (apoapsis, periapsis, radius)
         {
-            var perigee = Decimal.add(periapsis, radius);
-            var apogee = Decimal.add(apoapsis, radius);
+            let perigee = Decimal.add(periapsis, radius);
+            let apogee = Decimal.add(apoapsis, radius);
 
-            var majorAxis = perigee.add(apogee);
+            let majorAxis = perigee.add(apogee);
 
             return majorAxis.div(2);
         },
@@ -73,11 +99,11 @@ var ksp = (function ()
 
         changeInclination: function (velocity, startIncl, endIncl)
         {
-            var deltaIncl = Decimal.sub(startIncl, endIncl);
+            let deltaIncl = Decimal.sub(startIncl, endIncl);
             deltaIncl = deltaIncl.abs();
 
-            var result = deltaIncl.div(2);
-            result = result.sin();
+            let result = deltaIncl.div(2);
+            result = result.sin(); // for some reason sine is calculating using degrees not radians
             result = result.mul(velocity);
             result = result.abs();
 
@@ -86,25 +112,25 @@ var ksp = (function ()
     };
 })();
 
-var gravConverter = function ()
+let gravConverter = function ()
 {
-    var a = parseFloat(document.getElementById("gravNum").value) || 1;
-    var b = parseFloat(document.getElementById("gravPow").value) || 1;
+    let a = parseFloat(document.getElementById("gravNum").value) || 1;
+    let b = parseFloat(document.getElementById("gravPow").value) || 1;
 
     b -= 9;
 
-    var aD = new Decimal(a);
+    let aD = new Decimal(a);
 
     if (b > 0)
     {
-        for (var i = 0; i < b; i++)
+        for (let i = 0; i < b; i++)
         {
             aD = aD.mul(10);
         }
     }
     else if (b < 0)
     {
-        for (var i = 0; i < Math.abs(b); i++)
+        for (let i = 0; i < Math.abs(b); i++)
         {
             aD = aD.div(10);
         }
@@ -116,25 +142,25 @@ var gravConverter = function ()
     document.getElementById("gravOutput").innerHTML = ksp.cleanNumberString(aD) + " km<sup>3</sup>/s<sup>-2</sup>";
 }
 
-var calculateAltitude = function ()
+let calculateAltitude = function ()
 {
-    // var time = document.getElementById("orbitTime").value * 60 || 5400;
-    var time = (parseFloat(document.getElementById("orbitHours").value) || 0) * 60 * 60;
+    // let time = document.getElementById("orbitTime").value * 60 || 5400;
+    let time = (parseFloat(document.getElementById("orbitHours").value) || 0) * 60 * 60;
     time += (parseFloat(document.getElementById("orbitMinutes").value) || 0) * 60;
     time += parseFloat(document.getElementById("orbitSeconds").value) || 0;
-    var mu = document.getElementById("orbitPara").value || 3531.6;
-    var radius = document.getElementById("orbitRadius").value || 600;
+    let mu = document.getElementById("orbitPara").value || 3531.6;
+    let radius = document.getElementById("orbitRadius").value || 600;
 
     // https://github.com/MikeMcl/decimal.js/
-    var tau = new Decimal(Math.PI);
+    let tau = new Decimal(Math.PI);
     tau = tau.mul(2);
 
-    var result = new Decimal(time === 0 ? 1 : time);
+    let result = new Decimal(time === 0 ? 1 : time);
     result = result.div(tau);
     result = result.mul(result);
     result = result.mul(mu);
 
-    var third = new Decimal(1);
+    let third = new Decimal(1);
     third = third.div(3);
 
     result = result.pow(third);
@@ -153,21 +179,21 @@ var calculateAltitude = function ()
     document.getElementById("orbitOutput").innerHTML = bigDecimal.getPrettyValue(result.toDecimalPlaces(4)) + " km";
 }
 
-var resonantOrbit = (function ()
+let resonantOrbit = (function ()
 {
     return {
         run: function ()
         {
-            var diveOrbit = document.getElementById("resonantDive").checked;
-            //var minimumLOS = document.getElementById("resonantLOS").checked;
+            let diveOrbit = document.getElementById("resonantDive").checked;
+            //let minimumLOS = document.getElementById("resonantLOS").checked;
 
-            var eqRadius = document.getElementById("resonantRadius").value || 600;
-            var sgp = document.getElementById("resonantSGP").value || 3531.6;
+            let eqRadius = document.getElementById("resonantRadius").value || 600;
+            let sgp = document.getElementById("resonantSGP").value || 3531.6;
 
-            var satNum = new Decimal(document.getElementById("resonantSatNo").value || 3);
+            let satNum = new Decimal(document.getElementById("resonantSatNo").value || 3);
 
-            var altitude;
-            var semiMajorAxis;
+            let altitude;
+            let semiMajorAxis;
 
             // ----- CALCULATE ALTITUDE -----
             this.altOption = document.getElementById("resonantSelect").value;
@@ -185,7 +211,7 @@ var resonantOrbit = (function ()
 
                     break;
                 case "minLOS":
-                    var insideAngle = satNum.sub(2); // in radians
+                    let insideAngle = satNum.sub(2); // in radians
                     insideAngle = insideAngle.mul(key.PI);
                     insideAngle = insideAngle.div(satNum);
 
@@ -196,10 +222,10 @@ var resonantOrbit = (function ()
 
                     break;
                 case "maxRange":
-                    //var den = key.PI.mul(2);
+                    //let den = key.PI.mul(2);
                     //den = den.div(satNum);
                     //den = den.div(2);
-                    var den = key.PI.div(satNum);
+                    let den = key.PI.div(satNum);
                     den = den.sin();
                     den = den.mul(2);
 
@@ -213,8 +239,8 @@ var resonantOrbit = (function ()
             }
 
             // ----- CALCULATE RESONANT ORBIT -----
-            var orbitRatio;
-            var orbitalPeriod = ksp.orbitalPeriod(semiMajorAxis, sgp);
+            let orbitRatio;
+            let orbitalPeriod = ksp.orbitalPeriod(semiMajorAxis, sgp);
 
             if (diveOrbit) // calculate orbital ratio
             {
@@ -229,28 +255,28 @@ var resonantOrbit = (function ()
             }
 
             // calculate resonant orbital period
-            var resonantOrbitPeriod = orbitalPeriod.mul(orbitRatio);
+            let resonantOrbitPeriod = orbitalPeriod.mul(orbitRatio);
 
             // calculate resonant orbit semi major axis
-            var resonantSMA = Decimal.pow(resonantOrbitPeriod, 2);
+            let resonantSMA = Decimal.pow(resonantOrbitPeriod, 2);
             resonantSMA = resonantSMA.mul(sgp);
 
-            var fourPiSquared = key.PI.pow(2);
+            let fourPiSquared = key.PI.pow(2);
             fourPiSquared = fourPiSquared.mul(4);
 
             resonantSMA = resonantSMA.div(fourPiSquared);
             resonantSMA = resonantSMA.cbrt();
 
             // calculate other altitude
-            var otherAltitude = resonantSMA.mul(2);
+            let otherAltitude = resonantSMA.mul(2);
             otherAltitude = otherAltitude.sub(semiMajorAxis);
             otherAltitude = otherAltitude.sub(eqRadius);
 
             // ----- CALCULATE Δv (delta V) -----
-            var orbitVelocity = ksp.velocity(semiMajorAxis, semiMajorAxis, sgp);
-            var resonantOrbitVelocity = ksp.velocity(resonantSMA, semiMajorAxis, sgp);
+            let orbitVelocity = ksp.velocity(semiMajorAxis, semiMajorAxis, sgp);
+            let resonantOrbitVelocity = ksp.velocity(resonantSMA, semiMajorAxis, sgp);
 
-            var deltaV = orbitVelocity.sub(resonantOrbitVelocity);
+            let deltaV = orbitVelocity.sub(resonantOrbitVelocity);
             deltaV = deltaV.abs();
             deltaV = deltaV.mul(1000);
 
@@ -271,7 +297,7 @@ var resonantOrbit = (function ()
             console.log("Δv: " + deltaV.toString());
 
             // ----- OUTPUT -----
-            var output = "Final Altitude: " + ksp.cleanNumberString(altitude, 4) + " km<br>";
+            let output = "Final Altitude: " + ksp.cleanNumberString(altitude, 4) + " km<br>";
 
             // format time
             output += "Final Orbital Period: " + ksp.cleanPeriod(orbitalPeriod) + "<br><br>";
@@ -322,14 +348,14 @@ var resonantOrbit = (function ()
     };
 })();
 
-var parkToOrbit = (function ()
+let parkToOrbit = (function ()
 {
     return {
         deorbit: true,
         deorbitHTML: function ()
         {
             this.deorbit = document.getElementById("orbitDeorbit").checked;
-            var deorbitDIV = document.getElementById("orbitDeorbitHTML");
+            let deorbitDIV = document.getElementById("orbitDeorbitHTML");
 
             if (this.deorbit)
             {
@@ -361,7 +387,7 @@ var parkToOrbit = (function ()
 
             total: function ()
             {
-                var temp = new Decimal(0);
+                let temp = new Decimal(0);
                 if (parkToOrbit.changeIncl)
                 {
                     temp = temp.add(this.circularise);
@@ -400,20 +426,20 @@ var parkToOrbit = (function ()
 
             this.changeIncl = document.getElementById("orbitInclChange").checked;
 
-            var deorbitAlt = 70;
-            var lowOrbitAlt = 160;
+            let deorbitAlt = 70;
+            let lowOrbitAlt = 160;
             if (this.deorbit)
             {
                 lowOrbitAlt = document.getElementById("orbitLowOrbitAlt").value || 100;
                 deorbitAlt = document.getElementById("orbitFinalAlt").value || 35;
             }
 
-            var eqRadius = document.getElementById("orbitMeanRadius").value || 600;
-            var sgp = document.getElementById("orbitSGP").value || 3531.6;
+            let eqRadius = document.getElementById("orbitMeanRadius").value || 600;
+            let sgp = document.getElementById("orbitSGP").value || 3531.6;
 
-            var parkAp = document.getElementById("orbitStartAp").value || 100;
-            var parkPe = document.getElementById("orbitStartPe").value || 100;
-            //var parkIncl = key.degToRads(document.getElementById("orbitStartIncl").value || 0);
+            let parkAp = document.getElementById("orbitStartAp").value || 100;
+            let parkPe = document.getElementById("orbitStartPe").value || 100;
+            //let parkIncl = key.degToRads(document.getElementById("orbitStartIncl").value || 0);
 
             // 398600.4418 km3/s-2 --- for testing (Earth parameters for geostationary orbit)
             // Apoapsis: 53621.3426 km
@@ -425,25 +451,25 @@ var parkToOrbit = (function ()
             // Periapsis: 2863.334 km
             // 600 km equatorial radius
 
-            var targetAp = document.getElementById("orbitTargetAp").value || 4327.7267;
-            var targetPe = document.getElementById("orbitTargetPe").value || 2863.334;
-            //var targetIncl = key.degToRads(document.getElementById("orbitTargetIncl").value || 0);
+            let targetAp = document.getElementById("orbitTargetAp").value || 4327.7267;
+            let targetPe = document.getElementById("orbitTargetPe").value || 2863.334;
+            //let targetIncl = key.degToRads(document.getElementById("orbitTargetIncl").value || 0);
 
             // for keeping track ----
-            var apoapsis = parkAp;
-            var periapsis = parkPe;
+            let apoapsis = parkAp;
+            let periapsis = parkPe;
 
             if (this.changeIncl)
             {
                 // ----- BURN TO TARGET PERIAPSIS @ PERIAPSIS -----
-                var distanceToPlanet = Decimal.add(periapsis, eqRadius);
-                var semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
-                var velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+                let distanceToPlanet = Decimal.add(periapsis, eqRadius);
+                let semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
+                let velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
 
-                var targetSMA = ksp.semiMajorAxis(targetPe, periapsis, eqRadius);
-                var targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+                let targetSMA = ksp.semiMajorAxis(targetPe, periapsis, eqRadius);
+                let targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
 
-                var temp = Decimal.sub(velocity, targetVelocity);
+                let temp = Decimal.sub(velocity, targetVelocity);
                 this.deltaV.toTargetPe = temp.abs();
 
                 apoapsis = new Decimal(targetPe);
@@ -581,7 +607,7 @@ var parkToOrbit = (function ()
 
         output: function (decimalPlaces)
         {
-            var print = "<b><u>MANOUVERING TO TARGET ORBIT</u></b><br>";
+            let print = "<b><u>MANOUVERING TO TARGET ORBIT</u></b><br>";
             if (this.changeIncl)
             {
                 print += "Burn to target periapsis at periapsis = " + ksp.cleanNumberString(this.deltaV.toTargetPe, decimalPlaces) + " m/s<br>";
@@ -610,35 +636,35 @@ var parkToOrbit = (function ()
     };
 })();
 
-var changeIncl = (function ()
+let changeIncl = (function ()
 {
     return {
         run: function ()
         {
-            var orbitAp = parseFloat(document.getElementById("changeInclAp").value) || 100;
-            var orbitPe = parseFloat(document.getElementById("changeInclPe").value) || 100;
-            var orbitIncl = parseFloat(document.getElementById("changeInclCIncl").value) || 0;
+            let orbitAp = parseFloat(document.getElementById("changeInclAp").value) || 100;
+            let orbitPe = parseFloat(document.getElementById("changeInclPe").value) || 100;
+            let orbitIncl = parseFloat(document.getElementById("changeInclCIncl").value) || 0;
 
-            var targetIncl = parseFloat(document.getElementById("changeInclTIncl").value) || 0;
+            let targetIncl = parseFloat(document.getElementById("changeInclTIncl").value) || 0;
 
-            var sgp = parseFloat(document.getElementById("changeInclSGP").value) || 3531.6;
-            var meanRadius = parseFloat(document.getElementById("changeInclSGP").value) || 600;
+            let sgp = parseFloat(document.getElementById("changeInclSGP").value) || 3531.6;
+            let meanRadius = parseFloat(document.getElementById("changeInclSGP").value) || 600;
 
-            var increment = parseFloat(document.getElementById("changeInclInc").value) || 10;
-            var maxAltitude = parseFloat(document.getElementById("changeInclMaxAlt").value) || 9500;
-            //var minFractionChange = 0.0001;
-            var minFraction = parseFloat(document.getElementById("changeInclMinFrac").value) || 0;
+            let increment = parseFloat(document.getElementById("changeInclInc").value) || 10;
+            let maxAltitude = parseFloat(document.getElementById("changeInclMaxAlt").value) || 9500;
+            //let minFractionChange = 0.0001;
+            let minFraction = parseFloat(document.getElementById("changeInclMinFrac").value) || 0;
 
-            var originalDV = this.calculateDeltaV(orbitAp, orbitPe, orbitAp, key.degToRads(orbitIncl), key.degToRads(targetIncl), sgp, meanRadius);
+            let originalDV = this.calculateDeltaV(orbitAp, orbitPe, orbitAp, orbitIncl, targetIncl, sgp, meanRadius);
 
-            var currentAp = new Decimal(orbitAp);
+            let currentAp = new Decimal(orbitAp);
 
-            var currentDV = this.calculateDeltaV(orbitAp, orbitPe, currentAp, key.degToRads(orbitIncl), key.degToRads(targetIncl), sgp, meanRadius);
-            var currentFraction = currentDV.div(originalDV);
+            let currentDV = this.calculateDeltaV(orbitAp, orbitPe, currentAp, orbitIncl, targetIncl, sgp, meanRadius);
+            let currentFraction = currentDV.div(originalDV);
 
             while (true)
             {
-                var nextAp = currentAp.add(increment);
+                let nextAp = currentAp.add(increment);
 
                 if (nextAp.greaterThan(maxAltitude)) // check if max altitude reached
                 {
@@ -649,13 +675,13 @@ var changeIncl = (function ()
                 }
                 else
                 {
-                    var nextDV = this.calculateDeltaV(orbitAp, orbitPe, nextAp, key.degToRads(orbitIncl), key.degToRads(targetIncl), sgp, meanRadius);
-                    var debugNextDV = nextDV.toString();
+                    let nextDV = this.calculateDeltaV(orbitAp, orbitPe, nextAp, orbitIncl, targetIncl, sgp, meanRadius);
+                    //let debugNextDV = nextDV.toString();
                     //console.log()
 
-                    var nextFraction = nextDV.div(originalDV);
+                    let nextFraction = nextDV.div(originalDV);
 
-                    //var fractionChange = currentFraction.sub(nextFraction);
+                    //let fractionChange = currentFraction.sub(nextFraction);
 
                     if (nextFraction.greaterThan(minFraction) && nextFraction.lessThan(currentFraction))
                     {
@@ -687,9 +713,9 @@ var changeIncl = (function ()
             //console.log(ksp.cleanNumberString(currentDV.mul(1000)));
             //console.log(ksp.cleanNumberString(currentFraction));
 
-            var output = "";
+            let output = "";
 
-            //var debugDecimal = currentFraction.toString() + originalDV.toString();
+            //let debugDecimal = currentFraction.toString() + originalDV.toString();
 
             output = "Change Inclination at Apoapsis " + ksp.cleanNumberString(currentAp, 4) + " km<br>";
             output += "Total Δv required &asymp; " + ksp.cleanNumberString(currentDV.mul(1000), 2) + " m/s<br>";
@@ -701,21 +727,23 @@ var changeIncl = (function ()
         calculateDeltaV: function (orbitAP, orbitPe, burnAp, inclStart, inclEnd, sgp, meanRadius)
         {
             // BURN TO APOAPSIS
-            var sma = ksp.semiMajorAxis(orbitAP, orbitPe, meanRadius);
-            var distanceToPlanet = Decimal.add(meanRadius, orbitPe);
-            var currentV = ksp.velocity(sma, distanceToPlanet, sgp);
+            let sma = ksp.semiMajorAxis(orbitAP, orbitPe, meanRadius);
+            let distanceToPlanet = Decimal.add(meanRadius, orbitPe);
+            let currentV = ksp.velocityCircular(sma, sgp);
+            console.log(ksp.cleanNumberString(currentV, 4));
 
             sma = ksp.semiMajorAxis(burnAp, orbitPe, meanRadius);
-            var targetV = ksp.velocity(sma, distanceToPlanet, sgp);
+            let targetV = ksp.velocity(sma, distanceToPlanet, sgp);
 
-            var burnToApDV = currentV.sub(targetV);
+            let burnToApDV = currentV.sub(targetV);
             burnToApDV = burnToApDV.abs();
 
             // CHANGE INCLINATION
             distanceToPlanet = Decimal.add(meanRadius, burnAp);
             currentV = ksp.velocity(sma, distanceToPlanet, sgp);
 
-            var changeInclDV = ksp.changeInclination(currentV, inclStart, inclEnd);
+            let changeInclDV = ksp.changeInclination(currentV, inclStart, inclEnd);
+            changeInclDV = changeInclDV.abs();
 
             // RETURN TO ORBIT Δv = BURN TO APOAPSIS Δv
 

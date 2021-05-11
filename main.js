@@ -1,21 +1,21 @@
 /*
 Notes: {
     Use parseInt("Text") to turn into number:
-        var a = "18";
-        var b = parseInt(a) + 2;
+        let a = "18";
+        let b = parseInt(a) + 2;
 
         result of b: 20
         
-    Use var.split(',') to turn into list:
-        var a = "a,b,c,d,e,f,g";
-        var b = a.split(',');
+    Use let.split(',') to turn into list:
+        let a = "a,b,c,d,e,f,g";
+        let b = a.split(',');
 
         result of b: [a,b,c,d,e,f,g];
         
     Use "<br>" to split lines in div:
-        var a = "a" + "<br>";
-        var b = "b" + "<br>";
-        var c = "c";
+        let a = "a" + "<br>";
+        let b = "b" + "<br>";
+        let c = "c";
         document.getElementById('main').innerHTML = a + b + c;
 
         result Output:
@@ -24,26 +24,26 @@ Notes: {
             c
 
     Use number.toString(16) to convert decimal to hex:
-        var a = 69;
-        var b a.toString(16);
+        let a = 69;
+        let b a.toString(16);
 
         result of b: 45;
 
     Use parseInt(hex, 16) to convert hex to decimal:
-        var a = 45;
-        var b = parseInt(a, 16);
+        let a = 45;
+        let b = parseInt(a, 16);
 
         result of b: 69;
 
     Use array.reverse() to reverse list:
-        var a = [2,3,1];
+        let a = [2,3,1];
         a.reverse();
 
         result of a: [1,3,2];
 
     Use n.toPrecision(x) to round number in x significant figures:
-        var a = 3.14159265;
-        var b = a.toPrecision(4);
+        let a = 3.14159265;
+        let b = a.toPrecision(4);
 
         result of b: 3.142;
     
@@ -51,29 +51,29 @@ Notes: {
         a * 10^b
         a - Coefficient
         b - Exponent
-        var c = 0.0054;
-        var exponent = key.round(Math.log(c) / Math.log(10), "down");
-        var coefficient = c * Math.pow(10, -1 * exponent);
+        let c = 0.0054;
+        let exponent = key.round(Math.log(c) / Math.log(10), "down");
+        let coefficient = c * Math.pow(10, -1 * exponent);
 
         result of exponent: -3
                   coefficient: 5.4 
 
     Use Number(string) to turn into a number
-        var a = "3.14159265";
-        var b = Number(a);
+        let a = "3.14159265";
+        let b = Number(a);
 
         result of b: 3.14159265
 
     http://stackoverflow.com/questions/34599303/javascript-sort-list-of-lists-by-sublist-second-entry
 
     Use array.splice(index, 1) to delete array[index]
-        var a = [1, 2, 3];
-        var b = a.splice(1, 1);
+        let a = [1, 2, 3];
+        let b = a.splice(1, 1);
 
         result of b: [1, 3];
 }
 */
-var key = (function()
+let key = (function()
 {
 	return {
 		PI: Decimal.acos(-1),
@@ -86,7 +86,7 @@ var key = (function()
 		random: function(a, b)
 		{
 			b = b || 0;
-			var c = a - b;
+			let c = a - b;
 			return (Math.random() * c) + b;
 		},
 
@@ -126,7 +126,7 @@ var key = (function()
 			} else if (a == 2) {
 			    return true;
 			} else {
-			    for (var i = 0; i <= Math.sqrt(a); i++) {
+			    for (let i = 0; i <= Math.sqrt(a); i++) {
 			        if (a % i === 0) {
 			            return false;
 			        }
@@ -135,20 +135,20 @@ var key = (function()
 			}
 			*/
 
-			var a = bigInt(a);
-			if (a.lesser(2))
+			let b = bigInt(a);
+			if (b.lesser(2))
 			{
 				return false;
 			}
-			else if (a.equals(2))
+			else if (b.equals(2))
 			{
 				return true;
 			}
 			else
 			{
-				for (var i = bigInt(2); i.lesserOrEquals(key.bigIntApproxSqrt(a)); i = i.next())
+				for (let i = bigInt(2); i.lesserOrEquals(key.bigIntApproxSqrt(b)); i = i.next())
 				{
-					if ((a.mod(i)).equals(0))
+					if ((b.mod(i)).equals(0))
 					{
 						return false;
 					}
@@ -160,9 +160,9 @@ var key = (function()
 		// jQuery Needed       
 		removeDupes: function(a)
 		{
-			var b = key.countDupes(a);
-			var c = [];
-			for (var i = 0; i < b.length; i++)
+			let b = key.countDupes(a);
+			let c = [];
+			for (let i = 0; i < b.length; i++)
 			{
 				c.push(b[i][0]);
 			}
@@ -172,13 +172,13 @@ var key = (function()
 		// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in
 		countDupes: function(a)
 		{
-			var b = [];
+			let b = [];
 			a.forEach(function(i)
 			{
 				b[i] = (b[i] || 0) + 1;
 			});
 
-			var c = [];
+			let c = [];
 			for (const d in b)
 			{
 				c.push([`${d}`, parseInt(`${b[d]}`)]);
@@ -189,11 +189,11 @@ var key = (function()
 
 		numberOutput: function(a)
 		{
-			var b = a.toString();
-			var c = b.split("");
+			let b = a.toString();
+			let c = b.split("");
 			c.reverse();
-			var d = "";
-			for (var i = 0; i < c.length; i++)
+			let d = "";
+			for (let i = 0; i < c.length; i++)
 			{
 				if ((i + 1) === c.length)
 				{
@@ -231,9 +231,9 @@ var key = (function()
 						console.log("Can't represent negative numbers now");
 						return;
 					}
-					var b;
-					var c = a;
-					var d = "";
+					let b;
+					let c = a;
+					let d = "";
 					while (true)
 					{
 						b = c % 64;
@@ -246,10 +246,10 @@ var key = (function()
 					}
 					if (clean == "yes")
 					{
-						var e = d.split("");
+						let e = d.split("");
 						e.reverse();
-						var f = "";
-						for (var i = 0; i < e.length; i++)
+						let f = "";
+						for (let i = 0; i < e.length; i++)
 						{
 							if ((i + 1) == e.length)
 							{
@@ -274,26 +274,26 @@ var key = (function()
 
 				toNumber: function(a)
 				{
-					var b = [];
+					let b = [];
 					if (!isNaN(a))
 					{
-						var c = a.toString();
+						let c = a.toString();
 						b = c.split("");
 					}
 					else
 					{
 						b = a.split("");
 					}
-					var d = [];
-					for (var i = 0; i < b.length; i++)
+					let d = [];
+					for (let i = 0; i < b.length; i++)
 					{
 						if (b[i] !== " ")
 						{
 							d.push(b[i]);
 						}
 					}
-					var e = 0;
-					for (var i = 0; i < d.length; i++)
+					let e = 0;
+					for (let i = 0; i < d.length; i++)
 					{
 						e = (e * 64) + key.base64.base.indexOf(d[i]);
 					}
@@ -304,9 +304,9 @@ var key = (function()
 				{
 					a = key.round(Math.abs(a), "down") || key.round(key.random(key.base64.toNumber("// //"), key.base64.toNumber(1000)));
 					console.log("Number           : " + key.numberOutput(a));
-					var b = key.base64.fromNumber(a, "yes");
+					let b = key.base64.fromNumber(a, "yes");
 					console.log("Number to Base-64: " + b);
-					var c = key.base64.toNumber(b);
+					let c = key.base64.toNumber(b);
 					console.log("Base-64 to Number: " + key.numberOutput(c));
 					if (c !== a)
 					{
@@ -324,19 +324,19 @@ var key = (function()
 
 		convertWeek: function(w)
 		{
-			var weekToConvert = w;
-			var week = key.round(weekToConvert, "down");
+			let weekToConvert = w;
+			let week = key.round(weekToConvert, "down");
 
-			var dayToConvert = (weekToConvert - week) * 7;
-			var day = key.round(dayToConvert, "down");
+			let dayToConvert = (weekToConvert - week) * 7;
+			let day = key.round(dayToConvert, "down");
 
-			var hourToConvert = (dayToConvert - day) * 24;
-			var hour = key.round(hourToConvert, "down");
+			let hourToConvert = (dayToConvert - day) * 24;
+			let hour = key.round(hourToConvert, "down");
 
-			var minuteToConvert = (hourToConvert - hour) * 60;
-			var minute = key.round(minuteToConvert, "down");
+			let minuteToConvert = (hourToConvert - hour) * 60;
+			let minute = key.round(minuteToConvert, "down");
 
-			var second = key.round((minuteToConvert - minute) * 60, "nearest", 2);
+			let second = key.round((minuteToConvert - minute) * 60, "nearest", 2);
 
 			if (week == 1)
 			{
@@ -379,9 +379,9 @@ var key = (function()
 				second = second + " seconds";
 			}
 
-			var converted = [week, day, hour, minute, second];
-			var output = "";
-			for (var i = 0; i < converted.length; i++)
+			let converted = [week, day, hour, minute, second];
+			let output = "";
+			for (let i = 0; i < converted.length; i++)
 			{
 				output = output + converted[i];
 			}
@@ -396,8 +396,8 @@ var key = (function()
 				return NaN;
 			}
 
-			var b = a;
-			var c = 1;
+			let b = a;
+			let c = 1;
 
 			while (true)
 			{
@@ -429,8 +429,8 @@ var key = (function()
 				return NaN;
 			}
 
-			var b = a;
-			var c = bigInt(1);
+			let b = a;
+			let c = bigInt(1);
 
 			while (true)
 			{
@@ -462,13 +462,13 @@ var key = (function()
 
 		loadMathJax: function(idName)
 		{
-			var math = document.getElementById(idName);
+			let math = document.getElementById(idName);
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, math]);
 		},
 
 		degToRads: function (deg)
 		{
-			var output = Decimal.div(this.PI, 180);
+			let output = Decimal.div(this.PI, 180);
 
 			return output.mul(deg);
         },
