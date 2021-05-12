@@ -571,10 +571,10 @@ let parkToOrbit = (function ()
 
             // ----- CONSOLE LOGGING -----
 
-            console.log("Δv to target periapsis    : " + this.deltaV.toTargetPe.toString());
-            console.log("Δv to circularise         : " + this.deltaV.circularise.toString());
+            console.log("Δv to target apoapsis    : " + this.deltaV.toTargetAp.toString());
+            if (this.changeIncl) console.log("Δv to circularise         : " + this.deltaV.circularise.toString());
             //console.log("Δv to change inclination  : " + this.deltaV.inclChange.toString());
-            console.log("Δv to target apoapsis     : " + this.deltaV.toTargetAp.toString());
+            console.log("Δv to target periapsis     : " + this.deltaV.toTargetPe.toString());
 
             //console.log("Δv to aerobrake altitude : " + deltaV[4].toString());
 
@@ -600,10 +600,10 @@ let parkToOrbit = (function ()
             let print = "<b><u>MANOUVERING TO TARGET ORBIT</u></b><br>";
             if (this.changeIncl)
             {
-                print += "Burn to target periapsis at periapsis = " + ksp.cleanNumberString(this.deltaV.toTargetPe, decimalPlaces) + " m/s<br>";
-                print += "Circularise at target periapsis = " + ksp.cleanNumberString(this.deltaV.circularise, decimalPlaces) + " m/s<br>";
+                print += "Burn to target apoapsis at periapsis = " + ksp.cleanNumberString(this.deltaV.toTargetAp, decimalPlaces) + " m/s<br>";
+                print += "Circularise at target apoapsis = " + ksp.cleanNumberString(this.deltaV.circularise, decimalPlaces) + " m/s<br>";
                 //print += "Change inclination &asymp; " + ksp.cleanNumberString(this.deltaV.inclChange, decimalPlaces) + " m/s<br>";
-                print += "Burn to target apoapsis at periapsis =  " + ksp.cleanNumberString(this.deltaV.toTargetAp, decimalPlaces) + " m/s<br><br>"
+                print += "Burn to target periapsis at apoapsis =  " + ksp.cleanNumberString(this.deltaV.toTargetPe, decimalPlaces) + " m/s<br><br>"
             }
             else
             {
