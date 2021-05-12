@@ -466,11 +466,18 @@ let key = (function()
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, math]);
 		},
 
-		degToRads: function (deg)
+		degToRads: function (deg, decimal)
 		{
-			let output = Decimal.div(this.PI, 180);
+			if (decimal)
+			{
+				let output = Decimal.div(this.PI, 180);
 
-			return output.mul(deg);
+				return output.mul(deg);
+			}
+			else
+			{
+				return (Math.PI / 180.0) * deg;
+            }
         },
 	};
 })();
