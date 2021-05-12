@@ -16,7 +16,7 @@
 
     // The maximum exponent magnitude.
     // The limit on the value of `toExpNeg`, `toExpPos`, `minE` and `maxE`.
-  let EXP_LIMIT = 9e15,                      // 0 to 9e15
+  var EXP_LIMIT = 9e15,                      // 0 to 9e15
 
     // The limit on the value of `precision`, and on the value of the first argument to
     // `toDecimalPlaces`, `toExponential`, `toFixed`, `toPrecision` and `toSignificantDigits`.
@@ -196,7 +196,7 @@
    *
    */
   P.absoluteValue = P.abs = function () {
-    let x = new this.constructor(this);
+    var x = new this.constructor(this);
     if (x.s < 0) x.s = 1;
     return finalise(x);
   };
@@ -221,7 +221,7 @@
    *
    */
   P.comparedTo = P.cmp = function (y) {
-    let i, j, xdL, ydL,
+    var i, j, xdL, ydL,
       x = this,
       xd = x.d,
       yd = (y = new x.constructor(y)).d,
@@ -269,7 +269,7 @@
    *
    */
   P.cosine = P.cos = function () {
-    let pr, rm,
+    var pr, rm,
       x = this,
       Ctor = x.constructor;
 
@@ -309,7 +309,7 @@
    *
    */
   P.cubeRoot = P.cbrt = function () {
-    let e, m, n, r, rep, s, sd, t, t3, t3plusx,
+    var e, m, n, r, rep, s, sd, t, t3, t3plusx,
       x = this,
       Ctor = x.constructor;
 
@@ -403,7 +403,7 @@
    *
    */
   P.decimalPlaces = P.dp = function () {
-    let w,
+    var w,
       d = this.d,
       n = NaN;
 
@@ -453,7 +453,7 @@
    *
    */
   P.dividedToIntegerBy = P.divToInt = function (y) {
-    let x = this,
+    var x = this,
       Ctor = x.constructor;
     return finalise(divide(x, new Ctor(y), 0, 1, 1), Ctor.precision, Ctor.rounding);
   };
@@ -494,7 +494,7 @@
    *
    */
   P.greaterThanOrEqualTo = P.gte = function (y) {
-    let k = this.cmp(y);
+    var k = this.cmp(y);
     return k == 1 || k === 0;
   };
 
@@ -525,7 +525,7 @@
    *
    */
   P.hyperbolicCosine = P.cosh = function () {
-    let k, n, pr, rm, len,
+    var k, n, pr, rm, len,
       x = this,
       Ctor = x.constructor,
       one = new Ctor(1);
@@ -555,7 +555,7 @@
     x = taylorSeries(Ctor, 1, x.times(n), new Ctor(1), true);
 
     // Reverse argument reduction
-    let cosh2_x,
+    var cosh2_x,
       i = k,
       d8 = new Ctor(8);
     for (; i--;) {
@@ -598,7 +598,7 @@
    *
    */
   P.hyperbolicSine = P.sinh = function () {
-    let k, pr, rm, len,
+    var k, pr, rm, len,
       x = this,
       Ctor = x.constructor;
 
@@ -630,7 +630,7 @@
       x = taylorSeries(Ctor, 2, x, x, true);
 
       // Reverse argument reduction
-      let sinh2_x,
+      var sinh2_x,
         d5 = new Ctor(5),
         d16 = new Ctor(16),
         d20 = new Ctor(20);
@@ -664,7 +664,7 @@
    *
    */
   P.hyperbolicTangent = P.tanh = function () {
-    let pr, rm,
+    var pr, rm,
       x = this,
       Ctor = x.constructor;
 
@@ -700,7 +700,7 @@
    *
    */
   P.inverseCosine = P.acos = function () {
-    let halfPi,
+    var halfPi,
       x = this,
       Ctor = x.constructor,
       k = x.abs().cmp(1),
@@ -752,7 +752,7 @@
    *
    */
   P.inverseHyperbolicCosine = P.acosh = function () {
-    let pr, rm,
+    var pr, rm,
       x = this,
       Ctor = x.constructor;
 
@@ -792,7 +792,7 @@
    *
    */
   P.inverseHyperbolicSine = P.asinh = function () {
-    let pr, rm,
+    var pr, rm,
       x = this,
       Ctor = x.constructor;
 
@@ -834,7 +834,7 @@
    *
    */
   P.inverseHyperbolicTangent = P.atanh = function () {
-    let pr, rm, wpr, xsd,
+    var pr, rm, wpr, xsd,
       x = this,
       Ctor = x.constructor;
 
@@ -885,7 +885,7 @@
    *
    */
   P.inverseSine = P.asin = function () {
-    let halfPi, k,
+    var halfPi, k,
       pr, rm,
       x = this,
       Ctor = x.constructor;
@@ -942,7 +942,7 @@
    *
    */
   P.inverseTangent = P.atan = function () {
-    let i, j, k, n, px, t, r, wpr, x2,
+    var i, j, k, n, px, t, r, wpr, x2,
       x = this,
       Ctor = x.constructor,
       pr = Ctor.precision,
@@ -1106,7 +1106,7 @@
    *
    */
   P.logarithm = P.log = function (base) {
-    let isBase10, d, denominator, k, inf, num, sd, r,
+    var isBase10, d, denominator, k, inf, num, sd, r,
       arg = this,
       Ctor = arg.constructor,
       pr = Ctor.precision,
@@ -1239,7 +1239,7 @@
    *
    */
   P.minus = P.sub = function (y) {
-    let d, e, i, j, k, len, pr, rm, xd, xe, xLTy, yd,
+    var d, e, i, j, k, len, pr, rm, xd, xe, xLTy, yd,
       x = this,
       Ctor = x.constructor;
 
@@ -1413,7 +1413,7 @@
    *
    */
   P.modulo = P.mod = function (y) {
-    let q,
+    var q,
       x = this,
       Ctor = x.constructor;
 
@@ -1475,7 +1475,7 @@
    *
    */
   P.negated = P.neg = function () {
-    let x = new this.constructor(this);
+    var x = new this.constructor(this);
     x.s = -x.s;
     return finalise(x);
   };
@@ -1503,7 +1503,7 @@
    *
    */
   P.plus = P.add = function (y) {
-    let carry, d, e, i, k, len, pr, rm, xd, yd,
+    var carry, d, e, i, k, len, pr, rm, xd, yd,
       x = this,
       Ctor = x.constructor;
 
@@ -1622,7 +1622,7 @@
    *
    */
   P.precision = P.sd = function (z) {
-    let k,
+    var k,
       x = this;
 
     if (z !== void 0 && z !== !!z && z !== 1 && z !== 0) throw Error(invalidArgument + z);
@@ -1644,7 +1644,7 @@
    *
    */
   P.round = function () {
-    let x = this,
+    var x = this,
       Ctor = x.constructor;
 
     return finalise(new Ctor(x), x.e + 1, Ctor.rounding);
@@ -1667,7 +1667,7 @@
    *
    */
   P.sine = P.sin = function () {
-    let pr, rm,
+    var pr, rm,
       x = this,
       Ctor = x.constructor;
 
@@ -1701,7 +1701,7 @@
    *
    */
   P.squareRoot = P.sqrt = function () {
-    let m, n, sd, r, rep, t,
+    var m, n, sd, r, rep, t,
       x = this,
       d = x.d,
       e = x.e,
@@ -1803,7 +1803,7 @@
    *
    */
   P.tangent = P.tan = function () {
-    let pr, rm,
+    var pr, rm,
       x = this,
       Ctor = x.constructor;
 
@@ -1848,7 +1848,7 @@
    *
    */
   P.times = P.mul = function (y) {
-    let carry, e, i, k, r, rL, t, xdL, ydL,
+    var carry, e, i, k, r, rL, t, xdL, ydL,
       x = this,
       Ctor = x.constructor,
       xd = x.d,
@@ -1940,7 +1940,7 @@
    *
    */
   P.toDecimalPlaces = P.toDP = function (dp, rm) {
-    let x = this,
+    var x = this,
       Ctor = x.constructor;
 
     x = new Ctor(x);
@@ -1964,7 +1964,7 @@
    *
    */
   P.toExponential = function (dp, rm) {
-    let str,
+    var str,
       x = this,
       Ctor = x.constructor;
 
@@ -2001,7 +2001,7 @@
    *
    */
   P.toFixed = function (dp, rm) {
-    let str, y,
+    var str, y,
       x = this,
       Ctor = x.constructor;
 
@@ -2035,7 +2035,7 @@
    *
    */
   P.toFraction = function (maxD) {
-    let d, d0, d1, d2, e, k, n, n0, n1, pr, q, r,
+    var d, d0, d1, d2, e, k, n, n0, n1, pr, q, r,
       x = this,
       xd = x.d,
       Ctor = x.constructor;
@@ -2127,7 +2127,7 @@
    *
    */
   P.toNearest = function (y, rm) {
-    let x = this,
+    var x = this,
       Ctor = x.constructor;
 
     x = new Ctor(x);
@@ -2243,7 +2243,7 @@
    *
    */
   P.toPower = P.pow = function (y) {
-    let e, k, pr, r, rm, s,
+    var e, k, pr, r, rm, s,
       x = this,
       Ctor = x.constructor,
       yn = +(y = new Ctor(y));
@@ -2354,7 +2354,7 @@
    *
    */
   P.toPrecision = function (sd, rm) {
-    let str,
+    var str,
       x = this,
       Ctor = x.constructor;
 
@@ -2389,7 +2389,7 @@
    *
    */
   P.toSignificantDigits = P.toSD = function (sd, rm) {
-    let x = this,
+    var x = this,
       Ctor = x.constructor;
 
     if (sd === void 0) {
@@ -2414,7 +2414,7 @@
    *
    */
   P.toString = function () {
-    let x = this,
+    var x = this,
       Ctor = x.constructor,
       str = finiteToString(x, x.e <= Ctor.toExpNeg || x.e >= Ctor.toExpPos);
 
@@ -2437,7 +2437,7 @@
    *
    */
   P.valueOf = P.toJSON = function () {
-    let x = this,
+    var x = this,
       Ctor = x.constructor,
       str = finiteToString(x, x.e <= Ctor.toExpNeg || x.e >= Ctor.toExpPos);
 
@@ -2507,7 +2507,7 @@
 
 
   function digitsToString(d) {
-    let i, k, ws,
+    var i, k, ws,
       indexOfLastWord = d.length - 1,
       str = '',
       w = d[0];
@@ -2549,7 +2549,7 @@
    * `repeating != null` if caller is `naturalLogarithm` or `naturalExponential`.
    */
   function checkRoundingDigits(d, i, rm, repeating) {
-    let di, k, r, rd;
+    var di, k, r, rd;
 
     // Get the length of the first word of the array d.
     for (k = d[0]; k >= 10; k /= 10) --i;
@@ -2600,7 +2600,7 @@
   // Eg. convertBase('255', 10, 16) returns [15, 15].
   // Eg. convertBase('ff', 16, 10) returns [2, 5, 5].
   function convertBase(str, baseIn, baseOut) {
-    let j,
+    var j,
       arr = [0],
       arrL,
       i = 0,
@@ -2628,7 +2628,7 @@
    *
    */
   function cosine(Ctor, x) {
-    let k, y,
+    var k, y,
       len = x.d.length;
 
     // Argument reduction: cos(4x) = 8*(cos^4(x) - cos^2(x)) + 1
@@ -2648,8 +2648,8 @@
     x = taylorSeries(Ctor, 1, x.times(y), new Ctor(1));
 
     // Reverse argument reduction
-    for (let i = k; i--;) {
-      let cos2x = x.times(x);
+    for (var i = k; i--;) {
+      var cos2x = x.times(x);
       x = cos2x.times(cos2x).minus(cos2x).times(8).plus(1);
     }
 
@@ -2662,11 +2662,11 @@
   /*
    * Perform division in the specified base.
    */
-  let divide = (function () {
+  var divide = (function () {
 
     // Assumes non-zero x and k, and hence non-zero result.
     function multiplyInteger(x, k, base) {
-      let temp,
+      var temp,
         carry = 0,
         i = x.length;
 
@@ -2682,7 +2682,7 @@
     }
 
     function compare(a, b, aL, bL) {
-      let i, r;
+      var i, r;
 
       if (aL != bL) {
         r = aL > bL ? 1 : -1;
@@ -2699,7 +2699,7 @@
     }
 
     function subtract(a, b, aL, base) {
-      let i = 0;
+      var i = 0;
 
       // Subtract b from a.
       for (; aL--;) {
@@ -2713,7 +2713,7 @@
     }
 
     return function (x, y, pr, rm, dp, base) {
-      let cmp, e, i, k, logBase, more, prod, prodL, q, qd, rem, remL, rem0, sd, t, xi, xL, yd0,
+      var cmp, e, i, k, logBase, more, prod, prodL, q, qd, rem, remL, rem0, sd, t, xi, xL, yd0,
         yL, yz,
         Ctor = x.constructor,
         sign = x.s == y.s ? 1 : -1,
@@ -2931,7 +2931,7 @@
    * Check for over/under-flow.
    */
    function finalise(x, sd, rm, isTruncated) {
-    let digits, i, j, k, rd, roundUp, w, xd, xdi,
+    var digits, i, j, k, rd, roundUp, w, xd, xdi,
       Ctor = x.constructor;
 
     // Don't round if sd is null or undefined.
@@ -3099,7 +3099,7 @@
 
   function finiteToString(x, isExp, sd) {
     if (!x.isFinite()) return nonFiniteToString(x);
-    let k,
+    var k,
       e = x.e,
       str = digitsToString(x.d),
       len = str.length;
@@ -3132,7 +3132,7 @@
 
   // Calculate the base 10 exponent from the base 1e7 exponent.
   function getBase10Exponent(digits, e) {
-    let w = digits[0];
+    var w = digits[0];
 
     // Add the number of digits of the first word of the digits array.
     for ( e *= LOG_BASE; w >= 10; w /= 10) e++;
@@ -3159,7 +3159,7 @@
 
 
   function getPrecision(digits) {
-    let w = digits.length - 1,
+    var w = digits.length - 1,
       len = w * LOG_BASE + 1;
 
     w = digits[w];
@@ -3179,7 +3179,7 @@
 
 
   function getZeroString(k) {
-    let zs = '';
+    var zs = '';
     for (; k--;) zs += '0';
     return zs;
   }
@@ -3193,7 +3193,7 @@
    *
    */
   function intPow(Ctor, x, n, pr) {
-    let isTruncated,
+    var isTruncated,
       r = new Ctor(1),
 
       // Max n of 9007199254740991 takes 53 loop iterations.
@@ -3236,7 +3236,7 @@
    * Handle `max` and `min`. `ltgt` is 'lt' or 'gt'.
    */
   function maxOrMin(Ctor, args, ltgt) {
-    let y,
+    var y,
       x = new Ctor(args[0]),
       i = 0;
 
@@ -3286,7 +3286,7 @@
    *
    */
   function naturalExponential(x, sd) {
-    let denominator, guard, j, pow, sum, t, wpr,
+    var denominator, guard, j, pow, sum, t, wpr,
       rep = 0,
       i = 0,
       k = 0,
@@ -3377,7 +3377,7 @@
    *
    */
   function naturalLogarithm(y, sd) {
-    let c, c0, denominator, e, numerator, rep, sum, t, wpr, x1, x2,
+    var c, c0, denominator, e, numerator, rep, sum, t, wpr, x1, x2,
       n = 1,
       guard = 10,
       x = y,
@@ -3502,7 +3502,7 @@
    * Parse the value of a new Decimal `x` from string `str`.
    */
   function parseDecimal(x, str) {
-    let e, i, len;
+    var e, i, len;
 
     // Decimal point?
     if ((e = str.indexOf('.')) > -1) str = str.replace('.', '');
@@ -3584,7 +3584,7 @@
    * Parse the value of a new Decimal `x` from a string `str`, which is not a decimal value.
    */
   function parseOther(x, str) {
-    let base, Ctor, divisor, i, isFloat, len, p, xd, xe;
+    var base, Ctor, divisor, i, isFloat, len, p, xd, xe;
 
     if (str === 'Infinity' || str === 'NaN') {
       if (!+str) x.s = NaN;
@@ -3661,7 +3661,7 @@
    *
    */
   function sine(Ctor, x) {
-    let k,
+    var k,
       len = x.d.length;
 
     if (len < 3) return taylorSeries(Ctor, 2, x, x);
@@ -3678,7 +3678,7 @@
     x = taylorSeries(Ctor, 2, x, x);
 
     // Reverse argument reduction
-    let sin2_x,
+    var sin2_x,
       d5 = new Ctor(5),
       d16 = new Ctor(16),
       d20 = new Ctor(20);
@@ -3693,7 +3693,7 @@
 
   // Calculate Taylor series for `cos`, `cosh`, `sin` and `sinh`.
   function taylorSeries(Ctor, n, x, y, isHyperbolic) {
-    let j, t, u, x2,
+    var j, t, u, x2,
       i = 1,
       pr = Ctor.precision,
       k = Math.ceil(pr / LOG_BASE);
@@ -3729,7 +3729,7 @@
 
   // Exponent e must be positive and non-zero.
   function tinyPow(b, e) {
-    let n = b;
+    var n = b;
     while (--e) n *= b;
     return n;
   }
@@ -3737,7 +3737,7 @@
 
   // Return the absolute value of `x` reduced to less than or equal to half pi.
   function toLessThanHalfPi(Ctor, x) {
-    let t,
+    var t,
       isNeg = x.s < 0,
       pi = getPi(Ctor, Ctor.precision, 1),
       halfPi = pi.times(0.5);
@@ -3775,7 +3775,7 @@
    * If the optional `sd` argument is present include a binary exponent suffix.
    */
   function toStringBinary(x, baseOut, sd, rm) {
-    let base, e, i, k, len, roundUp, str, xd, y,
+    var base, e, i, k, len, roundUp, str, xd, y,
       Ctor = x.constructor,
       isExp = sd !== void 0;
 
@@ -4084,7 +4084,7 @@
   function atan2(y, x) {
     y = new this(y);
     x = new this(x);
-    let r,
+    var r,
       pr = this.precision,
       rm = this.rounding,
       wpr = pr + 4;
@@ -4168,7 +4168,7 @@
    */
   function config(obj) {
     if (!obj || typeof obj !== 'object') throw Error(decimalError + 'Object expected');
-    let i, p, v,
+    var i, p, v,
       useDefaults = obj.defaults === true,
       ps = [
         'precision', 1, MAX_DIGITS,
@@ -4240,7 +4240,7 @@
    *
    */
   function clone(obj) {
-    let i, p, ps;
+    var i, p, ps;
 
     /*
      * The Decimal constructor and exported function.
@@ -4250,7 +4250,7 @@
      *
      */
     function Decimal(v) {
-      let e, i, t,
+      var e, i, t,
         x = this;
 
       // Decimal called without new.
@@ -4467,7 +4467,7 @@
    *
    */
   function hypot() {
-    let i, n,
+    var i, n,
       t = new this(0);
 
     external = false;
@@ -4622,7 +4622,7 @@
    *
    */
   function random(sd) {
-    let d, e, k, n,
+    var d, e, k, n,
       i = 0,
       r = new this(1),
       rd = [];

@@ -1,3 +1,5 @@
+import Decimal from '../scripts/decimal.mjs';
+
 let ksp = (function ()
 {
     return {
@@ -19,17 +21,15 @@ let ksp = (function ()
             }
             else
             {
-                // simpler - easier to read version http://www.braeunig.us/space/orbmech.htm#maneuver
-                let part1 = new Decimal(2);
-                part1 = Decimal.div(part1, distanceToSatellite);
+                // http://www.braeunig.us/space/orbmech.htm#maneuver
+                let part1 = Decimal.div(2, distanceToSatellite);
 
-                let part2 = new Decimal(1);
-                part2 = part2.div(semiMajorAxis);
+                let part2 = Decimal.div(1, semiMajorAxis);
 
-                let result = part1.sub(part2);
-                result = result.mul(mu);
+                let result = Decimal.sub(part1, part2);
+                result = Decimal.mul(result, mu);
 
-                return result.sqrt();
+                return Decimal.sqrt(result);
             }
         },
 
@@ -99,7 +99,7 @@ let ksp = (function ()
 
         changeInclination: function (velocity, startIncl, endIncl)
         {
-            let deltaIncl = Decimal.sub(key.degToRads(startIncl), key.degToRads(endIncl));
+            let deltaIncl = Decimal.sub(key.degToRads(startIncl, true), key.degToRads(endIncl, true));
             deltaIncl = deltaIncl.abs();
 
             let result = deltaIncl.div(2);
@@ -108,7 +108,7 @@ let ksp = (function ()
             result = result.abs();
 
             return result.mul(2);
-        },
+        }
     };
 })();
 
@@ -580,7 +580,7 @@ let parkToOrbit = (function ()
             this.deltaV.convert();
 
             // ----- CONSOLE LOGGING -----
-            
+
             console.log("Δv to target periapsis    : " + this.deltaV.toTargetPe.toString());
             console.log("Δv to circularise         : " + this.deltaV.circularise.toString());
             //console.log("Δv to change inclination  : " + this.deltaV.inclChange.toString());
@@ -650,9 +650,8 @@ let changeIncl = (function ()
             let sgp = parseFloat(document.getElementById("changeInclSGP").value) || 3531.6; // 398600.5
             let meanRadius = parseFloat(document.getElementById("changeInclMeanRad").value) || 600;
 
-            let increment = parseFloat(document.getElementById("changeInclInc").value) || 10;
-            let maxAltitude = parseFloat(document.getElementById("changeInclMaxAlt").value) || 9500;
-            //let minFractionChange = 0.0001;
+            let increment = parseFloat(document.getElementById("changeInclInc").value) || 100;
+            let maxAltitude = parseFloat(document.getElementById("changeInclMaxAlt").value) || 80000;
             let minFraction = parseFloat(document.getElementById("changeInclMinFrac").value) || 0;
 
             let originalDV = this.calculateDeltaV(orbitAp, orbitPe, orbitAp, orbitIncl, targetIncl, sgp, meanRadius);
@@ -668,60 +667,36 @@ let changeIncl = (function ()
 
                 if (nextAp.greaterThan(maxAltitude)) // check if max altitude reached
                 {
-                    //console.log(nextAp.toString());
-                    //console.log(nextDV.toString());
-                    //console.log(fraction.toString());
                     break;
                 }
                 else
                 {
                     let nextDV = this.calculateDeltaV(orbitAp, orbitPe, nextAp, orbitIncl, targetIncl, sgp, meanRadius);
-                    //let debugNextDV = nextDV.toString();
-                    //console.log()
 
                     let nextFraction = nextDV.div(originalDV);
 
-                    //let fractionChange = currentFraction.sub(nextFraction);
-
                     if (nextFraction.greaterThan(minFraction) && nextFraction.lessThan(currentFraction))
                     {
-                        currentAp = nextAp;
-                        currentDV = nextDV;
-                        currentFraction = nextFraction;
+                        currentAp = new Decimal(nextAp);
+                        currentDV = new Decimal(nextDV);
+                        currentFraction = new Decimal(nextFraction);
                     }
                     else
                     {
                         break;
                     }
-
-                    //if (fraction.greaterThan(Decimal.sub(1, minDifferencePercent)))
-                    //{
-                    //    currentAp = nextAp;
-                    //    currentDV = nextDV;
-                    //}
-                    //else
-                    //{
-                    //    //console.log(nextAp.toString());
-                    //    //console.log(nextDV.toString());
-                    //    //console.log(fraction.toString());
-                    //    break;
-                    //}
                 }
             }
 
-            //console.log(ksp.cleanNumberString(currentAp));
-            //console.log(ksp.cleanNumberString(currentDV.mul(1000)));
-            //console.log(ksp.cleanNumberString(currentFraction));
-
             let output = "";
-
-            //let debugDecimal = currentFraction.toString() + originalDV.toString();
 
             output = "Change Inclination at Apoapsis " + ksp.cleanNumberString(currentAp, 4) + " km<br>";
             output += "Total Δv required &asymp; " + ksp.cleanNumberString(currentDV.mul(1000), 2) + " m/s<br>";
             output += "Fraction = " + ksp.cleanNumberString(currentFraction, 4);
 
             document.getElementById("changeInclOutput").innerHTML = output;
+
+            console.log("-----");
         },
 
         calculateDeltaV: function (orbitAP, orbitPe, burnAp, inclStart, inclEnd, sgp, meanRadius)
@@ -730,25 +705,33 @@ let changeIncl = (function ()
             let sma = ksp.semiMajorAxis(orbitAP, orbitPe, meanRadius);
             let distanceToPlanet = Decimal.add(meanRadius, orbitPe);
             let currentV = ksp.velocity(sma, distanceToPlanet, sgp);
-            console.log(ksp.cleanNumberString(currentV, 4));
+
+            console.log("Burn AP: " + ksp.cleanNumberString(burnAp));
+            console.log("Velocity at start: " + ksp.cleanNumberString(currentV));
 
             sma = ksp.semiMajorAxis(burnAp, orbitPe, meanRadius);
-            distanceToPlanet = Decimal.add(meanRadius, burnAp);
             let targetV = ksp.velocity(sma, distanceToPlanet, sgp);
+            console.log("Target velocity at start: " + ksp.cleanNumberString(targetV));
 
-            let burnToApDV = currentV.sub(targetV);
-            burnToApDV = burnToApDV.abs();
+            let burnToDV = Decimal.sub(targetV, currentV);
+            console.log("Δv to burn AP: " + ksp.cleanNumberString(burnToDV));
 
             // CHANGE INCLINATION
             distanceToPlanet = Decimal.add(meanRadius, burnAp);
             currentV = ksp.velocity(sma, distanceToPlanet, sgp);
+            console.log("Velocity at burn ap: " + ksp.cleanNumberString(currentV));
 
             let changeInclDV = ksp.changeInclination(currentV, inclStart, inclEnd);
-            changeInclDV = changeInclDV.abs();
+            console.log("Inclination change Δv: " + ksp.cleanNumberString(changeInclDV));
 
             // RETURN TO ORBIT Δv = BURN TO APOAPSIS Δv
+            targetV = Decimal.mul(targetV, 2);
 
-            return changeInclDV.add(burnToApDV.mul(2));
+            let result = Decimal.add(targetV, changeInclDV);
+
+            console.log("");
+
+            return result;
         }
     };
 })();
