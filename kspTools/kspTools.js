@@ -461,51 +461,41 @@ let parkToOrbit = (function ()
 
             if (this.changeIncl)
             {
-                // ----- BURN TO TARGET PERIAPSIS @ PERIAPSIS -----
+                // ----- BURN TO TARGET APOAPSIS @ PERIAPSIS -----
                 let distanceToPlanet = Decimal.add(periapsis, eqRadius);
                 let semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
                 let velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
 
-                let targetSMA = ksp.semiMajorAxis(targetPe, periapsis, eqRadius);
+                let targetSMA = ksp.semiMajorAxis(targetAp, periapsis, eqRadius);
                 let targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
 
-                let temp = Decimal.sub(velocity, targetVelocity);
-                this.deltaV.toTargetPe = temp.abs();
-
-                apoapsis = new Decimal(targetPe);
-
-                // ----- CIRCULARISE @ NEW APOAPSIS -----
-                semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
-                distanceToPlanet = Decimal.add(apoapsis, eqRadius);
-                velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
-
-                targetSMA = ksp.semiMajorAxis(apoapsis, targetPe, eqRadius);
-                targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
-
-                temp = Decimal.sub(velocity, targetVelocity);
-                this.deltaV.circularise = temp.abs();
-
-                periapsis = new Decimal(targetPe);
-
-                // ----- DIRECT INCLINATION CHANGE -----
-                //semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
-                //distanceToPlanet = Decimal.add(periapsis, eqRadius);
-                //velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
-
-                //this.deltaV.inclChange = this.changeInclination(velocity, parkIncl, targetIncl);
-
-                // ----- BURN TO TARGET APOAPSIS @ PERIAPSIS -----
-                semiMajorAxis = ksp.semiMajorAxis(apoapsis, periapsis, eqRadius);
-                distanceToPlanet = Decimal.add(periapsis, eqRadius);
-                velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
-
-                targetSMA = ksp.semiMajorAxis(targetAp, periapsis, eqRadius);
-                targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
-
-                temp = Decimal.sub(velocity, targetVelocity);
-                this.deltaV.toTargetAp = temp.abs();
+                this.deltaV.toTargetAp = Decimal.sub(targetVelocity, velocity);
 
                 apoapsis = new Decimal(targetAp);
+
+                // ----- CIRCULARISE @ TARGET APOAPSIS -----
+                distanceToPlanet = Decimal.add(targetAp, eqRadius);
+                semiMajorAxis = ksp.semiMajorAxis(targetAp, periapsis, eqRadius);
+                velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+
+                targetSMA = ksp.semiMajorAxis(targetAp, targetAp, eqRadius);
+                targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+
+                this.deltaV.circularise = Decimal.sub(targetVelocity, velocity);
+
+                periapsis = new Decimal(targetAp);
+
+                // ----- BURN TO TARGET PERIAPSIS @ TARGET APOAPSIS -----
+                distanceToPlanet = Decimal.add(targetAp, eqRadius);
+                semiMajorAxis = ksp.semiMajorAxis(targetAp, targetAp, eqRadius);
+                velocity = ksp.velocity(semiMajorAxis, distanceToPlanet, sgp);
+
+                targetSMA = ksp.semiMajorAxis(targetAp, targetPe, eqRadius);
+                targetVelocity = ksp.velocity(targetSMA, distanceToPlanet, sgp);
+
+                this.deltaV.toTargetPe = Decimal.sub(velocity, targetVelocity);
+
+                periapsis = new Decimal(targetPe);
             }
             else
             {
