@@ -1,4 +1,4 @@
-import Decimal from '../scripts/decimal.mjs';
+////import Decimal from '../scripts/decimal.mjs';
 
 let ksp = (function ()
 {
@@ -654,11 +654,11 @@ let changeIncl = (function ()
             let maxAltitude = parseFloat(document.getElementById("changeInclMaxAlt").value) || 80000;
             let minFraction = parseFloat(document.getElementById("changeInclMinFrac").value) || 0;
 
-            let originalDV = this.calculateDeltaV(orbitAp, orbitPe, orbitAp, orbitIncl, targetIncl, sgp, meanRadius);
+            let originalDV = this.calculateDeltaV(orbitAp, orbitPe, orbitAp, orbitIncl, targetIncl, sgp, meanRadius, false);
 
             let currentAp = new Decimal(orbitAp);
 
-            let currentDV = this.calculateDeltaV(orbitAp, orbitPe, currentAp, orbitIncl, targetIncl, sgp, meanRadius);
+            let currentDV = new Decimal(originalDV);
             let currentFraction = currentDV.div(originalDV);
 
             while (true)
@@ -671,7 +671,7 @@ let changeIncl = (function ()
                 }
                 else
                 {
-                    let nextDV = this.calculateDeltaV(orbitAp, orbitPe, nextAp, orbitIncl, targetIncl, sgp, meanRadius);
+                    let nextDV = this.calculateDeltaV(orbitAp, orbitPe, nextAp, orbitIncl, targetIncl, sgp, meanRadius, false);
 
                     let nextFraction = nextDV.div(originalDV);
 
@@ -688,10 +688,12 @@ let changeIncl = (function ()
                 }
             }
 
+            let optimalDV = this.calculateDeltaV(orbitAp, orbitPe, currentAp, orbitIncl, targetIncl, sgp, meanRadius, true);
+
             let output = "";
 
             output = "Change Inclination at Apoapsis " + ksp.cleanNumberString(currentAp, 4) + " km<br>";
-            output += "Total Δv required &asymp; " + ksp.cleanNumberString(currentDV.mul(1000), 2) + " m/s<br>";
+            output += "Total Δv required &asymp; " + ksp.cleanNumberString(optimalDV.mul(1000), 2) + " m/s<br>";
             output += "Fraction = " + ksp.cleanNumberString(currentFraction, 4);
 
             document.getElementById("changeInclOutput").innerHTML = output;
@@ -699,37 +701,54 @@ let changeIncl = (function ()
             console.log("-----");
         },
 
-        calculateDeltaV: function (orbitAP, orbitPe, burnAp, inclStart, inclEnd, sgp, meanRadius)
+        calculateDeltaV: function (orbitAP, orbitPe, burnAp, inclStart, inclEnd, sgp, meanRadius, debug)
         {
             // BURN TO APOAPSIS
             let sma = ksp.semiMajorAxis(orbitAP, orbitPe, meanRadius);
             let distanceToPlanet = Decimal.add(meanRadius, orbitPe);
             let currentV = ksp.velocity(sma, distanceToPlanet, sgp);
 
-            console.log("Burn AP: " + ksp.cleanNumberString(burnAp));
-            console.log("Velocity at start: " + ksp.cleanNumberString(currentV));
+            if (debug)
+            {
+                console.log("Burn AP: " + ksp.cleanNumberString(burnAp));
+                console.log("Velocity at start: " + ksp.cleanNumberString(currentV));
+            }
 
             sma = ksp.semiMajorAxis(burnAp, orbitPe, meanRadius);
             let targetV = ksp.velocity(sma, distanceToPlanet, sgp);
-            console.log("Target velocity at start: " + ksp.cleanNumberString(targetV));
+            if (debug)
+            {
+                console.log("Target velocity at start: " + ksp.cleanNumberString(targetV));
+            }
 
             let burnToDV = Decimal.sub(targetV, currentV);
-            console.log("Δv to burn AP: " + ksp.cleanNumberString(burnToDV));
+            if (debug)
+            {
+                console.log("Δv to burn AP: " + ksp.cleanNumberString(burnToDV));
+            }
 
             // CHANGE INCLINATION
             distanceToPlanet = Decimal.add(meanRadius, burnAp);
             currentV = ksp.velocity(sma, distanceToPlanet, sgp);
-            console.log("Velocity at burn ap: " + ksp.cleanNumberString(currentV));
+            if (debug)
+            {
+                console.log("Velocity at burn ap: " + ksp.cleanNumberString(currentV));
+            }
 
             let changeInclDV = ksp.changeInclination(currentV, inclStart, inclEnd);
-            console.log("Inclination change Δv: " + ksp.cleanNumberString(changeInclDV));
+            if (debug)
+            {
+                console.log("Inclination change Δv: " + ksp.cleanNumberString(changeInclDV));
+            }
 
             // RETURN TO ORBIT Δv = BURN TO APOAPSIS Δv
-            targetV = Decimal.mul(targetV, 2);
 
-            let result = Decimal.add(targetV, changeInclDV);
-
-            console.log("");
+            let result = Decimal.add(burnToDV, burnToDV);
+            result = Decimal.add(result, changeInclDV);
+            if (debug)
+            {
+                console.log("Debug: " + ksp.cleanNumberString(result));
+            }
 
             return result;
         }
