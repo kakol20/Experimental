@@ -1,18 +1,18 @@
 const orbitalPeriod = function () {
-	console.log("----- CALCULATING ORBITAL PERIOD -----");
+    console.log("----- CALCULATING ORBITAL PERIOD -----");
 
-	const apoapsis = parseFloat(document.getElementById("orbitPeriodAp").value) || 0;
-	const periapsis = parseFloat(document.getElementById("orbitPeriodPe").value) || 0;
+    const apoapsis = parseFloat(document.getElementById("orbitPeriodAp").value) || 0;
+    const periapsis = parseFloat(document.getElementById("orbitPeriodPe").value) || 0;
 
-	const semiMajorAxis = tools.semiMajorAxis(apoapsis, periapsis);
+    const semiMajorAxis = tools.semiMajorAxis(apoapsis, periapsis);
 
-	console.log("Apoapsis: " + apoapsis);
-	console.log("Periapsis: " + periapsis);
-	console.log("Semi-major axis: " + semiMajorAxis);
+    console.log("Apoapsis: " + apoapsis);
+    console.log("Periapsis: " + periapsis);
+    console.log("Semi-major axis: " + semiMajorAxis);
 
-	const result = tools.orbitalPeriod(semiMajorAxis);
+    const result = tools.orbitalPeriod(semiMajorAxis);
 
-	console.log("----- END -----");
+    console.log("----- END -----");
 
-	document.getElementById("orbitPeriodOutput").innerHTML = tools.cleanPeriod(result);
+    document.getElementById("orbitPeriodOutput").innerHTML = tools.cleanPeriod(result);
 };
