@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Kerbal Space Program Calculators</title>
+
+	<!-- Favicon -->
+	<link rel="apple-touch-icon" sizes="180x180" href="../icon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="../icon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="../icon/favicon-16x16.png">
+	<link rel="manifest" href="../icon/site.webmanifest">
+	<link rel="mask-icon" href="../icon/safari-pinned-tab.svg" color="#184012">
+	<meta name="msapplication-TileColor" content="#184012">
+	<meta name="theme-color" content="#184012">
+
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="../css/normalize.css">
+	<link rel="stylesheet" type="text/css" href="../css/stylesheet.css">
+
+	<!--Javascript-->
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+			integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+			crossorigin="anonymous" defer></script>
+	<script type="text/javascript" src="../scripts/decimal.js" defer></script>
+
+	<script type="text/javascript" src="main.js" defer></script>
+	<script type="text/javascript" src="orbitalPeriod.js" defer></script>
+</head>
+<body>
+	<div class="header">
+		<div>
+			<p>Kerbal Space Program Calculators</p>
+		</div>
+	</div>
+	<br />
+	<div class="body">
+		<noscript>Your browser doesn't support JavaScript or does not have JavaScript enabled <br> <br></noscript>
+
+		<!--Body Selection-->
+		<form>
+			Orbit Body: <select id="orbitBody" onchange="tools.updateBody()">
+				<option value="kerbin">Kerbin</option>
+				<option value="mun">Mun</option>
+			</select> <br />
+		</form> <br />
+
+		<!--Orbital Period-->
+		<form>
+			Apoapsis in km: <input type="number" id="orbitPeriodAp" /><br />
+			Periapsis in km: <input type="number" id="orbitPeriodPe" />
+		</form>
+		<button onclick="orbitalPeriod()">
+			<div><p>Orbital Period</p></div>
+		</button>
+		<div id="orbitPeriodOutput"></div>
+
+		<br />
+
+		<button onclick="window.location.href = '../';">
+			<div>
+				<p>Back</p>
+			</div>
+		</button>
+	</div>
+</body>
+</html>
