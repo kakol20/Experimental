@@ -22,7 +22,10 @@
 	<script src="https://code.jquery.com/jquery-3.6.4.min.js"
 			integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
 			crossorigin="anonymous" defer></script>
+	<script type="text/javascript" src="../scripts/decimal.js" defer></script>
+
 	<script type="text/javascript" src="main.js" defer></script>
+	<script type="text/javascript" src="orbitalPeriod.js" defer></script>
 </head>
 <body>
 	<div class="header">
@@ -36,13 +39,23 @@
 
 		<!--Body Selection-->
 		<form>
-			Body: <select id="orbitBody" onchange="tools.updateBody()">
+			Orbit Body: <select id="orbitBody" onchange="tools.updateBody()">
 				<option value="kerbin">Kerbin</option>
 				<option value="mun">Mun</option>
 			</select> <br />
-		</form>
+		</form> <br />
 
-		<br /><br />
+		<!--Orbital Period-->
+		<form>
+			Apoapsis in km: <input type="number" id="orbitPeriodAp" /><br />
+			Periapsis in km: <input type="number" id="orbitPeriodPe" />
+		</form>
+		<button onclick="orbitalPeriod()">
+			<div><p>Orbital Period</p></div>
+		</button>
+		<div id="orbitPeriodOutput"></div>
+
+		<br />
 
 		<button onclick="window.location.href = '../';">
 			<div>
