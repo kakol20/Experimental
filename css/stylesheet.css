@@ -1,7 +1,10 @@
 @font-face {
 	font-family: 'Open Sans';
 	src: url('OpenSans-Regular-webfont.eot');
-	src: url('OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'), url('OpenSans-Regular-webfont.woff') format('woff'), url('OpenSans-Regular-webfont.ttf') format('truetype'), url('OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+	src: url('OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+		 url('OpenSans-Regular-webfont.woff') format('woff'),
+		 url('OpenSans-Regular-webfont.ttf') format('truetype'),
+		 url('OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -9,12 +12,14 @@
 :root {
 	--dark: #184012;
 	--light: #52A646;
-	--text: #0D0D0D;
+	--black: #0D0D0D;
+	--white: #F2F2F2;
+	--mid: #317327;
 }
 
 body {
 	font-family: 'Open Sans';
-	color: var(--text);
+	color: var(--black);
 	background-color: var(--light);
 	text-align: center;
 	vertical-align: middle;
@@ -28,7 +33,7 @@ form {
 
 form span {
 	text-decoration-line: underline;
-	text-decoration-style: dotted
+	text-decoration-style: dotted;
 }
 
 .bold {
@@ -63,11 +68,66 @@ form span {
 }
 
 .body {
-	/*background-color: var(--text);*/
+	/*background-color: var(--black);*/
 	position: absolute;
 	left: 0px;
 	top: 125px;
 	width: 100%;
 	height: auto;
 	z-index: 3;
+}
+
+/* ----- BUTTON ----- */
+
+button {
+	border-width: 1px;
+	border-color: var(--light);
+	border-style: outset;
+	border-radius: 3px;
+	/*background-image: -moz-linear-gradient( 90deg, var(--light) 0%, rgb( 255, 255, 255 ) 100%);*/
+	/*background-image: -webkit-linear-gradient( 90deg, var(--light) 0%, rgb( 255, 255, 255 ) 100%);*/
+	position: relative;
+	width: auto;
+	height: auto;
+}
+
+button div {
+	display: table;
+	width: 100%;
+	height: 100%;
+	color: var(--black);
+}
+
+button div p {
+	display: table-cell;
+	text-align: center;
+	vertical-align: middle;
+}
+
+button:hover, button:focus {
+	border-width: 1px;
+	border-color: var(--mid);
+	border-style: outset;
+	border-radius: 3px;
+	/*background-image: -moz-linear-gradient( 90deg, var(--light) 0%, rgb( 255, 255, 255 ) 100%);*/
+	/*background-image: -webkit-linear-gradient( 90deg, var(--light) 0%, rgb( 255, 255, 255 ) 100%);*/
+	position: relative;
+	width: auto;
+	height: auto;
+}
+
+button:active {
+	border-width: 1px;
+	border-color: var(--dark);
+	border-style: inset;
+	border-radius: 3px;
+	/*background-image: -moz-linear-gradient( 90deg, rgb( 255, 255, 255 ) 0%, var(--light) 100%);*/
+	/*background-image: -webkit-linear-gradient( 90deg, rgb( 255, 255, 255 ) 0%, var(--light) 100%);*/
+	position: relative;
+	width: auto;
+	height: auto;
+}
+
+textarea {
+	width: 95%;
 }
