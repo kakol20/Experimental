@@ -48,7 +48,7 @@ form span {
 
 .header div {
 	color: var(--light);
-	font-size: 40px;
+	font-size: min(5vw, 40px);
 	font-weight: bold;
 	text-align: center;
 	width: 100%;
