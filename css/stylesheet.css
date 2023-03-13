@@ -48,7 +48,7 @@ form span {
 
 .header div {
 	color: var(--light);
-	font-size: 40px;
+	font-size: 5vw;
 	font-weight: bold;
 	text-align: center;
 	width: 100%;
@@ -73,11 +73,21 @@ form span {
 	z-index: 3;
 }
 
-/* ----- BUTTON ----- */
+/* ----- OTHER ----- */
+
+select {
+	border-width: 1px;
+	border-color: var(--mid);
+	border-style: outset;
+	border-radius: 3px;
+	position: relative;
+	width: auto;
+	height: auto;
+}
 
 button {
 	border-width: 1px;
-	border-color: var(--light);
+	border-color: var(--mid);
 	border-style: outset;
 	border-radius: 3px;
 	/*background-image: -moz-linear-gradient( 90deg, var(--light) 0%, rgb( 255, 255, 255 ) 100%);*/
@@ -103,7 +113,7 @@ button div p {
 button:hover, button:focus {
 	border-width: 1px;
 	border-color: var(--mid);
-	border-style: outset;
+	border-style: inset;
 	border-radius: 3px;
 	/*background-image: -moz-linear-gradient( 90deg, var(--light) 0%, rgb( 255, 255, 255 ) 100%);*/
 	/*background-image: -webkit-linear-gradient( 90deg, var(--light) 0%, rgb( 255, 255, 255 ) 100%);*/
