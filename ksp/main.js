@@ -30,6 +30,21 @@ const tools = (function () {
             return (Math.PI * 2) * Math.sqrt(Math.pow(sma, 3) / tools.getBody().sgp);
         },
 
+        // returns the semi major axis in km
+        targetOrbitalPeriod: function (orbitalPeriod) {
+            return Math.cbrt((orbitalPeriod * orbitalPeriod * tools.getBody().sgp) / (4 * Math.PI * Math.PI));
+        },
+
+        apoapsisFromPeriapsis: function (sma, periapsis) {
+            return (2 * sma) - periapsis - (2 * tools.getBody().radius);
+        },
+        periapsisFromApoapsis: function (sma, apoapsis) {
+            return (2 * sma) - apoapsis - (2 * tools.getBody().radius);
+        },
+        circularFromSMA: function (sma) {
+            return sma - tools.getBody().radius;
+        },
+
         cleanPeriod: function (period) {
             let accumulated = period;
             let output = "";
