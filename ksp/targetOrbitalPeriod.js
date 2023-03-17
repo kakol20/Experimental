@@ -1,19 +1,21 @@
 const targetOrbitalPeriod = (function () {
+    let type = "circular";
     return {
         updateType: function () {
-            this.type = document.getElementById("targetOPType").value || "circular";
-            console.log("Changed orbit type to: " + this.type);
-            let innerHTMl = "";
-            if (this.type == "elliptical") {
-                innerHTMl = "Altitude: <input type=\"number\" id=\"targetOPOption\" /><br>"
-            } else {
-                innerHTML = "";
+            type = document.getElementById("targetOPType").value || "circular";
+            console.log("Changed orbit type to: " + type);
+            let innerHTML = "";
+            switch (type) {
+                case "elliptical":
+                    innerHTMl = "Altitude: <input type=\"number\" id=\"targetOPOption\" /><br>"
+                    break;
+                case "circular":
+                    innerHTMl = "";
+                    break;
             }
 
             document.getElementById("targetOPTypeOptions").innerHTML = innerHTMl;
         },
-
-        type: "circular",
 
         run: function () {
             console.log("----- CALCULATING TARGET ORBITAL PERIOD -----");
@@ -28,7 +30,7 @@ const targetOrbitalPeriod = (function () {
 
             let apoapsis = 0;
             let periapsis = 0;
-            switch (this.type) {
+            switch (type) {
                 case "circular":
                     apoapsis = tools.circularFromSMA(sma);
                     periapsis = apoapsis;
@@ -42,6 +44,8 @@ const targetOrbitalPeriod = (function () {
             const max = Math.max(apoapsis, periapsis);
             periapsis = Math.min(apoapsis, periapsis);
             apoapsis = max;
+
+            document.getElementById("targetOPOutput").innerHTML = "Apoapsis: " + tools.cleanNumber(apoapsis) + " km <br>Periapsis: " + tools.cleanNumber(periapsis) + " km";
 
             console.log("Apoapsis: " + apoapsis + " km");
             console.log("Periapsis: " + periapsis + " km");

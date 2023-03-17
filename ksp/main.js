@@ -59,6 +59,10 @@ const tools = (function () {
             output += Decimal(seconds).toDecimalPlaces(4) + "s";
 
             return output;
+        },
+
+        cleanNumber: function (number) {
+            return number.toLocaleString("en-US");
         }
     };
 })();
