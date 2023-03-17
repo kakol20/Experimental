@@ -35,11 +35,8 @@ const tools = (function () {
             return Math.cbrt((orbitalPeriod * orbitalPeriod * tools.getBody().sgp) / (4 * Math.PI * Math.PI));
         },
 
-        apoapsisFromPeriapsis: function (sma, periapsis) {
-            return (2 * sma) - periapsis - (2 * tools.getBody().radius);
-        },
-        periapsisFromApoapsis: function (sma, apoapsis) {
-            return (2 * sma) - apoapsis - (2 * tools.getBody().radius);
+        ellipticalFromSMA: function (sma, altitude) {
+            return (2 * sma) - altitude - (2 * tools.getBody().radius);
         },
         circularFromSMA: function (sma) {
             return sma - tools.getBody().radius;

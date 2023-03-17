@@ -4,10 +4,8 @@ const targetOrbitalPeriod = (function () {
             this.type = document.getElementById("targetOPType").value || "circular";
             console.log("Changed orbit type to: " + this.type);
             let innerHTMl = "";
-            if (this.type == "apoapsis") {
-                innerHTMl = "Apoapsis: <input type=\"number\" id=\"targetOPOption\" /><br>"
-            } else if (this.type == "periapsis") {
-                innerHTMl = "Periapsis: <input type=\"number\" id=\"targetOPOption\" /><br>"
+            if (this.type == "elliptical") {
+                innerHTMl = "Altitude: <input type=\"number\" id=\"targetOPOption\" /><br>"
             } else {
                 innerHTML = "";
             }
@@ -35,15 +33,15 @@ const targetOrbitalPeriod = (function () {
                     apoapsis = tools.circularFromSMA(sma);
                     periapsis = apoapsis;
                     break;
-                case "apoapsis":
+                case "elliptical":
                     apoapsis = parseFloat(document.getElementById("targetOPOption").value) || 0;
-                    periapsis = tools.periapsisFromApoapsis(sma, apoapsis);
-                    break;
-                case "periapsis":
-                    periapsis = parseFloat(document.getElementById("targetOPOption").value) || 0;
-                    apoapsis = tools.apoapsisFromPeriapsis(sma, periapsis);
+                    periapsis = tools.ellipticalFromSMA(sma, apoapsis);
                     break;
             };
+
+            const max = Math.max(apoapsis, periapsis);
+            periapsis = Math.min(apoapsis, periapsis);
+            apoapsis = max;
 
             console.log("Apoapsis: " + apoapsis + " km");
             console.log("Periapsis: " + periapsis + " km");
