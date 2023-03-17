@@ -1,0 +1,13 @@
+{
+  "name": "web-calculators",
+  "version": "0.0.0",
+  "description": "WebCalculators",
+  "main": "main.js",
+  "author": {
+    "name": ""
+  },
+  "devDependencies": {
+    "eslint": "^8.21.0"
+  },
+  "eslintConfig": {}
+}

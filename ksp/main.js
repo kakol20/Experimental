@@ -30,6 +30,18 @@ const tools = (function () {
             return (Math.PI * 2) * Math.sqrt(Math.pow(sma, 3) / tools.getBody().sgp);
         },
 
+        // returns the semi major axis in km
+        targetOrbitalPeriod: function (orbitalPeriod) {
+            return Math.cbrt((orbitalPeriod * orbitalPeriod * tools.getBody().sgp) / (4 * Math.PI * Math.PI));
+        },
+
+        ellipticalFromSMA: function (sma, altitude) {
+            return (2 * sma) - altitude - (2 * tools.getBody().radius);
+        },
+        circularFromSMA: function (sma) {
+            return sma - tools.getBody().radius;
+        },
+
         cleanPeriod: function (period) {
             let accumulated = period;
             let output = "";
@@ -47,6 +59,10 @@ const tools = (function () {
             output += Decimal(seconds).toDecimalPlaces(4) + "s";
 
             return output;
+        },
+
+        cleanNumber: function (number) {
+            return number.toLocaleString("en-US");
         }
     };
 })();

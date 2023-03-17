@@ -11,6 +11,7 @@ const orbitalPeriod = function () {
     console.log("Semi-major axis: " + semiMajorAxis);
 
     const result = tools.orbitalPeriod(semiMajorAxis);
+    console.log("Orbital Period: " + result + " seconds");
 
     console.log("----- END -----");
 

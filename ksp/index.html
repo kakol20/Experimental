@@ -26,6 +26,7 @@
 
     <script type="text/javascript" src="main.js" defer></script>
     <script type="text/javascript" src="orbitalPeriod.js" defer></script>
+    <script type="text/javascript" src="targetOrbitalPeriod.js" defer></script>
 </head>
 <body>
     <div class="header">
@@ -53,9 +54,22 @@
         <button onclick="orbitalPeriod()">
             <div><p>Orbital Period</p></div>
         </button>
-        <div id="orbitPeriodOutput"></div>
+        <div id="orbitPeriodOutput"></div> <br />
 
-        <br />
+        <!--Target Orbital Period-->
+        <form>
+            H: <input type="number" id="targetOPH" /> M: <input type="number" id="targetOPM" /> S:
+            <input type="number" id="targetOPS" /> <br />
+            Orbit Type: <select id="targetOPType" onchange="targetOrbitalPeriod.updateType()">
+                <option value="circular">Circular</option>
+                <option value="elliptical">Elliptical</option>
+            </select>
+            <div id="targetOPTypeOptions"></div>
+        </form>
+        <button onclick="targetOrbitalPeriod.run()">
+            <div><p>Target Orbital Period</p></div>
+        </button>
+        <div id="targetOPOutput"></div><br />
 
         <button onclick="window.location.href = '../';">
             <div>
