@@ -1,4 +1,4 @@
-const changeOrbit = function () {
+﻿const changeOrbit = function () {
     console.log("----- CALCULATING CHANGE ORBIT -----");
 
     // ----- GET VALUES -----
@@ -30,74 +30,80 @@ const changeOrbit = function () {
 
     console.log(debugAltitude);
 
+    let totalDeltaV = 0;
     while (currApoapsis != toApoapsis || currPeriapsis != toPeriapsis) {
         let first = "";
         let last = "";
         let manoeuvreAlt = 0;
-        if (toPeriapsis < currPeriapsis) {
-            // decrease periapsis at apoapsis - burn retrograde
-            console.log("decrease periapsis at apoapsis - burn retrograde");
+        let changePeriapsis = false;
 
-            currPeriapsis = toPeriapsis;
-
-            debugAltitude.apoapsis = currApoapsis;
-            debugAltitude.periapsis = currPeriapsis;
-            console.log(debugAltitude);
-
-            first = "Burn ";
-            last = " m/s retrograde at apoapsis<br>";
-            manoeuvreAlt = currApoapsis;
-        } else if (toPeriapsis > currPeriapsis) {
-            // increase periapsis at apoapsis - burn prograde
-            console.log("increase periapsis at apoapsis - burn prograde");
-
-            currPeriapsis = toPeriapsis;
-
-            debugAltitude.apoapsis = currApoapsis;
-            debugAltitude.periapsis = currPeriapsis;
-            console.log(debugAltitude);
-
-            first = "Burn ";
-            last = " m/s prograde at apoapsis<br>";
-            manoeuvreAlt = currApoapsis;
-        } else if (toApoapsis > currApoapsis) {
+        if (toApoapsis > currApoapsis) {
             // increase apoapsis at periapsis - burn prograde
             console.log("increase apoapsis at periapsis - burn prograde");
-
-            currApoapsis = toApoapsis;
-
-            debugAltitude.apoapsis = currApoapsis;
-            debugAltitude.periapsis = currPeriapsis;
-            console.log(debugAltitude);
 
             first = "Burn ";
             last = " m/s prograde at periapsis<br>";
             manoeuvreAlt = currPeriapsis;
-        } else if (toApoapsis < currApoapsis) {
+        } else if (toApoapsis < currApoapsis && toApoapsis >= currPeriapsis) {
             // decrease apoapsis at periapsis - burn retorgrade
             console.log("decrease apoapsis at periapsis - burn retorgrade");
-
-            currApoapsis = toApoapsis;
-
-            debugAltitude.apoapsis = currApoapsis;
-            debugAltitude.periapsis = currPeriapsis;
-            console.log(debugAltitude);
 
             first = "Burn ";
             last = " m/s retrograde at periapsis<br>";
             manoeuvreAlt = currPeriapsis;
-        } else {
-            // should never happen but written just in case
-            console.log("if statement failed");
+        } else if (toPeriapsis < currPeriapsis) {
+            // decrease periapsis at apoapsis - burn retrograde
+            console.log("decrease periapsis at apoapsis - burn retrograde");
 
-            debugAltitude.apoapsis = currApoapsis;
-            debugAltitude.periapsis = currPeriapsis;
-            console.log(debugAltitude);
+            first = "Burn ";
+            last = " m/s retrograde at apoapsis<br>";
+            manoeuvreAlt = currApoapsis;
+            changePeriapsis = true;
+        } else if (toPeriapsis > currPeriapsis) {
+            // increase periapsis at apoapsis - burn prograde
+            console.log("increase periapsis at apoapsis - burn prograde");
+
+            first = "Burn ";
+            last = " m/s prograde at apoapsis<br>";
+            manoeuvreAlt = currApoapsis;
+            changePeriapsis = true;
+        } else {
+            alert("Manoeuvre planning failed");
             break;
         }
 
-        //let currentV = tools.
+        let currentV = tools.velocityElliptical(tools.semiMajorAxis(currApoapsis, currPeriapsis), manoeuvreAlt);
+        let targetV = 0;
+        if (changePeriapsis) {
+            targetV = tools.velocityElliptical(tools.semiMajorAxis(currApoapsis, toPeriapsis), manoeuvreAlt);
+
+            currPeriapsis = toPeriapsis;
+        } else {
+            targetV = tools.velocityElliptical(tools.semiMajorAxis(toApoapsis, currPeriapsis), manoeuvreAlt);
+
+            currApoapsis = toApoapsis;
+        }
+
+        debugAltitude.apoapsis = currApoapsis;
+        debugAltitude.periapsis = currPeriapsis;
+        console.log(debugAltitude);
+
+        let deltaV = Math.abs(targetV - currentV);
+
+        totalDeltaV += deltaV;
+
+        console.log("Delta V: " + deltaV);
+        //console.log(first + deltaV.toLocaleString() + last);
+
+        innerHTML += first + deltaV.toLocaleString() + last;
     }
+
+    if (innerHTML === "") {
+        innerHTML = "No manoeuvres required<br>";
+    } else {
+        innerHTML += "Total Δv required: " + totalDeltaV.toLocaleString() + " m/s<br>";
+    }
+    $("#changeOrbOut").html(innerHTML);
 
     console.log("----- END -----");
 };
