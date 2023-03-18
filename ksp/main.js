@@ -75,4 +75,6 @@ $(function () {
 
     tools.bodies.set("kerbin", new Body(3.5316, 12, 600, 21549.425));
     tools.bodies.set("mun", new Body(6.5138398, 10, 200, 138984.38));
+
+    targetOrbitalPeriod.init();
 });

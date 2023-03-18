@@ -1,20 +1,24 @@
 const targetOrbitalPeriod = (function () {
     let type = "circular";
     return {
+        init: function () {
+            $("#targetOPTypeOptions").hide();
+        },
+
         updateType: function () {
             type = document.getElementById("targetOPType").value || "circular";
             console.log("Changed orbit type to: " + type);
             let innerHTML = "";
             switch (type) {
                 case "elliptical":
-                    innerHTMl = "Altitude: <input type=\"number\" id=\"targetOPOption\" /><br>"
+                    $("#targetOPTypeOptions").show();
                     break;
                 case "circular":
-                    innerHTMl = "";
+                    $("#targetOPTypeOptions").hide();
                     break;
             }
 
-            document.getElementById("targetOPTypeOptions").innerHTML = innerHTMl;
+            //document.getElementById("targetOPTypeOptions").innerHTML = innerHTMl;
         },
 
         run: function () {
@@ -52,5 +56,5 @@ const targetOrbitalPeriod = (function () {
 
             console.log("----- END -----");
         }
-    };
+    }
 })();
