@@ -1,12 +1,8 @@
 const targetOrbitalPeriod = (function () {
     let type = "circular";
     return {
-        init: function () {
-            $("#targetOPTypeOptions").hide();
-        },
-
         updateType: function () {
-            type = document.getElementById("targetOPType").value || "circular";
+            type = $("#targetOPType").val() || "circular";
             console.log("Changed orbit type to: " + type);
             let innerHTML = "";
             switch (type) {
@@ -23,9 +19,9 @@ const targetOrbitalPeriod = (function () {
 
         run: function () {
             console.log("----- CALCULATING TARGET ORBITAL PERIOD -----");
-            const hours = parseFloat(document.getElementById("targetOPH").value) || 0;
-            const minutes = parseFloat(document.getElementById("targetOPM").value) || 0;
-            const seconds = parseFloat(document.getElementById("targetOPS").value) || 0;
+            const hours   = $("#targetOPH").val() * 1 || 0;
+            const minutes = $("#targetOPM").val() * 1 || 0;
+            const seconds = $("#targetOPS").val() * 1 || 0;
             const orbitalPeriod = (hours * 60 * 60) + (minutes * 60) + seconds;
 
             console.log("Orbital period: " + orbitalPeriod + " seconds");
@@ -40,7 +36,7 @@ const targetOrbitalPeriod = (function () {
                     periapsis = apoapsis;
                     break;
                 case "elliptical":
-                    apoapsis = parseFloat(document.getElementById("targetOPOption").value) || 0;
+                    apoapsis = $("#targetOPOption").val() * 1 || 0;
                     periapsis = tools.ellipticalFromSMA(sma, apoapsis);
                     break;
             };
@@ -49,7 +45,8 @@ const targetOrbitalPeriod = (function () {
             periapsis = Math.min(apoapsis, periapsis);
             apoapsis = max;
 
-            document.getElementById("targetOPOutput").innerHTML = "Apoapsis: " + tools.cleanNumber(apoapsis) + " km <br>Periapsis: " + tools.cleanNumber(periapsis) + " km";
+            //document.getElementById("targetOPOutput").innerHTML = "Apoapsis: " + tools.cleanNumber(apoapsis) + " km <br>Periapsis: " + tools.cleanNumber(periapsis) + " km";
+            $("#targetOPOutput").html("Apoapsis: " + tools.cleanNumber(apoapsis) + " km <br>Periapsis: " + tools.cleanNumber(periapsis) + " km");
 
             console.log("Apoapsis: " + apoapsis + " km");
             console.log("Periapsis: " + periapsis + " km");
