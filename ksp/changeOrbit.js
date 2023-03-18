@@ -1,4 +1,6 @@
 const changeOrbit = function () {
+    console.log("----- CALCULATING CHANGE ORBIT -----");
+
     // ----- GET VALUES -----
     let fromApoapsis = $("#changeOrbFrAp").val() * 1 || 0;
     let fromPeriapsis = $("#changeOrbFrPe").val() * 1 || 0;
@@ -10,7 +12,7 @@ const changeOrbit = function () {
     let toApoapsis =  $("#changeOrbToAp").val() * 1 || 0;
     let toPeriapsis = $("#changeOrbToPe").val() * 1 || 0;
 
-    let max = Math.max(toApoapsis, toPeriapsis);
+    max = Math.max(toApoapsis, toPeriapsis);
     toPeriapsis = Math.min(toApoapsis, toPeriapsis);
     toApoapsis = max;
 
@@ -21,15 +23,60 @@ const changeOrbit = function () {
 
     let output = "";
 
+    let debugAltitude = {
+        apoapsis: currApoapsis,
+        periapsis: currPeriapsis
+    };
+
+    console.log(debugAltitude);
+
     while (currApoapsis != toApoapsis || currPeriapsis != toPeriapsis) {
         if (toPeriapsis < currPeriapsis) {
             // decrease periapsis at apoapsis - burn retrograde
-        } else if (toPeriapsis > currPeriapsis && toPeriapsis < currApoapsis) {
+            console.log("decrease periapsis at apoapsis - burn retrograde");
+
+            currPeriapsis = toPeriapsis;
+
+            debugAltitude.apoapsis = currApoapsis;
+            debugAltitude.periapsis = currPeriapsis;
+            console.log(debugAltitude);
+        } else if (toPeriapsis > currPeriapsis) {
             // increase periapsis at apoapsis - burn prograde
+            console.log("increase periapsis at apoapsis - burn prograde");
+
+            currPeriapsis = toPeriapsis;
+
+            debugAltitude.apoapsis = currApoapsis;
+            debugAltitude.periapsis = currPeriapsis;
+            console.log(debugAltitude);
         } else if (toApoapsis > currApoapsis) {
             // increase apoapsis at periapsis - burn prograde
-        } else if (toApoapsis < currApoapsis && toApoapsis > currPeriapsis) {
+            console.log("increase apoapsis at periapsis - burn prograde");
+
+            currApoapsis = toApoapsis;
+
+            debugAltitude.apoapsis = currApoapsis;
+            debugAltitude.periapsis = currPeriapsis;
+            console.log(debugAltitude);
+        } else if (toApoapsis < currApoapsis) {
             // decrease apoapsis at periapsis - burn retorgrade
+            console.log("decrease apoapsis at periapsis - burn retorgrade");
+
+            currApoapsis = toApoapsis;
+
+            debugAltitude.apoapsis = currApoapsis;
+            debugAltitude.periapsis = currPeriapsis;
+            console.log(debugAltitude);
+        } else {
+            // should never happen but written just in case
+            console.log("if statement failed");
+
+            debugAltitude.apoapsis = currApoapsis;
+            debugAltitude.periapsis = currPeriapsis;
+            console.log(debugAltitude);
+            break;
         }
     }
+
+    console.log("----- END -----");
 };
