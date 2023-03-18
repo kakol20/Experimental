@@ -1,8 +1,8 @@
 const orbitalPeriod = function () {
     console.log("----- CALCULATING ORBITAL PERIOD -----");
 
-    const apoapsis = parseFloat(document.getElementById("orbitPeriodAp").value) || 0;
-    const periapsis = parseFloat(document.getElementById("orbitPeriodPe").value) || 0;
+    const apoapsis = $("#orbitPeriodAp").val() * 1 || 0;
+    const periapsis = $("#orbitPeriodPe").val() * 1 || 0;
 
     const semiMajorAxis = tools.semiMajorAxis(apoapsis, periapsis);
 
@@ -15,5 +15,6 @@ const orbitalPeriod = function () {
 
     console.log("----- END -----");
 
-    document.getElementById("orbitPeriodOutput").innerHTML = tools.cleanPeriod(result);
+    //document.getElementById("orbitPeriodOutput").innerHTML = tools.cleanPeriod(result);
+    $("#orbitPeriodOutput").html(tools.cleanPeriod(result));
 };

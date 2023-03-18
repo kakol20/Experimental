@@ -9,14 +9,14 @@
 
 const tools = (function () {
     return {
+        orbitBody: "kerbin",
+        bodies: new Map(),
+
         updateBody: function () {
-            this.orbitBody = document.getElementById("orbitBody").value || "kerbin";
+            this.orbitBody = $("#orbitBody").val() || "kerbin";
 
             console.log("Orbit Body changed to: " + this.orbitBody);
         },
-        orbitBody: "kerbin",
-
-        bodies: new Map(),
 
         getBody: function () {
             return this.bodies.get(this.orbitBody);
@@ -54,7 +54,7 @@ const tools = (function () {
             accumulated -= minutes;
             accumulated /= 60;
 
-            output = String(accumulated) + "h, ";
+            output = accumulated.toLocaleString() + "h, ";
             output += String(minutes) + "m, ";
             output += Decimal(seconds).toDecimalPlaces(4) + "s";
 
@@ -62,7 +62,7 @@ const tools = (function () {
         },
 
         cleanNumber: function (number) {
-            return number.toLocaleString("en-US");
+            return number.toLocaleString();
         }
     };
 })();
@@ -75,6 +75,4 @@ $(function () {
 
     tools.bodies.set("kerbin", new Body(3.5316, 12, 600, 21549.425));
     tools.bodies.set("mun", new Body(6.5138398, 10, 200, 138984.38));
-
-    targetOrbitalPeriod.init();
 });
