@@ -19,9 +19,7 @@
     <link rel="stylesheet" type="text/css" href="../css/stylesheet.css">
 
     <!--Javascript-->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
-            crossorigin="anonymous" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" defer></script>
     <script type="text/javascript" src="../scripts/decimal.js" defer></script>
 
     <script type="text/javascript" src="main.js" defer></script>
@@ -64,7 +62,9 @@
                 <option value="circular">Circular</option>
                 <option value="elliptical">Elliptical</option>
             </select>
-            <div id="targetOPTypeOptions"></div>
+            <div id="targetOPTypeOptions">
+                Altitude: <input type="number" id="targetOPOption" /><br>
+            </div>
         </form>
         <button onclick="targetOrbitalPeriod.run()">
             <div><p>Target Orbital Period</p></div>
