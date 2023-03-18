@@ -16,4 +16,20 @@ const changeOrbit = function () {
 
     let currApoapsis = fromApoapsis;
     let currPeriapsis = fromPeriapsis;
+
+    // ----- DETERMINE ORDER OF OPERATION -----
+
+    let output = "";
+
+    while (currApoapsis != toApoapsis || currPeriapsis != toPeriapsis) {
+        if (toPeriapsis < currPeriapsis) {
+            // decrease periapsis at apoapsis - burn retrograde
+        } else if (toPeriapsis > currPeriapsis && toPeriapsis < currApoapsis) {
+            // increase periapsis at apoapsis - burn prograde
+        } else if (toApoapsis > currApoapsis) {
+            // increase apoapsis at periapsis - burn prograde
+        } else if (toApoapsis < currApoapsis && toApoapsis > currPeriapsis) {
+            // decrease apoapsis at periapsis - burn retorgrade
+        }
+    }
 };
