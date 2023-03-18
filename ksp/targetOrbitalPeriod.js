@@ -4,7 +4,6 @@ const targetOrbitalPeriod = (function () {
         updateType: function () {
             type = $("#targetOPType").val() || "circular";
             console.log("Changed orbit type to: " + type);
-            let innerHTML = "";
             switch (type) {
                 case "elliptical":
                     $("#targetOPTypeOptions").show();
