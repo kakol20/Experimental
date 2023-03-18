@@ -77,6 +77,18 @@ const tools = (function () {
 
         cleanNumber: function (number) {
             return number.toLocaleString();
+        },
+
+        // https://en.wikipedia.org/wiki/Orbital_speed
+        // http://www.braeunig.us/space/orbmech.htm#maneuver
+        // All in m/s
+        velocityCircular: function (sma) {
+            const kms = Math.sqrt(this.getBody().sgp / sma);
+            return kms * 1000;
+        },
+        velocityElliptical: function (sma, altitude) {
+            const kms = Math.sqrt(this.getBody().sgp * ((2 / (altitude + this.getBody().radius)) - (1 / sma)));
+            return kms * 1000;
         }
     };
 })();
