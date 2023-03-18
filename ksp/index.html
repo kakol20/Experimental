@@ -25,6 +25,7 @@
     <script type="text/javascript" src="main.js" defer></script>
     <script type="text/javascript" src="orbitalPeriod.js" defer></script>
     <script type="text/javascript" src="targetOrbitalPeriod.js" defer></script>
+    <script type="text/javascript" src="changeOrbit.js" defer></script>
 </head>
 <body>
     <div class="header">
@@ -71,6 +72,18 @@
             <div><p>Target Orbital Period</p></div>
         </button>
         <div id="targetOPOutput"></div><br />
+
+        <!-- Change Orbit -->
+        <form>
+            From Apoapsis: <input type="number" id="changeOrbFrAp" /><br />
+            From Periapsis: <input type="number" id="changeOrbFrPe" /><br />
+            To Apoapsis: <input type="number" id="changeOrbToAp" /><br />
+            To Periapsis: <input type="number" id="changeOrbToPe" />
+        </form>
+        <button onclick="changeOrbit()">
+            <div><p>Change Orbit</p></div>
+        </button>
+        <div id="changeOrbOut"></div><br />
 
         <button onclick="window.location.href = '../';">
             <div>
