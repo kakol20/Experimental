@@ -21,7 +21,7 @@ const changeOrbit = function () {
 
     // ----- DETERMINE ORDER OF OPERATION -----
 
-    let output = "";
+    let innerHTML = "";
 
     let debugAltitude = {
         apoapsis: currApoapsis,
@@ -31,6 +31,9 @@ const changeOrbit = function () {
     console.log(debugAltitude);
 
     while (currApoapsis != toApoapsis || currPeriapsis != toPeriapsis) {
+        let first = "";
+        let last = "";
+        let manoeuvreAlt = 0;
         if (toPeriapsis < currPeriapsis) {
             // decrease periapsis at apoapsis - burn retrograde
             console.log("decrease periapsis at apoapsis - burn retrograde");
@@ -40,6 +43,10 @@ const changeOrbit = function () {
             debugAltitude.apoapsis = currApoapsis;
             debugAltitude.periapsis = currPeriapsis;
             console.log(debugAltitude);
+
+            first = "Burn ";
+            last = " m/s retrograde at apoapsis<br>";
+            manoeuvreAlt = currApoapsis;
         } else if (toPeriapsis > currPeriapsis) {
             // increase periapsis at apoapsis - burn prograde
             console.log("increase periapsis at apoapsis - burn prograde");
@@ -49,6 +56,10 @@ const changeOrbit = function () {
             debugAltitude.apoapsis = currApoapsis;
             debugAltitude.periapsis = currPeriapsis;
             console.log(debugAltitude);
+
+            first = "Burn ";
+            last = " m/s prograde at apoapsis<br>";
+            manoeuvreAlt = currApoapsis;
         } else if (toApoapsis > currApoapsis) {
             // increase apoapsis at periapsis - burn prograde
             console.log("increase apoapsis at periapsis - burn prograde");
@@ -58,6 +69,10 @@ const changeOrbit = function () {
             debugAltitude.apoapsis = currApoapsis;
             debugAltitude.periapsis = currPeriapsis;
             console.log(debugAltitude);
+
+            first = "Burn ";
+            last = " m/s prograde at periapsis<br>";
+            manoeuvreAlt = currPeriapsis;
         } else if (toApoapsis < currApoapsis) {
             // decrease apoapsis at periapsis - burn retorgrade
             console.log("decrease apoapsis at periapsis - burn retorgrade");
@@ -67,6 +82,10 @@ const changeOrbit = function () {
             debugAltitude.apoapsis = currApoapsis;
             debugAltitude.periapsis = currPeriapsis;
             console.log(debugAltitude);
+
+            first = "Burn ";
+            last = " m/s retrograde at periapsis<br>";
+            manoeuvreAlt = currPeriapsis;
         } else {
             // should never happen but written just in case
             console.log("if statement failed");
@@ -76,6 +95,8 @@ const changeOrbit = function () {
             console.log(debugAltitude);
             break;
         }
+
+        //let currentV = tools.
     }
 
     console.log("----- END -----");
