@@ -37,22 +37,7 @@
         let manoeuvreAlt = 0;
         let changePeriapsis = false;
 
-        if (toApoapsis < currApoapsis && toApoapsis >= currPeriapsis) {
-            // decrease apoapsis at periapsis - burn retorgrade
-            console.log("decrease apoapsis at periapsis - burn retorgrade");
-
-            first = "Burn ";
-            last = " m/s retrograde at periapsis<br>";
-            manoeuvreAlt = currPeriapsis;
-        } else if (toPeriapsis > currPeriapsis && toPeriapsis <= currApoapsis) {
-            // increase periapsis at apoapsis - burn prograde
-            console.log("increase periapsis at apoapsis - burn prograde");
-
-            first = "Burn ";
-            last = " m/s prograde at apoapsis<br>";
-            manoeuvreAlt = currApoapsis;
-            changePeriapsis = true;
-        } else if (toApoapsis > currApoapsis) {
+        if (toApoapsis > currApoapsis) {
             // increase apoapsis at periapsis - burn prograde
             console.log("increase apoapsis at periapsis - burn prograde");
 
@@ -65,6 +50,21 @@
 
             first = "Burn ";
             last = " m/s retrograde at apoapsis<br>";
+            manoeuvreAlt = currApoapsis;
+            changePeriapsis = true;
+        } else if (toApoapsis < currApoapsis && toApoapsis >= currPeriapsis) {
+            // decrease apoapsis at periapsis - burn retorgrade
+            console.log("decrease apoapsis at periapsis - burn retorgrade");
+
+            first = "Burn ";
+            last = " m/s retrograde at periapsis<br>";
+            manoeuvreAlt = currPeriapsis;
+        } else if (toPeriapsis > currPeriapsis && toPeriapsis <= currApoapsis) {
+            // increase periapsis at apoapsis - burn prograde
+            console.log("increase periapsis at apoapsis - burn prograde");
+
+            first = "Burn ";
+            last = " m/s prograde at apoapsis<br>";
             manoeuvreAlt = currApoapsis;
             changePeriapsis = true;
         } else {
