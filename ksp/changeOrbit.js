@@ -9,7 +9,7 @@
     fromPeriapsis = Math.min(fromApoapsis, fromPeriapsis);
     fromApoapsis = max;
 
-    let toApoapsis =  $("#changeOrbToAp").val() * 1 || 0;
+    let toApoapsis = $("#changeOrbToAp").val() * 1 || 0;
     let toPeriapsis = $("#changeOrbToPe").val() * 1 || 0;
 
     max = Math.max(toApoapsis, toPeriapsis);
@@ -44,13 +44,6 @@
             first = "Burn ";
             last = " m/s prograde at periapsis<br>";
             manoeuvreAlt = currPeriapsis;
-        } else if (toApoapsis < currApoapsis && toApoapsis >= currPeriapsis) {
-            // decrease apoapsis at periapsis - burn retorgrade
-            console.log("decrease apoapsis at periapsis - burn retorgrade");
-
-            first = "Burn ";
-            last = " m/s retrograde at periapsis<br>";
-            manoeuvreAlt = currPeriapsis;
         } else if (toPeriapsis < currPeriapsis) {
             // decrease periapsis at apoapsis - burn retrograde
             console.log("decrease periapsis at apoapsis - burn retrograde");
@@ -59,7 +52,14 @@
             last = " m/s retrograde at apoapsis<br>";
             manoeuvreAlt = currApoapsis;
             changePeriapsis = true;
-        } else if (toPeriapsis > currPeriapsis) {
+        } else if (toApoapsis < currApoapsis && toApoapsis >= currPeriapsis) {
+            // decrease apoapsis at periapsis - burn retorgrade
+            console.log("decrease apoapsis at periapsis - burn retorgrade");
+
+            first = "Burn ";
+            last = " m/s retrograde at periapsis<br>";
+            manoeuvreAlt = currPeriapsis;
+        } else if (toPeriapsis > currPeriapsis && toPeriapsis <= currApoapsis) {
             // increase periapsis at apoapsis - burn prograde
             console.log("increase periapsis at apoapsis - burn prograde");
 
