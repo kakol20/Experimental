@@ -93,15 +93,14 @@
         totalDeltaV += deltaV;
 
         console.log("Delta V: " + deltaV);
-        //console.log(first + deltaV.toLocaleString() + last);
 
-        innerHTML += first + deltaV.toLocaleString() + last;
+        innerHTML += first + tools.cleanNumber(deltaV) + last;
     }
 
     if (innerHTML === "") {
         innerHTML = "No manoeuvres required<br>";
     } else {
-        innerHTML += "Total Δv required: " + totalDeltaV.toLocaleString() + " m/s<br>";
+        innerHTML += "Total Δv required: " + tools.cleanNumber(totalDeltaV) + " m/s<br>";
     }
     $("#changeOrbOut").html(innerHTML);
 
