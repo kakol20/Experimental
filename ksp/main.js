@@ -15,16 +15,16 @@
         this.soi = soi;
 
         // ----- SAVE BODY INFO IN HTML FORM -----
-        this.bodyInfo = "Equatorial Radius: " + this.radius.toLocaleString() + " km<br>";
+        this.bodyInfo = "Equatorial Radius: " + tools.cleanNumber(this.radius) + " km<br>";
 
         // tools.cleanPeriod(this.rotPeriod)
-        let span = "<span title=\"" + this.rotPeriod.toLocaleString() + " seconds\">" + tools.cleanPeriod(this.rotPeriod) + "</span>";
+        let span = "<span title=\"" + tools.cleanNumber(this.rotPeriod) + " seconds\">" + tools.cleanPeriod(this.rotPeriod) + "</span>";
 
-        this.bodyInfo += "Standard Gravitational Parameter: " + this.sgp.toLocaleString() + " km<sup>3</sup>/s<sup>-2</sup><br>";
+        this.bodyInfo += "Standard Gravitational Parameter: " + tools.cleanNumber(this.sgp) + " km<sup>3</sup>/s<sup>-2</sup><br>";
         this.bodyInfo += "Sidereal Rotational Period: " + span + "<br>";
-        this.bodyInfo += "Synchronous Orbit: " + this.syncOrbit.toLocaleString() + " km<br>";
-        this.bodyInfo += "Semi-synchronous Orbit: " + this.semiSyncOrbit.toLocaleString() + " km<br>";
-        this.bodyInfo += "Sphere of Influence: " + this.soi.toLocaleString() + " km<br>"; 
+        this.bodyInfo += "Synchronous Orbit: " + tools.cleanNumber(this.syncOrbit) + " km<br>";
+        this.bodyInfo += "Semi-synchronous Orbit: " + tools.cleanNumber(this.semiSyncOrbit) + " km<br>";
+        this.bodyInfo += "Sphere of Influence: " + tools.cleanNumber(this.soi) + " km<br>"; 
     }
 };
 
