@@ -26,6 +26,7 @@
     <script type="text/javascript" src="orbitalPeriod.js" defer></script>
     <script type="text/javascript" src="targetOrbitalPeriod.js" defer></script>
     <script type="text/javascript" src="changeOrbit.js" defer></script>
+    <script type="text/javascript" src="resonantOrbit.js" defer></script>
 </head>
 <body>
     <div class="header">
@@ -42,6 +43,7 @@
             Orbit Body: <select id="orbitBody" onchange="tools.updateBody()">
                 <option value="kerbin">Kerbin</option>
                 <option value="mun">Mun</option>
+                <option value="minmus">Minmus</option>
             </select> <br />
         </form>
         <div id="bodyInfo"></div> <br />
@@ -84,6 +86,25 @@
             <div><p>Change Orbit</p></div>
         </button>
         <div id="changeOrbOut"></div><br />
+
+        <!-- Resonant Orbit -->
+        <form>
+            Dive Orbit: <input type="checkbox" id="resonantDive"><br>
+            No. of Satellites: <input type="number" id="resonantSatNo" min="3" value="3"><br>
+            Altitude: <select id="resonantSelect" onchange="resonant.showAlt()">
+                <option value="syncOrbit">Sychronous Orbit</option>
+                <option value="semiSyncOrbit">Semi-Synchronous Orbit</option>
+                <option value="custom">Custom</option>
+                <option value="minLOS">Minimum LOS</option>
+                <option value="maxRange">Maximum Range</option>
+            </select><br>
+            <div id="resonantCustomHTML" hidden>Custom Altitude in km: <input type="number" id="resonantCustom"><br></div>
+            <div id="resonantMaxRangeHTML" hidden>Max Range in km: <input type="number" id="resonantMaxRange"><br></div>
+        </form>
+        <button onclick="resonant.run()">
+            <div><p>Resonant Orbit</p></div>
+        </button>
+        <div id="resonantOutput"></div><br>
 
         <button onclick="window.location.href = '../';">
             <div>
