@@ -80,9 +80,9 @@ const resonant = (function() {
 
             console.log("Delta V: " + deltaV);
 
-            let output = "Apoapsis: " + apoapsis.toLocaleString() + " km<br>";
-            output += "Periapsis: " + periapsis.toLocaleString() + " km<br>";
-            output += "Δv required: " + deltaV.toLocaleString() + " m/s<br>";
+            let output = "Apoapsis: " + tools.cleanNumber(apoapsis) + " km<br>";
+            output += "Periapsis: " + tools.cleanNumber(periapsis) + " km<br>";
+            output += "Δv required: " + tools.cleanNumber(deltaV) + " m/s<br>";
             output += "Final Period: " + tools.cleanPeriod(period) + "<br>";
 
             $("#resonantOutput").html(output);

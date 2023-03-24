@@ -76,7 +76,7 @@ const tools = (function () {
             accumulated -= minutes;
             accumulated /= 60;
 
-            output = accumulated.toLocaleString() + "h, ";
+            output = this.cleanNumber(accumulated) + "h, ";
             output += String(minutes) + "m, ";
             output += Decimal(seconds).toDecimalPlaces(4) + "s";
 
@@ -84,7 +84,7 @@ const tools = (function () {
         },
 
         cleanNumber: function (number) {
-            return number.toLocaleString();
+            return number.toLocaleString('en-US', { style: 'decimal', maximumFractionDigits : 4});
         },
 
         // https://en.wikipedia.org/wiki/Orbital_speed
