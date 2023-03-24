@@ -1,5 +1,5 @@
 ﻿class Body {
-    constructor(sgp, sgpPow, radius, rotPeriod) {
+    constructor(sgp, sgpPow, radius, rotPeriod, soi) {
         this.sgp = sgp * Math.pow(10, sgpPow - 9);
 
         this.radius = radius; // in km
@@ -12,6 +12,8 @@
         this.semiSyncOrbit = Math.cbrt((semiPeriod * semiPeriod * this.sgp) / (4 * Math.PI * Math.PI));
         this.semiSyncOrbit -= this.radius;
 
+        this.soi = soi;
+
         // ----- SAVE BODY INFO IN HTML FORM -----
         this.bodyInfo = "Equatorial Radius: " + this.radius.toLocaleString() + " km<br>";
 
@@ -22,6 +24,7 @@
         this.bodyInfo += "Sidereal Rotational Period: " + span + "<br>";
         this.bodyInfo += "Synchronous Orbit: " + this.syncOrbit.toLocaleString() + " km<br>";
         this.bodyInfo += "Semi-synchronous Orbit: " + this.semiSyncOrbit.toLocaleString() + " km<br>";
+        this.bodyInfo += "Sphere of Influence: " + this.soi.toLocaleString() + " km<br>"; 
     }
 };
 
@@ -104,8 +107,9 @@ $(function () {
     console.log("-----");
     //console.log("");
 
-    tools.bodies.set("kerbin", new Body(3.5316, 12, 600, 21549.425));
-    tools.bodies.set("mun", new Body(6.5138398, 10, 200, 138984.38));
+    tools.bodies.set("kerbin", new Body(3.5316, 12, 600, 21549.425, 84159.286));
+    tools.bodies.set("mun", new Body(6.5138398, 10, 200, 138984.38, 2429.5591));
+    tools.bodies.set("minmus", new Body(1.7658, 9, 60, 40400, 2247.4284));
 
     tools.updateBody();
     targetOrbitalPeriod.updateType();
