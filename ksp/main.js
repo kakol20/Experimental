@@ -84,7 +84,7 @@ const tools = (function () {
         },
 
         cleanNumber: function (number) {
-            return number.toLocaleString();
+            return number.toLocaleString('en-US', { style: 'decimal', maximumFractionDigits : 2, minimumFractionDigits : 2 });
         },
 
         // https://en.wikipedia.org/wiki/Orbital_speed
