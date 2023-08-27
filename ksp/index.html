@@ -27,6 +27,7 @@
     <script type="text/javascript" src="targetOrbitalPeriod.js" defer></script>
     <script type="text/javascript" src="changeOrbit.js" defer></script>
     <script type="text/javascript" src="resonantOrbit.js" defer></script>
+    <script type="text/javascript" src="inclination.js" defer></script>
 </head>
 <body>
     <div class="header">
@@ -105,6 +106,25 @@
             <div><p>Resonant Orbit</p></div>
         </button>
         <div id="resonantOutput"></div><br>
+
+        <!-- Change Inclination -->
+
+        <form>
+            Apoapsis in km: <input type="number" id="inclAp"> <br>
+            Periapsis in km: <input type="number" id="inclPe"> <br>
+            Inclination in degrees: <input type="number" id="inclDeg"> <br><br>
+
+            Target Inclination in degrees: <input type="number" id="inclTIncl"> <br>
+            Max Altitude in km: <input type="number" id="inclMaxAlt"> <br>
+            Mininmum Fraction: <input type="number" id="inclMinFrac" min="0"> <br>
+            Increment in km: <input type="number" id="inclInc"> <br>
+        </form>
+        <button onclick="inclination.run()">
+            <div>
+                <p>Change Inclination</p>
+            </div>
+        </button>
+        <div id="changeInclOutput"></div><br>
 
         <button onclick="window.location.href = '../';">
             <div>
