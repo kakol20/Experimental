@@ -84,7 +84,7 @@ const tools = (function () {
         },
 
         cleanNumber: function (number) {
-            return number.toLocaleString('en-US', { style: 'decimal', maximumFractionDigits : 4});
+            return number.toLocaleString('en-UK', { style: 'decimal', maximumFractionDigits : 4});
         },
 
         // https://en.wikipedia.org/wiki/Orbital_speed
@@ -97,6 +97,15 @@ const tools = (function () {
         velocityElliptical: function (sma, altitude) {
             const kms = Math.sqrt(this.getBody().sgp * ((2 / (altitude + this.getBody().radius)) - (1 / sma)));
             return kms * 1000;
+        },
+
+        changeInclination: function(velocity, start, end) {
+            let delta = Math.abs(this.degreesToRadians(start) - this.degreesToRadians(end));
+
+            return Math.abs(Math.sin(delta / 2) * velocity) * 2;
+        },
+        degreesToRadians: function(degrees) {
+            return degrees * (Math.PI / 180.0);
         }
     };
 })();
