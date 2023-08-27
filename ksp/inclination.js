@@ -59,6 +59,8 @@ const inclination = (function() {
                 output += "Fraction = " + tools.cleanNumber(currentFraction) + "<br>";
                 $("#changeInclOutput").html(output);
             }
+
+            console.log("----- END -----");
         },
 
         calculateDV: function(orbitAP, orbitPE, burnAP, inclStart, inclEnd, debug) {
