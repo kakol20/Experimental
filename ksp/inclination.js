@@ -15,7 +15,7 @@ const inclination = (function() {
             const maxAltitude = $("#inclMaxAlt").val() * 1 || 80000;
             const minFraction = $("#inclMinFrac").val() * 1 || 0;
 
-            const originalDV = this.calculateDV(orbitAp, orbitPe, orbitAp, orbitIncl, targetIncl, false);
+            const originalDV = this.calculateDV(orbitAp, orbitPe, orbitAp, orbitIncl, targetIncl, false).totalDV;
 
             // console.log(orbitAp);
             // console.log(orbitPe);
@@ -35,7 +35,7 @@ const inclination = (function() {
                 if (nextAp > maxAltitude) {
                     break;
                 } else {
-                    let nextDV = this.calculateDV(orbitAp, orbitPe, nextAp, orbitIncl, targetIncl, false);
+                    let nextDV = this.calculateDV(orbitAp, orbitPe, nextAp, orbitIncl, targetIncl, false).totalDV;
                     let nextFraction = nextDV / originalDV;
 
                     if (nextFraction > minFraction && nextFraction < currentFraction) {
@@ -50,12 +50,14 @@ const inclination = (function() {
 
             let optimalDV = this.calculateDV(orbitAp, orbitPe, currentAP, orbitIncl, targetIncl, true);
 
-            if (optimalDV === 0) {
+            if (optimalDV.totalDV === 0) {
                 // $("#changeOrbOut").html(innerHTML);
                 $("#changeInclOutput").html("No manoeuvres required<br>");
             } else {
-                let output = "Change Inclination at Apoapsis " + tools.cleanNumber(currentAP) + " km<br>";
-                output += "Total Δv required &asymp; " + tools.cleanNumber(optimalDV) + " m/s<br>";
+                let output = "Change Inclination at apoapsis " + tools.cleanNumber(currentAP) + " km<br>";
+                output += "Apoapsis change Δv = " + tools.cleanNumber(optimalDV.apDV) + " m/s<br>";
+                output += "Inclination change Δv &asymp; " + tools.cleanNumber(optimalDV.inclDV) + " m/s<br>";
+                output += "Total Δv required &asymp; " + tools.cleanNumber(optimalDV.totalDV) + " m/s<br>";
                 output += "Fraction = " + tools.cleanNumber(currentFraction) + "<br>";
                 $("#changeInclOutput").html(output);
             }
@@ -85,7 +87,6 @@ const inclination = (function() {
 
             let changeInclDV = tools.changeInclination(currentV, inclStart, inclEnd);
 
-
             let result = (burn2APV * 2) + changeInclDV;
 
             if (debug) {
@@ -95,7 +96,11 @@ const inclination = (function() {
                 console.log("Total Δv: " + tools.cleanNumber(result) + " m/s");
             }
 
-            return result;
+            return {
+                'totalDV': result,
+                'inclDV': changeInclDV,
+                'apDV': burn2APV 
+            };
         }
     }
 })();
