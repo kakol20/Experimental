@@ -22,12 +22,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" defer></script>
     <script type="text/javascript" src="../scripts/decimal.js" defer></script>
 
-    <script type="text/javascript" src="main.js" defer></script>
     <script type="text/javascript" src="orbitalPeriod.js" defer></script>
     <script type="text/javascript" src="targetOrbitalPeriod.js" defer></script>
     <script type="text/javascript" src="changeOrbit.js" defer></script>
     <script type="text/javascript" src="resonantOrbit.js" defer></script>
     <script type="text/javascript" src="inclination.js" defer></script>
+
+    <script type="text/javascript" src="main.js" defer></script>
 </head>
 <body>
     <div class="header">
@@ -110,13 +111,13 @@
         <!-- Change Inclination -->
 
         <form>
-            Apoapsis in km: <input type="number" id="inclAp"> <br>
+            Apoapsis in km: <input type="number" id="inclAp" > <br>
             Periapsis in km: <input type="number" id="inclPe"> <br>
             Inclination in degrees: <input type="number" id="inclDeg"> <br><br>
 
             Target Inclination in degrees: <input type="number" id="inclTIncl"> <br>
             Max Altitude in km: <input type="number" id="inclMaxAlt"> <br>
-            Minimum Fraction: <input type="number" id="inclMinFrac" min="0"> <br>
+            Minimum Fraction: <input type="number" id="inclMinFrac" min="0.0000" max="1.0000"> <br>
             Increment in km: <input type="number" id="inclInc"> <br>
         </form>
         <button onclick="inclination.run()">
