@@ -29,7 +29,7 @@
     if (this.soi != "N/A" || !isNaN(this.soi)) {
       this.bodyInfo += 'Sphere of Influence: ' + tools.cleanNumber(this.soi) + ' km<br>';
     } else {
-      this.bodyInfo += 'Sphere of Influence: N/A or infinite<br>';
+      // this.bodyInfo += 'Sphere of Influence: N/A or infinite<br>';
     }
   }
 };
@@ -82,7 +82,17 @@ const tools = (function () {
       accumulated -= minutes;
       accumulated /= 60;
 
-      output = this.cleanNumber(accumulated) + 'h, ';
+      const hours = accumulated % 24;
+      accumulated -= hours;
+      accumulated /= 24;
+
+      const days = this.cleanNumber(accumulated);
+
+      // output = days + 'd, ';
+      if (days != '0') {
+        output = days + 'd, ';
+      }
+      output += hours + 'h, ';
       output += String(minutes) + 'm, ';
       output += Decimal(seconds).toDecimalPlaces(4) + 's';
 
@@ -123,7 +133,6 @@ $(function () {
   //console.log('');
 
   // tools.bodies.set('kerbin', new Body(3.5316, 12, 600, 21549.425, 84159.286));
-  let dataCopy = [];
   $.getJSON('bodies.json', (data) => {
     // console.log(data);
     let formHTML = '';
@@ -132,7 +141,12 @@ $(function () {
       tools.bodies.set(data[i].name, new Body(data[i].sgp, data[i].sgpPower, data[i].radius, data[i].rotPeriod, data[i].soi));
 
       // <option value='Kerbin'>Kerbin</option>
-      formHTML += '<option value=\"' + data[i].name + '\">' + data[i].name + '</option>\n';
+      if (data[i].name === 'Kerbin') {
+        formHTML += '<option selected=\"selected\" value=\"';
+      } else {
+        formHTML += '<option value=\"';
+      }
+      formHTML += data[i].name + '\">' + data[i].name + '</option>\n';
     }
 
     console.log(tools.bodies);
@@ -140,7 +154,7 @@ $(function () {
     // console.log(tools.getBody());
 
     $('#orbitBody').html(formHTML);
-    
+
     tools.updateBody();
     targetOrbitalPeriod.updateType();
     resonant.showAlt();
