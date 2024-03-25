@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Kerbin",
+    "sgp": 3.5316,
+    "sgpPower": 12,
+    "radius": 600,
+    "rotPeriod": 21549.425,
+    "soi": 84159.286
+  },
+  {
+    "name": "Mun",
+    "sgp": 6.513898,
+    "sgpPower": 10,
+    "radius": 200,
+    "rotPeriod": 138984.38,
+    "soi": 2429.5591
+  },
+  {
+    "name": "Minmus",
+    "sgp": 1.7658,
+    "sgpPower": 9,
+    "radius": 60,
+    "rotPeriod": 40400,
+    "soi": 2247.4284
+  }
+]
