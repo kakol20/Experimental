@@ -140,7 +140,7 @@ $(function () {
     // console.log(tools.getBody());
 
     $('#orbitBody').html(formHTML);
-
+    
     tools.updateBody();
     targetOrbitalPeriod.updateType();
     resonant.showAlt();
