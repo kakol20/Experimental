@@ -27,7 +27,7 @@
     "name": "Earth",
     "sgp": 3.986004418,
     "sgpPower": 14,
-    "radius": 6371,
+    "radius": 6378.137,
     "rotPeriod": 86164.100352,
     "soi": "N/A"
   },
@@ -115,9 +115,9 @@
     "name": "Moon",
     "sgp": 4.9048695,
     "sgpPower": 12,
-    "soi": "N/A",
-    "radius": 1737.4,
-    "rotPeriod": 2360591.5104
+    "radius": 1738.1,
+    "rotPeriod": 2360591.5104,
+    "soi": "N/A"
   },
   {
     "name": "Mun",
