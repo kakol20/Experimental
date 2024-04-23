@@ -34,7 +34,7 @@ html {
     --light: oklch(from var(--dark_base) l c h);
     
     --black: oklch(from var(--white_base) l c h);
-    --white: oklch(from var(--black_base) l c h);
+    --white: oklch(from var(--black_base) 0.23 c h);
   }
 }
 
