@@ -1,154 +1,154 @@
 [
-  {
-    "name": "Bop",
-    "sgp": 2.4868349,
-    "sgpPower": 9,
-    "radius": 65,
-    "rotPeriod": 544507.43,
-    "soi": 1221.0609
-  },
-  {
-    "name": "Dres",
-    "sgp": 2.1484489,
-    "sgpPower": 10,
-    "radius": 138,
-    "rotPeriod": 34800,
-    "soi": 32832.840
-  },
-  {
-    "name": "Duna",
-    "sgp": 3.0136321,
-    "sgpPower": 11,
-    "radius": 320,
-    "rotPeriod": 65517.859,
-    "soi": 47921.949
-  },
-  {
-    "name": "Earth",
-    "sgp": 3.986004418,
-    "sgpPower": 14,
-    "radius": 6378.137,
-    "rotPeriod": 86164.100352,
-    "soi": "N/A"
-  },
-  {
-    "name": "Eeloo",
-    "sgp": 7.4410815,
-    "sgpPower": 10,
-    "radius": 210,
-    "rotPeriod": 19460,
-    "soi": 119082.940
-  },
-  {
-    "name": "Eve",
-    "sgp": 8.1717302,
-    "sgpPower": 12,
-    "radius": 700,
-    "rotPeriod": 80500,
-    "soi": 85109.365
-  },
-  {
-    "name": "Gilly",
-    "sgp": 8289449.8,
-    "sgpPower": 1,
-    "radius": 13,
-    "rotPeriod": 28255,
-    "soi": 126.12327
-  },
-  {
-    "name": "Ike",
-    "sgp": 1.8568369,
-    "sgpPower": 10,
-    "radius": 130,
-    "rotPeriod": 65517.862,
-    "soi": 1049.5989
-  },
-  {
-    "name": "Jool",
-    "sgp": 2.8252800,
-    "sgpPower": 14,
-    "radius": 6000,
-    "rotPeriod": 36000,
-    "soi": 2455985.200
-  },
-  {
-    "name": "Kerbin",
-    "sgp": 3.5316,
-    "sgpPower": 12,
-    "radius": 600,
-    "rotPeriod": 21549.425,
-    "soi": 84159.286
-  },
-  {
-    "name": "Kerbol",
-    "sgp": 1.1723328,
-    "sgpPower": 18,
-    "radius": 261600,
-    "rotPeriod": 432000,
-    "soi": "N/A"
-  },
-  {
-    "name": "Laythe",
-    "sgp": 1.962,
-    "sgpPower": 12,
-    "radius": 500,
-    "rotPeriod": 52980.879,
-    "soi": 3723.6458
-  },
-  {
-    "name": "Minmus",
-    "sgp": 1.7658,
-    "sgpPower": 9,
-    "radius": 60,
-    "rotPeriod": 40400,
-    "soi": 2247.4284
-  },
-  {
-    "name": "Moho",
-    "sgp": 1.6860938,
-    "sgpPower": 11,
-    "radius": 2500,
-    "rotPeriod": 1210000,
-    "soi": 9646.663
-  },
-  {
-    "name": "Moon",
-    "sgp": 4.9048695,
-    "sgpPower": 12,
-    "radius": 1738.1,
-    "rotPeriod": 2360591.5104,
-    "soi": "N/A"
-  },
-  {
-    "name": "Mun",
-    "sgp": 6.513898,
-    "sgpPower": 10,
-    "radius": 200,
-    "rotPeriod": 138984.38,
-    "soi": 2429.5591
-  },
-  {
-    "name": "Pol",
-    "sgp": 7.2170208,
-    "sgpPower": 8,
-    "radius": 44,
-    "rotPeriod": 901902.62,
-    "soi": 1042.1389
-  },
-  {
-    "name": "Tylo",
-    "sgp": 2.8252800,
-    "sgpPower": 12,
-    "radius": 600,
-    "rotPeriod": 211926.36,
-    "soi": 10856.518
-  },
-  {
-    "name": "Vall",
-    "sgp": 2.0748150,
-    "sgpPower": 11,
-    "radius": 300,
-    "rotPeriod": 105962.09,
-    "soi": 2406.4014
-  }
+	{
+		"name": "Bop",
+		"sgp": 2.4868349,
+		"sgpPower": 9,
+		"radius": 65,
+		"rotPeriod": 544507.43,
+		"soi": 1221.0609
+	},
+	{
+		"name": "Dres",
+		"sgp": 2.1484489,
+		"sgpPower": 10,
+		"radius": 138,
+		"rotPeriod": 34800,
+		"soi": 32832.840
+	},
+	{
+		"name": "Duna",
+		"sgp": 3.0136321,
+		"sgpPower": 11,
+		"radius": 320,
+		"rotPeriod": 65517.859,
+		"soi": 47921.949
+	},
+	{
+		"name": "Earth",
+		"sgp": 3.986004418,
+		"sgpPower": 14,
+		"radius": 6378.137,
+		"rotPeriod": 86164.100352,
+		"soi": "N/A"
+	},
+	{
+		"name": "Eeloo",
+		"sgp": 7.4410815,
+		"sgpPower": 10,
+		"radius": 210,
+		"rotPeriod": 19460,
+		"soi": 119082.940
+	},
+	{
+		"name": "Eve",
+		"sgp": 8.1717302,
+		"sgpPower": 12,
+		"radius": 700,
+		"rotPeriod": 80500,
+		"soi": 85109.365
+	},
+	{
+		"name": "Gilly",
+		"sgp": 8289449.8,
+		"sgpPower": 1,
+		"radius": 13,
+		"rotPeriod": 28255,
+		"soi": 126.12327
+	},
+	{
+		"name": "Ike",
+		"sgp": 1.8568369,
+		"sgpPower": 10,
+		"radius": 130,
+		"rotPeriod": 65517.862,
+		"soi": 1049.5989
+	},
+	{
+		"name": "Jool",
+		"sgp": 2.8252800,
+		"sgpPower": 14,
+		"radius": 6000,
+		"rotPeriod": 36000,
+		"soi": 2455985.200
+	},
+	{
+		"name": "Kerbin",
+		"sgp": 3.5316,
+		"sgpPower": 12,
+		"radius": 600,
+		"rotPeriod": 21549.425,
+		"soi": 84159.286
+	},
+	{
+		"name": "Kerbol",
+		"sgp": 1.1723328,
+		"sgpPower": 18,
+		"radius": 261600,
+		"rotPeriod": 432000,
+		"soi": "N/A"
+	},
+	{
+		"name": "Laythe",
+		"sgp": 1.962,
+		"sgpPower": 12,
+		"radius": 500,
+		"rotPeriod": 52980.879,
+		"soi": 3723.6458
+	},
+	{
+		"name": "Minmus",
+		"sgp": 1.7658,
+		"sgpPower": 9,
+		"radius": 60,
+		"rotPeriod": 40400,
+		"soi": 2247.4284
+	},
+	{
+		"name": "Moho",
+		"sgp": 1.6860938,
+		"sgpPower": 11,
+		"radius": 2500,
+		"rotPeriod": 1210000,
+		"soi": 9646.663
+	},
+	{
+		"name": "Moon",
+		"sgp": 4.9048695,
+		"sgpPower": 12,
+		"radius": 1738.1,
+		"rotPeriod": 2360591.5104,
+		"soi": "N/A"
+	},
+	{
+		"name": "Mun",
+		"sgp": 6.513898,
+		"sgpPower": 10,
+		"radius": 200,
+		"rotPeriod": 138984.38,
+		"soi": 2429.5591
+	},
+	{
+		"name": "Pol",
+		"sgp": 7.2170208,
+		"sgpPower": 8,
+		"radius": 44,
+		"rotPeriod": 901902.62,
+		"soi": 1042.1389
+	},
+	{
+		"name": "Tylo",
+		"sgp": 2.8252800,
+		"sgpPower": 12,
+		"radius": 600,
+		"rotPeriod": 211926.36,
+		"soi": 10856.518
+	},
+	{
+		"name": "Vall",
+		"sgp": 2.0748150,
+		"sgpPower": 11,
+		"radius": 300,
+		"rotPeriod": 105962.09,
+		"soi": 2406.4014
+	}
 ]
