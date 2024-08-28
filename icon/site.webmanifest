@@ -1,6 +1,6 @@
 {
-    "name": "Experimental",
-    "short_name": "Experimental",
+    "name": "",
+    "short_name": "",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -15,6 +15,5 @@
     ],
     "theme_color": "#184012",
     "background_color": "#184012",
-    "display": "standalone",
-    "orientation": "portrait"
+    "display": "standalone"
 }
