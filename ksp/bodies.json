@@ -24,14 +24,6 @@
 		"soi": 47921.949
 	},
 	{
-		"name": "Earth",
-		"sgp": 3.986004418,
-		"sgpPower": 14,
-		"radius": 6378.137,
-		"rotPeriod": 86164.100352,
-		"soi": "N/A"
-	},
-	{
 		"name": "Eeloo",
 		"sgp": 7.4410815,
 		"sgpPower": 10,
@@ -110,14 +102,6 @@
 		"radius": 2500,
 		"rotPeriod": 1210000,
 		"soi": 9646.663
-	},
-	{
-		"name": "Moon",
-		"sgp": 4.9048695,
-		"sgpPower": 12,
-		"radius": 1738.1,
-		"rotPeriod": 2360591.5104,
-		"soi": "N/A"
 	},
 	{
 		"name": "Mun",
