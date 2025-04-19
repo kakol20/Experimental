@@ -29,7 +29,7 @@
 		if (this.soi != "N/A" || !isNaN(this.soi)) {
 			this.bodyInfo += 'Sphere of Influence: ' + tools.cleanNumber(this.soi) + ' km<br>';
 		} else {
-			// this.bodyInfo += 'Sphere of Influence: N/A or infinite<br>';
+			//this.bodyInfo += 'Sphere of Influence: N/A or infinite<br>';
 		}
 	}
 };
