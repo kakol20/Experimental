@@ -59,6 +59,8 @@ const tools = (function () {
 
 			console.log('System changed to', this.chosenSystem);
 			this.updateBody();
+
+			console.log('tools.bodies', this.bodies);
 		},
 
 		getBody: function () {
