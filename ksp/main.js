@@ -39,15 +39,34 @@ const tools = (function () {
 		orbitBody: 'Kerbin',
 		bodies: new Map(),
 
+		chosenSystem: 'Stock',
+		systems: new Map(),
+
 		updateBody: function () {
-			this.orbitBody = $('#orbitBody').val() || 'Kerbin';
+			this.orbitBody = $('#orbitBody').val() || this.getSystem().default;
 			$('#bodyInfo').html(tools.getBody().bodyInfo);
 
-			console.log('Orbit Body changed to: ' + this.orbitBody);
+			console.log('Orbit Body changed to', this.orbitBody);
+		},
+
+		updateSystem: function () {
+			this.chosenSystem = $('#orbitSystem').val() || 'Stock';
+			this.orbitBody = this.getSystem().default;
+
+			$('#orbitBody').html(this.getSystem().formHTML);
+
+			this.bodies = this.getSystem().bodies;
+
+			console.log('System changed to', this.chosenSystem);
+			this.updateBody();
 		},
 
 		getBody: function () {
 			return this.bodies.get(this.orbitBody);
+		},
+
+		getSystem: function() {
+			return this.systems.get(this.chosenSystem);
 		},
 
 		semiMajorAxis: function (apoapsis, periapsis) {
@@ -132,47 +151,69 @@ $(async function () {
 	console.log('-----');
 
 	try {
-		const response = await fetch('bodies.json');
+		const systemResponse = await fetch('systems.json');
+		if (!systemResponse.ok) throw new Error('Failed to fetch systems.json');
 
-		if (!response.ok) {
-			throw new Error('Failed to fetch bodies.json');
-		}
-
-		const data = await response.json();
+		const systemData = await systemResponse.json();
+		console.log('systemData', systemData);
 
 		let formHTML = '';
+		for (let i = 0; i < systemData.systems.length; ++i) {
+			// console.log(systemData.systems[i]);
+			let system = {
+				bodies: new Map(),
+				default: systemData.systems[i].default,
+				formHTML: ''
+			};
 
-		for (let i = 0; i < data.length; i++) {
-			tools.bodies.set(
-				data[i].name,
-				new Body(
-					data[i].sgp,
-					data[i].sgpPower,
-					data[i].radius,
-					data[i].rotPeriod,
-					data[i].soi
-				)
-			);
+			const bodiesResponse = await fetch(systemData.systems[i].json);
+			if (!bodiesResponse.ok) throw new Error(`Failed to fetch ${systemData.systems[i].json}`);
 
-			if (data[i].name === 'Kerbin') {
-				formHTML += `<option selected="selected" value="${data[i].name}">`;
-			} else {
-				formHTML += `<option value="${data[i].name}">`;
+			const bodiesData = await bodiesResponse.json();
+			// console.log(bodiesData);
+
+			for (let j = 0; j < bodiesData.length; ++j) {
+				system.bodies.set(
+					bodiesData[j].name,
+					new Body(
+						bodiesData[j].sgp,
+						bodiesData[j].sgpPower,
+						bodiesData[j].radius,
+						bodiesData[j].rotPeriod,
+						bodiesData[j].soi
+					)
+				);
+
+				if (bodiesData[j].name === system.default) {
+					system.formHTML += `<option selected="selected" value="${bodiesData[j].name}">`;
+				} else {
+					system.formHTML += `<option value="${bodiesData[j].name}">`;
+				}
+
+				system.formHTML += `${bodiesData[j].name}</option>\n`;
 			}
+			// console.log(system);
 
-			formHTML += `${data[i].name}</option>\n`;
+			if (systemData.systems[i].name === systemData.default) {
+				formHTML += `<option selected="selected" value="${systemData.systems[i].name}">`;
+			} else {
+				formHTML += `<option value="${systemData.systems[i].name}">`;
+			}
+			formHTML += `${systemData.systems[i].name}</option>\n`;
+
+			tools.systems.set(
+				systemData.systems[i].name,
+				system
+			);
 		}
+		console.log('tools.systems', tools.systems);
+		console.log('orbitSystem', formHTML);
+		tools.chosenSystem = systemData.default;
 
-		console.log(tools.bodies);
+		$('#orbitSystem').html(formHTML);
 
-		$('#orbitBody').html(formHTML);
-
-		tools.updateBody();
-		targetOrbitalPeriod.updateType();
-		resonant.showAlt();
-
+		tools.updateSystem();
 	} catch (err) {
-		console.error('Failed to read bodies.json');
 		console.error(err);
 	}
 });

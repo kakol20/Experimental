@@ -40,9 +40,11 @@
 
 		<!--Body Selection-->
 		<form>
-			<!-- Orbit Body: <select id="orbitBody" onchange="tools.updateBody()">
-				<option value="Kerbin">Kerbin</option>
-			</select> <br /> -->
+			<label for="orbitSystem">System</label>
+			<select id="orbitSystem" onchange="tools.updateSystem()">
+				<option value="Stock">Stock</option>
+			</select> <br>
+
 			<label for="orbitBody">Orbit Body</label>
 			<select id="orbitBody" onchange="tools.updateBody()">
 				<option value="Kerbin">Kerbin</option>

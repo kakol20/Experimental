@@ -1,0 +1,15 @@
+{
+	"default": "Stock",
+	"systems": [
+		{
+			"name": "Stock",
+			"json": "stock.json",
+			"default": "Kerbin"
+		},
+		{
+			"name": "Sol Stock",
+			"json": "sol_stock.json",
+			"default": "Earth"
+		}
+	]
+}
