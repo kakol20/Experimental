@@ -16,12 +16,18 @@
 
 		// ----- SAVE BODY INFO IN HTML FORM -----
 		this.bodyInfo = 'Equatorial Radius: ' + tools.cleanNumber(this.radius) + ' km<br>';
-
 		// tools.cleanPeriod(this.rotPeriod)
 		let span = '<span title=\"' + tools.cleanNumber(this.rotPeriod) + ' seconds\">' + tools.cleanPeriod(this.rotPeriod) + '</span>';
 
-		this.bodyInfo += 'Standard Gravitational Parameter: ' + tools.cleanNumber(this.sgp) + ' km<sup>3</sup>/s<sup>-2</sup><br>';
+		if (this.sgp < 0.1) {
+			const sgpM = sgp * Math.pow(10, sgpPow);
+			this.bodyInfo += 'Standard Gravitational Parameter: ' + tools.cleanNumber(sgpM) + ' m<sup>3</sup>/s<sup>-2</sup><br>';
+		} else {
+			this.bodyInfo += 'Standard Gravitational Parameter: ' + tools.cleanNumber(this.sgp) + ' km<sup>3</sup>/s<sup>-2</sup><br>';
+		}
+
 		this.bodyInfo += 'Sidereal Rotational Period: ' + span + '<br>';
+
 		this.bodyInfo += 'Synchronous Orbit: ' + tools.cleanNumber(this.syncOrbit) + ' km<br>';
 		this.bodyInfo += 'Semi-synchronous Orbit: ' + tools.cleanNumber(this.semiSyncOrbit) + ' km<br>';
 		// this.bodyInfo += 'Sphere of Influence: ' + tools.cleanNumber(this.soi) + ' km<br>';
@@ -59,13 +65,15 @@ const tools = (function () {
 
 			console.log('System changed to', this.chosenSystem);
 			this.updateBody();
+
+			console.log('tools.bodies', this.bodies);
 		},
 
 		getBody: function () {
 			return this.bodies.get(this.orbitBody);
 		},
 
-		getSystem: function() {
+		getSystem: function () {
 			return this.systems.get(this.chosenSystem);
 		},
 
@@ -113,7 +121,7 @@ const tools = (function () {
 			}
 			output += hours + 'h, ';
 			output += String(minutes) + 'm, ';
-			output += Decimal(seconds).toDecimalPlaces(4) + 's';
+			output += Decimal(seconds).toDecimalPlaces(6) + 's';
 
 			return output;
 		},
