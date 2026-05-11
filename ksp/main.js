@@ -127,40 +127,52 @@ const tools = (function () {
 })();
 
 // Runs script when page is loaded or reloaded
-$(function () {
+$(async function () {
 	console.log('Script by kakol20');
 	console.log('-----');
-	//console.log('');
 
-	// tools.bodies.set('kerbin', new Body(3.5316, 12, 600, 21549.425, 84159.286));
-	$.getJSON('bodies.json', (data) => {
-		// console.log(data);
+	try {
+		const response = await fetch('bodies.json');
+
+		if (!response.ok) {
+			throw new Error('Failed to fetch bodies.json');
+		}
+
+		const data = await response.json();
+
 		let formHTML = '';
 
 		for (let i = 0; i < data.length; i++) {
-			tools.bodies.set(data[i].name, new Body(data[i].sgp, data[i].sgpPower, data[i].radius, data[i].rotPeriod, data[i].soi));
+			tools.bodies.set(
+				data[i].name,
+				new Body(
+					data[i].sgp,
+					data[i].sgpPower,
+					data[i].radius,
+					data[i].rotPeriod,
+					data[i].soi
+				)
+			);
 
-			// <option value='Kerbin'>Kerbin</option>
 			if (data[i].name === 'Kerbin') {
-				formHTML += '<option selected=\"selected\" value=\"';
+				formHTML += `<option selected="selected" value="${data[i].name}">`;
 			} else {
-				formHTML += '<option value=\"';
+				formHTML += `<option value="${data[i].name}">`;
 			}
-			formHTML += data[i].name + '\">' + data[i].name + '</option>\n';
+
+			formHTML += `${data[i].name}</option>\n`;
 		}
 
 		console.log(tools.bodies);
-		// console.log(formHTML);
-		// console.log(tools.getBody());
 
 		$('#orbitBody').html(formHTML);
 
 		tools.updateBody();
 		targetOrbitalPeriod.updateType();
 		resonant.showAlt();
-		// dataCopy = [...data];
-	}).fail(() => {
-		console.log('Failed to read bodies.json')
-	});
 
+	} catch (err) {
+		console.error('Failed to read bodies.json');
+		console.error(err);
+	}
 });
